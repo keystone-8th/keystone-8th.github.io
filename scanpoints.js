@@ -54,12 +54,12 @@ var SCANPOINTS = (function () {
       mount: "On the cubicle partition.", rev: 1 },
 
     { id: "SS", node: "stairs-s", level: "G", audience: "foot",
-      label: "South stairs",
+      label: "Stairs opposite Reception",
       mount: "At the foot of the stairs.", rev: 1 },
 
     { id: "SN", node: "stairs-ne", level: "G", audience: "foot",
-      label: "Stairs by Reception",
-      mount: "At the foot of the stairs.", rev: 1 }
+      label: "Lobby stairs",
+      mount: "At the foot of the stairs, in the lobby.", rev: 1 }
   ];
 
   var RETIRED = [];

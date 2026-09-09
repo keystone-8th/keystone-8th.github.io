@@ -41,3 +41,9 @@ Library Entrance (small box at the south-east corner) | Teacher's Cubicle
 
 Reception 2 | stairs (top, beside the cafeteria) | Cafeteria (large room on the
 east wall) | stairs (bottom-right corner) | stairs (on the south wall, mid-way)
+
+## Corrections from the school (not on the sketch)
+
+* The Cafeteria is about 150 m further along the corridor to the right than
+  the sketch shows; the paper ran out, not the corridor. The map places it
+  there, with the corner stairs beside it. The lobby stairs stay by Reception.

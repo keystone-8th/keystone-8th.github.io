@@ -17,7 +17,10 @@ const fs = require("fs");
 const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 
-const W = 1620, H = 580;
+const W = 2850, H = 580;
+/* The cafeteria is about 150 m along the corridor from Reception - the sketch
+   drew it next door, but the paper was short, not the corridor. */
+const CAF_X = 2650;
 const M_PER_PX = 0.1;
 
 /* ---------- rooms: rectangles [x, y, w, h] ---------- */
@@ -40,8 +43,8 @@ const ROOMS = [
   { id: "cls2",    name: "Classroom 2",        cat: "class",  box: [560, 460, 145,  70], door: "n", sub: "Grade not filled in" },
   { id: "cls3",    name: "Classroom 3",        cat: "class",  box: [705, 460, 145,  70], door: "n", sub: "Grade not filled in" },
   { id: "cls4",    name: "Classroom 4",        cat: "class",  box: [895, 460, 125,  70], door: "n" },
-  { id: "stairs-s",name: "Stairs (south wall)",cat: "stairs", box: [1166, 462, 40, 26], short: "stairs", dir: "h" },
-  { id: "stairs-se",name:"Stairs (cafeteria corner)", cat: "stairs", box: [1562, 470, 30, 55], short: "stairs", dir: "v" },
+  { id: "stairs-s",name: "Stairs (opposite Reception)",cat: "stairs", box: [1166, 462, 40, 26], short: "stairs", dir: "h" },
+  { id: "stairs-se",name:"Stairs (cafeteria corner)", cat: "stairs", box: [CAF_X + 127, 470, 30, 55], short: "stairs", dir: "v" },
 
   // middle row (north of the corridor)
   { id: "meet",    name: "Meeting Room",       cat: "office", box: [430, 274,  72,  62], door: "s" },
@@ -57,8 +60,8 @@ const ROOMS = [
   { id: "lib-door",name: "Library Entrance",   cat: "entry",  box: [1087, 322,  48,  26], short: "Library Entrance", door: "e" },
   { id: "teach",   name: "Teacher's Cubicle",  cat: "office", box: [1053, 348,  75,  40], door: "e" },
   { id: "recep",   name: "Reception 2",        cat: "entry",  box: [1157, 305,  62,  56], door: "w" },
-  { id: "stairs-ne",name:"Stairs (by Reception)", cat: "stairs", box: [1405, 139, 57, 26], short: "stairs", dir: "h" },
-  { id: "caf",     name: "Cafeteria",          cat: "food",   box: [1435, 165, 157, 261], door: "s" }
+  { id: "stairs-ne",name:"Stairs (in the lobby)", cat: "stairs", box: [1320, 145, 57, 26], short: "stairs", dir: "h" },
+  { id: "caf",     name: "Cafeteria",          cat: "food",   box: [CAF_X, 165, 157, 261], door: "s" }
 ];
 
 /* The bent wing: a strip of rooms along an axis from A up and to the right. */
@@ -85,7 +88,7 @@ function centre(b) { return [b[0] + b[2]/2, b[1] + b[3]/2]; }
 const SPINE = [
   ["j-w", 128], ["j-plc", 161], ["j-cls1", 265], ["j-conf", 344], ["j-staff", 411],
   ["j-mid", 466], ["j-stm", 519], ["j-cls2", 615], ["j-cls3", 760], ["j-entr", 872],
-  ["j-cls4", 957], ["j-teach", 1090], ["j-lobby", 1150], ["j-caf", 1513], ["j-se", 1577]
+  ["j-cls4", 957], ["j-teach", 1090], ["j-lobby", 1150], ["j-e1", 1700], ["j-e2", 2250], ["j-caf", CAF_X + 78], ["j-se", CAF_X + 142]
 ];
 SPINE.forEach(([id, x]) => node(id, [x, 420]));
 
@@ -128,7 +131,12 @@ function edge(a, b, text, rev, extra) {
   EDGES.push(e);
 }
 
-for (let i = 1; i < SPINE.length; i++) edge(SPINE[i-1][0], SPINE[i][0]);
+for (let i = 1; i < SPINE.length; i++) {
+  if (SPINE[i-1][0] === "j-lobby")
+    edge("j-lobby", "j-e1", "Follow the long corridor all the way to the far end. The Cafeteria is at the end of it.",
+                            "Follow the long corridor back towards Reception 2.");
+  else edge(SPINE[i-1][0], SPINE[i][0]);
+}
 
 /* rooms hang off the nearest spine junction */
 [["j-plc","plc"],["j-cls1","cls1"],["j-conf","conf"],["j-staff","staff"],["j-mid","boys-s"],
@@ -206,8 +214,8 @@ const SCANPOINTS = [
   { id: "MH", node: "hive1",    label: "Maker's Hive-1",    mount: "Beside the Maker's Hive-1 door." },
   { id: "CR", node: "conf",     label: "Conference Room",   mount: "Beside the conference room door." },
   { id: "TC", node: "teach",    label: "Teacher's Cubicle", mount: "On the cubicle partition." },
-  { id: "SS", node: "stairs-s", label: "South stairs",      mount: "At the foot of the stairs." },
-  { id: "SN", node: "stairs-ne",label: "Stairs by Reception", mount: "At the foot of the stairs." }
+  { id: "SS", node: "stairs-s", label: "Stairs opposite Reception", mount: "At the foot of the stairs." },
+  { id: "SN", node: "stairs-ne",label: "Lobby stairs",      mount: "At the foot of the stairs, in the lobby." }
 ].map(p => Object.assign({ level: "G", audience: "foot", rev: 1 }, p));
 
 /* ============================================================
@@ -378,12 +386,13 @@ svg.push('<defs>' +
 rect(0, 0, W, H, { fill: "url(#lawn)" });
 rect(852, 470, 40, 110, { fill: C.walk });                 // footpath to the entrance
 rect(600, 548, 700, 32, { fill: C.walk });                 // the path along the front
+rect(CAF_X - 60, 548, 300, 32, { fill: C.walk });          // and a path to the cafeteria door
 [[700, 555], [780, 556], [1000, 556], [1080, 555]].forEach(p => tree(p[0], p[1], 9));
-[[60, 200], [130, 60], [560, 120], [700, 100], [1220, 60], [1330, 70], [1560, 80]].forEach(p => tree(p[0], p[1], 12));
+[[60, 200], [130, 60], [560, 120], [700, 100], [1220, 60], [1330, 70], [1560, 80], [1700, 200], [1900, 120], [2100, 240], [2300, 90], [2500, 200], [2780, 100], [2790, 520], [1800, 520], [2200, 530]].forEach(p => tree(p[0], p[1], 12));
 [[610, 60], [1520, 500]].forEach(p => tree(p[0], p[1], 8));
 
 // corridors and open floors
-rect(110, 336, 1482, 124, { fill: "url(#tiles)" });
+rect(110, 336, CAF_X + 47, 124, { fill: "url(#tiles)" });
 rect(110, 150, 20, 186, { fill: "url(#tiles)" });
 rect(1135, 139, 248, 270, { fill: "url(#tiles)" });
 rect(830, 150, 200, 200, { fill: C.floor });               // library floor
@@ -402,7 +411,7 @@ pathd("M223 240 a55 55 0 0 0 0 100 z", { fill: "#cbbfa4", stroke: C.wall, "strok
 svg.push('</g>');
 
 // walls that are not rooms
-[[110, 460, 1592, 460], [1219, 409, 1383, 409], [1383, 409, 1383, 139], [1383, 139, 1435, 139], [1592, 139, 1592, 530],
+[[110, 460, CAF_X + 157, 460], [1219, 409, 1383, 409], [1383, 409, 1383, 139], [1135, 139, 1383, 139], [1383, 409, CAF_X, 409], [1383, 336, 1383, 409], [CAF_X + 157, 139, CAF_X + 157, 530],
  [830, 150, 1030, 150], [1030, 150, 1030, 322], [830, 150, 830, 336], [830, 336, 1053, 336]]
   .forEach(l => line(l[0], l[1], l[2], l[3], { stroke: C.wall, "stroke-width": 3 }));
 
@@ -448,7 +457,8 @@ line(1005, 233, 1005, 258, { stroke: C.wall, "stroke-width": 1 }); line(1025, 23
 // lobby and corridor: seating and plants
 bench(1240, 200, 40); bench(1300, 200, 40);
 plant(1150, 150); plant(1370, 150); plant(1370, 395);
-bench(560, 340, 40); bench(1240, 445, 40); bench(1300, 445, 40); plant(140, 345); plant(1570, 345);
+bench(560, 340, 40); bench(1240, 445, 40); bench(1300, 445, 40); plant(140, 345); plant(CAF_X + 140, 345);
+for (let x = 1480; x < CAF_X - 60; x += 220) { bench(x, 340, 40); bench(x + 110, 445, 40); plant(x + 60, 348); }
 
 // main entrance: double doors, mat, canopy posts
 rect(852, 452, 40, 16, { fill: C.corridor });

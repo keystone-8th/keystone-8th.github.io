@@ -2,7 +2,7 @@
 const MAP = {
   "community": "School",
   "view": {
-    "w": 1620,
+    "w": 2850,
     "h": 580
   },
   "levels": [
@@ -14,7 +14,7 @@ const MAP = {
       "imageBox": [
         0,
         0,
-        1620,
+        2850,
         580
       ]
     }
@@ -292,7 +292,7 @@ const MAP = {
       "id": "a-stairs-s",
       "level": "G",
       "node": "stairs-s",
-      "name": "Stairs (south wall)",
+      "name": "Stairs (opposite Reception)",
       "points": [
         [
           1166,
@@ -319,19 +319,19 @@ const MAP = {
       "name": "Stairs (cafeteria corner)",
       "points": [
         [
-          1562,
+          2777,
           470
         ],
         [
-          1592,
+          2807,
           470
         ],
         [
-          1592,
+          2807,
           525
         ],
         [
-          1562,
+          2777,
           525
         ]
       ]
@@ -556,23 +556,23 @@ const MAP = {
       "id": "a-stairs-ne",
       "level": "G",
       "node": "stairs-ne",
-      "name": "Stairs (by Reception)",
+      "name": "Stairs (in the lobby)",
       "points": [
         [
-          1405,
-          139
+          1320,
+          145
         ],
         [
-          1462,
-          139
+          1377,
+          145
         ],
         [
-          1462,
-          165
+          1377,
+          171
         ],
         [
-          1405,
-          165
+          1320,
+          171
         ]
       ]
     },
@@ -583,19 +583,19 @@ const MAP = {
       "name": "Cafeteria",
       "points": [
         [
-          1435,
+          2650,
           165
         ],
         [
-          1592,
+          2807,
           165
         ],
         [
-          1592,
+          2807,
           426
         ],
         [
-          1435,
+          2650,
           426
         ]
       ]
@@ -707,10 +707,26 @@ const MAP = {
       ]
     },
     {
+      "id": "j-e1",
+      "level": "G",
+      "xy": [
+        1700,
+        420
+      ]
+    },
+    {
+      "id": "j-e2",
+      "level": "G",
+      "xy": [
+        2250,
+        420
+      ]
+    },
+    {
       "id": "j-caf",
       "level": "G",
       "xy": [
-        1513,
+        2728,
         420
       ]
     },
@@ -718,7 +734,7 @@ const MAP = {
       "id": "j-se",
       "level": "G",
       "xy": [
-        1577,
+        2792,
         420
       ]
     },
@@ -952,13 +968,13 @@ const MAP = {
       ],
       "dest": true,
       "cat": "stairs",
-      "name": "Stairs (south wall)"
+      "name": "Stairs (opposite Reception)"
     },
     {
       "id": "stairs-se",
       "level": "G",
       "xy": [
-        1577,
+        2792,
         498
       ],
       "dest": true,
@@ -1071,18 +1087,18 @@ const MAP = {
       "id": "stairs-ne",
       "level": "G",
       "xy": [
-        1434,
-        152
+        1349,
+        158
       ],
       "dest": true,
       "cat": "stairs",
-      "name": "Stairs (by Reception)"
+      "name": "Stairs (in the lobby)"
     },
     {
       "id": "caf",
       "level": "G",
       "xy": [
-        1514,
+        2729,
         296
       ],
       "dest": true,
@@ -1303,13 +1319,34 @@ const MAP = {
       "instruction": null
     },
     {
-      "id": "e-j-lobby-j-caf",
+      "id": "e-j-lobby-j-e1",
       "from": "j-lobby",
+      "to": "j-e1",
+      "mode": [
+        "foot"
+      ],
+      "len": 55,
+      "instruction": "Follow the long corridor all the way to the far end. The Cafeteria is at the end of it.",
+      "instructionRev": "Follow the long corridor back towards Reception 2."
+    },
+    {
+      "id": "e-j-e1-j-e2",
+      "from": "j-e1",
+      "to": "j-e2",
+      "mode": [
+        "foot"
+      ],
+      "len": 55,
+      "instruction": null
+    },
+    {
+      "id": "e-j-e2-j-caf",
+      "from": "j-e2",
       "to": "j-caf",
       "mode": [
         "foot"
       ],
-      "len": 36,
+      "len": 48,
       "instruction": null
     },
     {
@@ -1765,7 +1802,7 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 20,
+      "len": 14,
       "instruction": null
     },
     {
