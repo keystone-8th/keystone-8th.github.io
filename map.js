@@ -556,7 +556,7 @@ const MAP = {
       "id": "a-stairs-ne",
       "level": "G",
       "node": "stairs-ne",
-      "name": "Stairs (in the lobby)",
+      "name": "Cafeteria Stairs",
       "points": [
         [
           1320,
@@ -1092,7 +1092,7 @@ const MAP = {
       ],
       "dest": true,
       "cat": "stairs",
-      "name": "Stairs (in the lobby)"
+      "name": "Cafeteria Stairs"
     },
     {
       "id": "caf",

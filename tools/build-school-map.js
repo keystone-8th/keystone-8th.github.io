@@ -60,7 +60,7 @@ const ROOMS = [
   { id: "lib-door",name: "Library Entrance",   cat: "entry",  box: [1087, 322,  48,  26], short: "Library Entrance", door: "e" },
   { id: "teach",   name: "Teacher's Cubicle",  cat: "office", box: [1053, 348,  75,  40], door: "e" },
   { id: "recep",   name: "Reception 2",        cat: "entry",  box: [1157, 305,  62,  56], door: "w" },
-  { id: "stairs-ne",name:"Stairs (in the lobby)", cat: "stairs", box: [1320, 145, 57, 26], short: "stairs", dir: "h" },
+  { id: "stairs-ne",name:"Cafeteria Stairs", cat: "stairs", box: [1320, 145, 57, 26], short: "stairs", dir: "h" },
   { id: "caf",     name: "Cafeteria",          cat: "food",   box: [CAF_X, 165, 157, 261], door: "s" }
 ];
 
@@ -215,7 +215,7 @@ const SCANPOINTS = [
   { id: "CR", node: "conf",     label: "Conference Room",   mount: "Beside the conference room door." },
   { id: "TC", node: "teach",    label: "Teacher's Cubicle", mount: "On the cubicle partition." },
   { id: "SS", node: "stairs-s", label: "Stairs opposite Reception", mount: "At the foot of the stairs." },
-  { id: "SN", node: "stairs-ne",label: "Lobby stairs",      mount: "At the foot of the stairs, in the lobby." }
+  { id: "SN", node: "stairs-ne",label: "Cafeteria Stairs", mount: "At the foot of the stairs, in the lobby behind Reception 2." }
 ].map(p => Object.assign({ level: "G", audience: "foot", rev: 1 }, p));
 
 /* ============================================================

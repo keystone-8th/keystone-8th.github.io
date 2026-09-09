@@ -58,8 +58,8 @@ var SCANPOINTS = (function () {
       mount: "At the foot of the stairs.", rev: 1 },
 
     { id: "SN", node: "stairs-ne", level: "G", audience: "foot",
-      label: "Lobby stairs",
-      mount: "At the foot of the stairs, in the lobby.", rev: 1 }
+      label: "Cafeteria Stairs",
+      mount: "At the foot of the stairs, in the lobby behind Reception 2.", rev: 1 }
   ];
 
   var RETIRED = [];
