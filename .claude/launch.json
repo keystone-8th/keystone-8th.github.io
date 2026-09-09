@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "school-static",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8139",
+        "--bind",
+        "127.0.0.1"
+      ],
+      "port": 8139
+    },
+    {
+      "name": "school-backend",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "server/server.js"
+      ],
+      "port": 8138
+    }
+  ]
+}

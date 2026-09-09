@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080f1e">
+<title>School Wayfinding — Map Editor</title>
+<style>
+  :root{
+    --bg:#05070f; --surface:#0c1424; --surface-2:#15203a; --line:#24314f;
+    --text:#f3f6fc; --muted:#9aaacb; --accent:#5b9bff; --accent-ink:#04101f;
+    --warn:#f0b866; --err:#ff8f8a; --ok:#48d597;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--text);display:flex;flex-direction:column;
+    font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    overflow:hidden}
+
+  header{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:9px 12px;
+    background:var(--surface);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  header h1{font-size:14px;margin:0 10px 0 0;font-weight:800;letter-spacing:.02em}
+  .sp{flex:1}
+  button,select,input,textarea{font:inherit;color:var(--text);background:var(--surface-2);
+    border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+  button{cursor:pointer;font-weight:650}
+  button:hover{border-color:var(--accent)}
+  button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  button.go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  button.danger{color:var(--err);border-color:#4a2530}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .tools{display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:10px;
+    border:1px solid var(--line)}
+  .tools button{border:0;background:transparent;padding:6px 12px}
+
+  main{flex:1;display:flex;min-height:0}
+  #stage{flex:1;position:relative;overflow:hidden;background:#0a1018;touch-action:none;
+    cursor:crosshair}
+  #stage.select{cursor:default}
+  #wrap{position:absolute;top:0;left:0;transform-origin:0 0}
+  #wrap svg{display:block;width:100%;height:auto}
+
+  aside{flex:0 0 320px;background:var(--surface);border-left:1px solid var(--line);
+    overflow-y:auto;padding:12px}
+  aside h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 8px}
+  .row{margin-bottom:9px}
+  .row label{display:block;font-size:11px;color:var(--muted);margin-bottom:3px;font-weight:700}
+  .row input,.row select,.row textarea{width:100%}
+  .row textarea{min-height:56px;resize:vertical}
+  .chk{display:flex;align-items:center;gap:7px;margin:6px 0;font-size:13px}
+  .chk input{width:auto}
+  .hint{font-size:12px;color:var(--muted);margin:8px 0}
+  .empty{color:var(--muted);font-size:13px;padding:14px 0}
+  hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+
+  /* canvas */
+  .bg-img{opacity:.95}
+  .ed-edge{stroke:#7d8fb5;stroke-width:2.2;stroke-linecap:round}
+  .ed-edge.sel{stroke:var(--accent);stroke-width:4}
+  .ed-edge.oneway{stroke-dasharray:6 4}
+  .ed-node{fill:#1d3a6b;stroke:#9fc0ff;stroke-width:1.6}
+  .ed-node.anchor{fill:var(--accent);stroke:#fff}
+  .ed-node.dest{stroke:var(--ok);stroke-width:2.4}
+  .ed-node.sel{fill:var(--accent);stroke:#fff;stroke-width:3}
+  .ed-slot{fill:#8a94a8;stroke:#0b1020;stroke-width:.5;cursor:pointer}
+  .ed-slot.filled{fill:#3ba55d}
+  .ed-slot.sel{fill:#f0b866;stroke:#fff;stroke-width:1}
+  .ed-lab{fill:#dce7ff;font-size:6px;font-weight:700;paint-order:stroke;
+    stroke:#0a1018;stroke-width:2.2;stroke-linejoin:round}
+  .ghost{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 4;fill:none}
+
+  #msg{position:absolute;left:10px;bottom:10px;background:var(--surface);
+    border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:12.5px;
+    max-width:60%;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+  #msg.bad{border-color:var(--err);color:var(--err)}
+  #msg.good{border-color:var(--ok);color:var(--ok)}
+  #zoom{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+  #zoom button{width:36px;height:36px;padding:0}
+  ul.issues{margin:8px 0 0;padding-left:18px;font-size:12.5px;max-height:220px;overflow:auto}
+  .e{color:var(--err)} .w{color:var(--warn)} .i{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Map editor</h1>
+  <div class="tools" id="tools">
+    <button data-tool="select" class="on">Select</button>
+    <button data-tool="node">＋ Node</button>
+    <button data-tool="edge">↔ Connect</button>
+    <button data-tool="slot">▬ Slot</button>
+  </div>
+  <select id="level"></select>
+  <span class="sp"></span>
+  <input id="pw" type="password" placeholder="admin password" style="width:150px">
+  <button id="signin">Sign in</button>
+  <button id="load">Load live map</button>
+  <button id="newmap">New map</button>
+  <button id="import">Import JSON…</button>
+  <button id="importplan">Import plan…</button>
+  <button id="tidy">Delete orphans</button>
+  <button id="download">Download</button>
+  <button id="validate">Validate</button>
+  <button id="publish" class="go">Publish</button>
+</header>
+
+<main>
+  <div id="stage" class="select">
+    <div id="wrap"></div>
+    <div id="msg">Load the live map, or import a bundle to begin.</div>
+    <div id="zoom">
+      <button id="zin">＋</button><button id="zout">−</button><button id="zfit">⤢</button>
+    </div>
+  </div>
+
+  <aside id="panel"><div class="empty">Nothing selected.</div></aside>
+</main>
+
+<input type="file" id="file" accept="application/json,.json" hidden>
+<input type="file" id="planfile" accept="image/png,image/jpeg,image/webp,application/pdf" hidden>
+
+<script src="engine.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var stage = $("stage"), wrap = $("wrap");
+
+  var B = null;                 // the bundle being edited
+  var level = null;
+  var tool = "select";
+  var sel = null;               // {kind:"node"|"edge", id}
+  var linkFrom = null;          // first node of a pending connection
+  var vw = { k:1, x:0, y:0 };
+
+  function map(){ return B ? B.map : null; }
+  function VW(){ return (map() && map().view && map().view.w) || 426; }
+  function VH(){ return (map() && map().view && map().view.h) || 300; }
+  function levels(){ return (map() && map().levels) || []; }
+  function nodes(){ return (map() && map().nodes) || []; }
+  function edges(){ return (map() && map().edges) || []; }
+  function node(id){ return nodes().filter(function(n){ return n.id === id; })[0]; }
+  function slots(){ return (map() && (map().slots = map().slots || [])) || []; }
+  function slot(id){ return slots().filter(function(x){ return x.id === id; })[0]; }
+
+  /* A slot is a point ON an aisle, not a free-floating dot - that is what makes
+     it routable. So a click gets projected onto the nearest edge: how far along
+     becomes t, and which side of the line you clicked becomes the side. */
+  function nearestEdge(p){
+    var best = null;
+    edges().forEach(function(e){
+      var a = node(e.from), b = node(e.to);
+      if (!a || !b || a.level !== level || b.level !== level) return;
+      var vx = b.xy[0] - a.xy[0], vy = b.xy[1] - a.xy[1];
+      var L2 = vx*vx + vy*vy;
+      if (!L2) return;
+      var t = ((p[0]-a.xy[0])*vx + (p[1]-a.xy[1])*vy) / L2;
+      t = Math.max(0, Math.min(1, t));
+      var px = a.xy[0] + vx*t, py = a.xy[1] + vy*t;
+      var d = Math.hypot(p[0]-px, p[1]-py);
+      var side = ((p[0]-a.xy[0])*vy - (p[1]-a.xy[1])*vx) >= 0 ? 1 : -1;
+      if (!best || d < best.d) best = { edge:e.id, t:t, d:d, side:side };
+    });
+    return best;
+  }
+
+  function slotXY(sl){
+    var e = edges().filter(function(x){ return x.id === sl.edge; })[0];
+    if (!e) return null;
+    var a = node(e.from), b = node(e.to);
+    if (!a || !b) return null;
+    var vx = b.xy[0]-a.xy[0], vy = b.xy[1]-a.xy[1];
+    var L = Math.hypot(vx, vy) || 1;
+    var px = a.xy[0] + vx*sl.t, py = a.xy[1] + vy*sl.t;
+    var nx = -vy/L, ny = vx/L, off = (sl.side == null ? 1 : sl.side) * 6.5;
+    return { x:px + nx*off, y:py + ny*off,
+             ang: Math.atan2(vy, vx) * 180 / Math.PI, level: a.level };
+  }
+
+  function addSlot(xy){
+    var hit = nearestEdge(xy);
+    if (!hit) return say("Draw an aisle first - a slot has to sit on one.", "bad");
+    if (hit.d > 40) return say("That is a long way from any aisle. Click nearer one.", "bad");
+    var i = 1, id;
+    do { id = "s-" + i++; } while (slot(id));
+    var sl = { id:id, edge:hit.edge, t:+hit.t.toFixed(4), side:hit.side, flat:"" };
+    slots().push(sl);
+    sel = { kind:"slot", id:id };
+    render(); panel();
+    say("Slot placed. Type the flat number on the right.");
+  }
+
+  function say(text, cls){
+    var m = $("msg"); m.textContent = text; m.className = cls || "";
+  }
+
+  /* ---------------- loading ---------------- */
+  function adopt(bundle){
+    B = bundle;
+    if (!B.map) B = { map: B, scanPoints: [] };
+    if (!B.scanPoints) B.scanPoints = [];
+    ["blocks","slotRuns","allotments","areas","slots"].forEach(function(k){
+      if (!B.map[k]) B.map[k] = [];
+    });
+    level = (levels()[0] || {}).id || null;
+    renderLevels(); render(); fit();
+  }
+
+  $("load").onclick = function(){
+    fetch("map.js", { cache: "no-store" }).then(function(r){ return r.text(); })
+      .then(function(t){
+        var i = t.indexOf("{"), j = t.lastIndexOf("}");
+        if (i < 0) throw new Error("map.js has no object");
+        var m = JSON.parse(t.slice(i, j + 1));
+        // scan points live in their own file; pull what we can
+        return fetch("scanpoints.js", { cache: "no-store" })
+          .then(function(r){ return r.text(); })
+          .then(function(src){
+            var pts = [];
+            var re = /\{\s*id:\s*"([^"]+)",\s*node:\s*"([^"]+)",\s*level:\s*"([^"]+)",\s*audience:\s*"([^"]+)",\s*label:\s*"([^"]*)",\s*mount:\s*"([^"]*)",\s*rev:\s*(\d+)/g, mm;
+            while ((mm = re.exec(src))) {
+              pts.push({ id:mm[1], node:mm[2], level:mm[3], audience:mm[4],
+                         label:mm[5], mount:mm[6], rev:+mm[7] });
+            }
+            adopt({ map: m, scanPoints: pts });
+            say("Loaded live map: " + nodes().length + " nodes, " + edges().length +
+                " edges, " + B.scanPoints.length + " scan points.", "good");
+          });
+      })
+      .catch(function(e){ say("Could not load: " + e.message, "bad"); });
+  };
+
+  $("signin").onclick = function(){
+    fetch("/api/login", { method:"POST", credentials:"same-origin",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ password: $("pw").value }) })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j.ok) { $("pw").value = ""; say("Signed in.", "good"); }
+        else say(j.error || "Sign-in failed.", "bad");
+      })
+      .catch(function(e){ say("Sign-in failed: " + e.message, "bad"); });
+  };
+  $("pw").onkeydown = function(e){ if (e.key === "Enter") $("signin").click(); };
+
+  /* ---- start from nothing ---- */
+  $("newmap").onclick = function(){
+    if (B && !confirm("Discard the map currently open?")) return;
+    adopt({
+      map: {
+        community: "New map",
+        view: { w: 426, h: 300 },
+        levels: [ { id: "L1", name: "Level 1", underground: false } ],
+        blocks: [], slotRuns: [], allotments: [], areas: [],
+        nodes: [], edges: []
+      },
+      scanPoints: []
+    });
+    say("Empty map. Import a plan, then place nodes on it.", "good");
+  };
+
+  /* ---- import a floor plan and make it this level's backdrop ---- */
+  $("importplan").onclick = function(){
+    if (!B) return say("Open or create a map first.", "bad");
+    $("planfile").click();
+  };
+  $("planfile").onchange = function(){
+    var f = $("planfile").files[0]; if (!f) return;
+    $("planfile").value = "";
+    say("Uploading " + f.name + " (" + Math.round(f.size/1024) + " KB)…");
+    fetch("/api/plan?name=" + encodeURIComponent(f.name), {
+      method: "POST", credentials: "same-origin",
+      headers: { "Content-Type": f.type || "application/octet-stream" },
+      body: f
+    })
+    .then(function(r){ return r.json().then(function(j){ return { s:r.status, j:j }; }); })
+    .then(function(r){
+      if (r.s === 401) return say("Sign in first.", "bad");
+      if (!r.j.ok)     return say(r.j.error || "Upload failed.", "bad");
+
+      var lv = levels().filter(function(l){ return l.id === level; })[0];
+      if (!lv) return say("No level selected.", "bad");
+
+      lv.image = r.j.path;
+      // Match the drawing space to the image, or the plan comes out stretched.
+      if (r.j.width && r.j.height) {
+        var w = 426, h = Math.round(426 * r.j.height / r.j.width);
+        map().view = { w: w, h: h };
+        lv.imageBox = [0, 0, w, h];
+      }
+      render(); fit(); showLevel();
+      say("Plan set for " + (lv.name || lv.id) + ". " +
+          (r.j.note || "Drawing size matched to the image."), "good");
+    })
+    .catch(function(e){ say("Upload failed: " + e.message, "bad"); });
+  };
+
+  $("import").onclick = function(){ $("file").click(); };
+  $("file").onchange = function(){
+    var f = $("file").files[0]; if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function(){
+      try { adopt(JSON.parse(fr.result)); say("Imported " + f.name, "good"); }
+      catch(e){ say("Invalid JSON: " + e.message, "bad"); }
+    };
+    fr.readAsText(f);
+  };
+
+  $("download").onclick = function(){
+    if (!B) return say("Nothing to download.", "bad");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(B, null, 2)],
+             { type: "application/json" }));
+    a.download = (map().community || "map").toLowerCase().replace(/\W+/g,"-") + ".json";
+    a.click();
+  };
+
+  /* ---------------- levels ---------------- */
+  function renderLevels(){
+    var s = $("level"); s.innerHTML = "";
+    levels().forEach(function(l){
+      var o = document.createElement("option");
+      o.value = l.id; o.textContent = l.name || l.id;
+      s.appendChild(o);
+    });
+    var o = document.createElement("option");
+    o.value = "__props"; o.textContent = "⚙ Level settings…";
+    s.appendChild(o);
+    if (level) s.value = level;
+  }
+  $("level").onchange = function(){
+    if ($("level").value === "__props") { $("level").value = level; showLevel(); return; }
+    level = $("level").value; sel = null; render(); fit(); panel();
+  };
+
+  /* ---------------- drawing ---------------- */
+  function render(){
+    if (!B) return;
+    var lv = levels().filter(function(l){ return l.id === level; })[0] || {};
+    var s = ['<svg viewBox="0 0 ' + VW() + ' ' + VH() + '" xmlns="http://www.w3.org/2000/svg">'];
+
+    if (lv.image) {
+      var bx = lv.imageBox || [0,0,VW(),VH()];
+      s.push('<image class="bg-img" href="' + lv.image + '" x="' + bx[0] + '" y="' + bx[1] +
+             '" width="' + bx[2] + '" height="' + bx[3] + '" preserveAspectRatio="xMidYMid meet"/>');
+    }
+
+    edges().forEach(function(e){
+      var a = node(e.from), b = node(e.to);
+      if (!a || !b || a.level !== level || b.level !== level) return;
+      var c = "ed-edge" + (e.oneway ? " oneway" : "") +
+              (sel && sel.kind === "edge" && sel.id === e.id ? " sel" : "");
+      s.push('<line class="' + c + '" data-edge="' + e.id + '" x1="' + a.xy[0] + '" y1="' + a.xy[1] +
+             '" x2="' + b.xy[0] + '" y2="' + b.xy[1] + '"/>');
+    });
+
+    slots().forEach(function(sl){
+      var p = slotXY(sl);
+      if (!p || p.level !== level) return;
+      var c = "ed-slot" + (sl.flat ? " filled" : "") +
+              (sel && sel.kind === "slot" && sel.id === sl.id ? " sel" : "");
+      s.push('<rect class="' + c + '" data-slot="' + sl.id + '" x="' + (p.x - 3.4).toFixed(2) +
+             '" y="' + (p.y - 2.2).toFixed(2) + '" width="6.8" height="4.4" rx="1" ' +
+             'transform="rotate(' + p.ang.toFixed(1) + ' ' + p.x.toFixed(2) + ' ' +
+             p.y.toFixed(2) + ')"/>');
+    });
+
+    nodes().forEach(function(n){
+      if (n.level !== level) return;
+      var c = "ed-node" + (n.anchor ? " anchor" : "") + (n.dest ? " dest" : "") +
+              (sel && sel.kind === "node" && sel.id === n.id ? " sel" : "") +
+              (linkFrom === n.id ? " sel" : "");
+      s.push('<circle class="' + c + '" data-node="' + n.id + '" cx="' + n.xy[0] +
+             '" cy="' + n.xy[1] + '" r="4"/>');
+      s.push('<text class="ed-lab" x="' + (n.xy[0] + 6) + '" y="' + (n.xy[1] - 5) + '">' +
+             (n.name || n.id) + '</text>');
+    });
+
+    s.push('</svg>');
+    wrap.innerHTML = s.join("");
+    apply();
+  }
+
+  /* ---------------- pan + zoom ---------------- */
+  function apply(){ wrap.style.transform = "translate("+vw.x+"px,"+vw.y+"px) scale("+vw.k+")"; }
+  function fit(){
+    var w = stage.clientWidth, h = stage.clientHeight;
+    wrap.style.width = w + "px";
+    var ih = w * VH() / VW();
+    vw.k = Math.min(1, h / ih) || 1;
+    vw.x = (w - w * vw.k) / 2;
+    vw.y = Math.max(0, (h - ih * vw.k) / 2);
+    apply();
+  }
+  function zoomAt(cx, cy, f){
+    var k2 = Math.min(14, Math.max(0.25, vw.k * f));
+    var g = k2 / vw.k;
+    vw.x = cx - (cx - vw.x) * g; vw.y = cy - (cy - vw.y) * g; vw.k = k2; apply();
+  }
+  $("zin").onclick  = function(){ zoomAt(stage.clientWidth/2, stage.clientHeight/2, 1.4); };
+  $("zout").onclick = function(){ zoomAt(stage.clientWidth/2, stage.clientHeight/2, 1/1.4); };
+  $("zfit").onclick = fit;
+  stage.addEventListener("wheel", function(e){
+    e.preventDefault();
+    var r = stage.getBoundingClientRect();
+    zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 1/1.12);
+  }, { passive:false });
+
+  /* screen -> map coordinates */
+  function toMap(clientX, clientY){
+    var r = stage.getBoundingClientRect();
+    // Guard every divisor. A container that has not been laid out yet reports
+    // width 0, and without this every placed node silently becomes Infinity.
+    var k = vw.k || 1;
+    var w = stage.clientWidth || r.width || VW();
+    var scale = (w / VW()) || 1;
+    var px = (clientX - r.left - vw.x) / k;
+    var py = (clientY - r.top  - vw.y) / k;
+    var x = px / scale, y = py / scale;
+    if (!isFinite(x) || !isFinite(y)) { say("Could not read that position.", "bad"); return null; }
+    return [ +x.toFixed(1), +y.toFixed(1) ];
+  }
+
+  /* ---------------- interaction ---------------- */
+  document.querySelectorAll("#tools button").forEach(function(b){
+    b.onclick = function(){
+      tool = b.dataset.tool; linkFrom = null;
+      document.querySelectorAll("#tools button").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      stage.className = tool === "select" ? "select" : "";
+      say(tool === "node" ? "Click the plan to place a node."
+        : tool === "edge" ? "Click one node, then another, to connect them."
+        : tool === "slot" ? "Click a parking bay. It snaps to the nearest aisle - "
+                            + "the side you click is the side it sits on."
+        : "Click to select. Drag a node to move it.");
+      render();
+    };
+  });
+
+  var drag = null, panning = null;
+
+  stage.addEventListener("pointerdown", function(e){
+    if (!B) return;
+    try { stage.setPointerCapture(e.pointerId); } catch(err){}
+    var t = e.target, nid = t.getAttribute && t.getAttribute("data-node");
+    var eid = t.getAttribute && t.getAttribute("data-edge");
+
+    if (tool === "node" && !nid) {
+      var at = toMap(e.clientX, e.clientY);
+      if (at) addNode(at);
+      return;
+    }
+
+    if (tool === "slot") {
+      var sxy = toMap(e.clientX, e.clientY);
+      if (sxy) addSlot(sxy);
+      return;
+    }
+
+    if (tool === "edge" && nid) {
+      if (!linkFrom) { linkFrom = nid; say("Now click the node to connect to."); render(); }
+      else if (linkFrom !== nid) { addEdge(linkFrom, nid); linkFrom = null; }
+      return;
+    }
+
+    var sid = t.getAttribute && t.getAttribute("data-slot");
+    if (sid) { sel = { kind:"slot", id:sid }; render(); panel(); return; }
+    if (nid) { sel = { kind:"node", id:nid }; drag = { id:nid }; render(); panel(); return; }
+    if (eid) { sel = { kind:"edge", id:eid }; render(); panel(); return; }
+
+    sel = null; panel(); render();
+    panning = { x:e.clientX, y:e.clientY, ox:vw.x, oy:vw.y };
+  });
+
+  stage.addEventListener("pointermove", function(e){
+    if (drag) {
+      var n = node(drag.id); if (!n) return;
+      var at = toMap(e.clientX, e.clientY);
+      if (at) { n.xy = at; render(); }
+      return;
+    }
+    if (panning) {
+      vw.x = panning.ox + (e.clientX - panning.x);
+      vw.y = panning.oy + (e.clientY - panning.y);
+      apply();
+    }
+  });
+
+  stage.addEventListener("pointerup", function(){
+    if (drag) { panel(); }
+    drag = null; panning = null;
+  });
+
+  /* ---------------- mutations ---------------- */
+  function uid(prefix){
+    var i = 1, id;
+    do { id = prefix + "-" + i++; } while (node(id) || edges().some(function(e){ return e.id === id; }));
+    return id;
+  }
+
+  function addNode(xy){
+    var n = { id: uid("n"), level: level, xy: xy, name: "" };
+    nodes().push(n);
+    sel = { kind:"node", id:n.id };
+    render(); panel();
+    say("Node added. Name it on the right.");
+  }
+
+  function addEdge(a, b){
+    if (edges().some(function(e){
+      return (e.from === a && e.to === b) || (e.from === b && e.to === a); })) {
+      say("Those two are already connected.", "bad"); render(); return;
+    }
+    var A = node(a), Bn = node(b);
+    var len = Math.round(Math.hypot(A.xy[0]-Bn.xy[0], A.xy[1]-Bn.xy[1]));
+    var e = { id: uid("e"), from:a, to:b, mode:["car"], len: Math.max(1, len), instruction: null };
+    edges().push(e);
+    sel = { kind:"edge", id:e.id };
+    render(); panel();
+    say("Connected. Length estimated from the plan - correct it if you know the real distance.");
+  }
+
+  function del(){
+    if (!sel) return;
+    if (sel.kind === "slot") {
+      var sid2 = sel.id;
+      map().slots = slots().filter(function(x){ return x.id !== sid2; });
+      sel = null; render(); panel(); say("Slot deleted.");
+      return;
+    }
+    if (sel.kind === "node") {
+      var id = sel.id;
+      map().nodes = nodes().filter(function(n){ return n.id !== id; });
+      var gone = {};
+      edges().forEach(function(e){ if (e.from === id || e.to === id) gone[e.id] = 1; });
+      map().edges = edges().filter(function(e){ return e.from !== id && e.to !== id; });
+      map().slots = slots().filter(function(x){ return !gone[x.edge]; });
+      B.scanPoints = B.scanPoints.filter(function(p){ return p.node !== id; });
+    } else {
+      map().edges = edges().filter(function(e){ return e.id !== sel.id; });
+    }
+    sel = null; render(); panel(); say("Deleted.");
+  }
+  document.addEventListener("keydown", function(e){
+    if ((e.key === "Delete" || e.key === "Backspace") &&
+        document.activeElement.tagName !== "INPUT" &&
+        document.activeElement.tagName !== "TEXTAREA") { e.preventDefault(); del(); }
+    if (e.key === "Escape") { linkFrom = null; sel = null; render(); panel(); }
+  });
+
+  /* ---------------- properties panel ---------------- */
+  function field(label, value, oninput, type){
+    var r = document.createElement("div"); r.className = "row";
+    var l = document.createElement("label"); l.textContent = label; r.appendChild(l);
+    var i = document.createElement(type === "area" ? "textarea" : "input");
+    if (type && type !== "area") i.type = type;
+    i.value = value == null ? "" : value;
+    i.oninput = function(){ oninput(i.value); };
+    r.appendChild(i);
+    return r;
+  }
+  function check(label, checked, onchange){
+    var r = document.createElement("label"); r.className = "chk";
+    var i = document.createElement("input"); i.type = "checkbox"; i.checked = !!checked;
+    i.onchange = function(){ onchange(i.checked); };
+    r.appendChild(i); r.appendChild(document.createTextNode(label));
+    return r;
+  }
+  function btn(label, cls, fn){
+    var b = document.createElement("button"); b.textContent = label;
+    if (cls) b.className = cls; b.onclick = fn; return b;
+  }
+
+  function slotPanel(p, sl){
+    if (!sl) { p.innerHTML = '<div class="empty">That slot is gone.</div>'; return; }
+    var h = document.createElement("h3"); h.textContent = "Parking slot " + sl.id;
+    p.appendChild(h);
+    p.appendChild(field("Flat it belongs to", sl.flat || "", function(v){
+      sl.flat = v.trim().toUpperCase(); render();
+    }));
+    var hint = document.createElement("div"); hint.className = "empty";
+    hint.style.padding = "2px 0 8px";
+    hint.textContent = "Leave blank for a visitor bay. Publishing checks the flat exists.";
+    p.appendChild(hint);
+    p.appendChild(field("On aisle", sl.edge, function(){}, "text"));
+    var row = document.createElement("div"); row.className = "row";
+    row.appendChild(btn("Flip to other side", "", function(){
+      sl.side = (sl.side == null ? 1 : sl.side) * -1; render(); panel();
+    }));
+    p.appendChild(row);
+    var row2 = document.createElement("div"); row2.className = "row";
+    row2.appendChild(btn("Delete slot", "bad", function(){ del(); }));
+    p.appendChild(row2);
+  }
+
+  function panel(){
+    var p = $("panel"); p.innerHTML = "";
+    if (!B) { p.innerHTML = '<div class="empty">Load a map to begin.</div>'; return; }
+    if (!sel) { p.innerHTML = '<div class="empty">Nothing selected.<br><br>' +
+      'Click a node or an edge, or use ＋ Node to place one.</div>'; return; }
+
+    if (sel.kind === "slot") return slotPanel(p, slot(sel.id));
+    if (sel.kind === "node") return nodePanel(p, node(sel.id));
+    var e = edges().filter(function(x){ return x.id === sel.id; })[0];
+    if (e) edgePanel(p, e);
+  }
+
+  function nodePanel(p, n){
+    if (!n) return;
+    var h = document.createElement("h2"); h.textContent = "Node"; p.appendChild(h);
+    p.appendChild(field("ID", n.id, function(v){
+      var old = n.id, id = v.trim(); if (!id) return;
+      edges().forEach(function(e){ if (e.from === old) e.from = id; if (e.to === old) e.to = id; });
+      B.scanPoints.forEach(function(s){ if (s.node === old) s.node = id; });
+      n.id = id; sel.id = id; render();
+    }));
+    p.appendChild(field("Name shown to visitors", n.name, function(v){ n.name = v; render(); }));
+    p.appendChild(field("x", n.xy[0], function(v){ n.xy[0] = +v || 0; render(); }, "number"));
+    p.appendChild(field("y", n.xy[1], function(v){ n.xy[1] = +v || 0; render(); }, "number"));
+    p.appendChild(check("Destination — visitors can pick this", n.dest,
+      function(c){ n.dest = c || undefined; render(); }));
+    p.appendChild(check("Anchor — a placard can sit here", n.anchor,
+      function(c){ n.anchor = c || undefined; render(); }));
+
+    p.appendChild(document.createElement("hr"));
+    var sp = B.scanPoints.filter(function(s){ return s.node === n.id; })[0];
+    var h2 = document.createElement("h2"); h2.textContent = "Placard"; p.appendChild(h2);
+    if (sp) {
+      p.appendChild(field("Code (short — it goes in the QR)", sp.id,
+        function(v){ sp.id = v.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6); }));
+      p.appendChild(field("Label", sp.label, function(v){ sp.label = v; }));
+      var a = document.createElement("div"); a.className = "row";
+      a.innerHTML = '<label>Who scans it</label>';
+      var s = document.createElement("select");
+      ["car","foot","both"].forEach(function(o){
+        var op = document.createElement("option"); op.value = o; op.textContent = o; s.appendChild(op);
+      });
+      s.value = sp.audience || "both";
+      s.onchange = function(){ sp.audience = s.value; };
+      a.appendChild(s); p.appendChild(a);
+      p.appendChild(field("Where it is mounted", sp.mount, function(v){ sp.mount = v; }, "area"));
+      p.appendChild(btn("Remove placard", "danger", function(){
+        B.scanPoints = B.scanPoints.filter(function(x){ return x !== sp; }); panel();
+      }));
+    } else {
+      p.appendChild(btn("Add a placard here", "", function(){
+        B.scanPoints.push({ id:"", node:n.id, level:n.level, audience:"car",
+                            label:n.name || n.id, mount:"", rev:1 });
+        n.anchor = true; render(); panel();
+      }));
+    }
+
+    p.appendChild(document.createElement("hr"));
+    p.appendChild(btn("Delete node", "danger", del));
+  }
+
+  function edgePanel(p, e){
+    var h = document.createElement("h2"); h.textContent = "Connection"; p.appendChild(h);
+    var a = node(e.from), b = node(e.to);
+    var d = document.createElement("div"); d.className = "hint";
+    d.textContent = (a && (a.name || a.id)) + "  →  " + (b && (b.name || b.id));
+    p.appendChild(d);
+
+    p.appendChild(field("Length in metres", e.len, function(v){ e.len = +v || 1; }, "number"));
+
+    var m = document.createElement("div"); m.className = "row";
+    m.innerHTML = '<label>Who can use it</label>';
+    var sel2 = document.createElement("select");
+    [["car,foot","cars and people"],["car","cars only"],["foot","people only"]]
+      .forEach(function(o){
+        var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1];
+        sel2.appendChild(op);
+      });
+    sel2.value = (e.mode || ["car"]).join(",");
+    sel2.onchange = function(){ e.mode = sel2.value.split(","); };
+    m.appendChild(sel2); p.appendChild(m);
+
+    p.appendChild(check("One-way (from → to only)", e.oneway,
+      function(c){ e.oneway = c || undefined; render(); }));
+    p.appendChild(btn("Swap direction", "", function(){
+      var t = e.from; e.from = e.to; e.to = t; render(); panel();
+    }));
+
+    p.appendChild(document.createElement("hr"));
+    p.appendChild(field("Instruction (leave blank if there is no decision here)",
+      e.instruction, function(v){ e.instruction = v.trim() || null; }, "area"));
+    p.appendChild(field("Instruction the other way (needed if it says left/right)",
+      e.instructionRev, function(v){ e.instructionRev = v.trim() || undefined; }, "area"));
+
+    p.appendChild(document.createElement("hr"));
+    p.appendChild(btn("Delete connection", "danger", del));
+  }
+
+  function showLevel(){
+    var p = $("panel"); p.innerHTML = "";
+    var lv = levels().filter(function(l){ return l.id === level; })[0];
+    if (!lv) return;
+    var h = document.createElement("h2"); h.textContent = "Level"; p.appendChild(h);
+    p.appendChild(field("Name", lv.name, function(v){ lv.name = v; renderLevels(); }));
+    p.appendChild(check("Underground (app uses the dark theme here)", lv.underground,
+      function(c){ lv.underground = c; }));
+    p.appendChild(field("Backdrop image path", lv.image,
+      function(v){ lv.image = v.trim() || undefined; render(); }));
+    p.appendChild(field("Drawing width", VW(), function(v){
+      map().view = map().view || {}; map().view.w = +v || 426;
+      if (lv.imageBox) lv.imageBox[2] = +v || 426; render(); fit();
+    }, "number"));
+    p.appendChild(field("Drawing height", VH(), function(v){
+      map().view = map().view || {}; map().view.h = +v || 300;
+      if (lv.imageBox) lv.imageBox[3] = +v || 300; render(); fit();
+    }, "number"));
+    var hint = document.createElement("div"); hint.className = "hint";
+    hint.textContent = "Importing a plan sets these automatically. Change them only if the " +
+                       "backdrop looks stretched.";
+    p.appendChild(hint);
+
+    p.appendChild(document.createElement("hr"));
+    p.appendChild(btn("Add another level", "", function(){
+      var n = levels().length + 1, id = "L" + n;
+      while (levels().some(function(l){ return l.id === id; })) { n++; id = "L" + n; }
+      levels().push({ id:id, name:"Level " + n, underground:false });
+      level = id; renderLevels(); render(); fit(); showLevel();
+      say("Level added. Import a plan for it.", "good");
+    }));
+    if (levels().length > 1) {
+      p.appendChild(btn("Delete this level", "danger", function(){
+        if (!confirm("Delete " + (lv.name || lv.id) + " and everything on it?")) return;
+        map().levels = levels().filter(function(l){ return l.id !== lv.id; });
+        map().nodes  = nodes().filter(function(n){ return n.level !== lv.id; });
+        var keep = {}; nodes().forEach(function(n){ keep[n.id] = 1; });
+        map().edges = edges().filter(function(e){ return keep[e.from] && keep[e.to]; });
+        map().areas = (map().areas||[]).filter(function(a){ return a.level !== lv.id; });
+        B.scanPoints = B.scanPoints.filter(function(s){ return s.level !== lv.id; });
+        level = levels()[0].id; sel = null;
+        renderLevels(); render(); fit(); panel(); say("Level deleted.");
+      }));
+    }
+  }
+
+  /* ---------------- validate + publish ---------------- */
+  function post(path, body){
+    return fetch(path, { method:"POST", credentials:"same-origin",
+      headers:{ "Content-Type":"application/json" }, body: JSON.stringify(body) })
+      .then(function(r){ return r.json().then(function(j){ return { s:r.status, j:j }; }); });
+  }
+
+  function showIssues(res, head){
+    var p = $("panel"); p.innerHTML = "";
+    var h = document.createElement("h2"); h.textContent = "Validation"; p.appendChild(h);
+    var d = document.createElement("div"); d.className = "hint"; d.textContent = head;
+    p.appendChild(d);
+    var ul = document.createElement("ul"); ul.className = "issues";
+    (res.issues || []).forEach(function(i){
+      var li = document.createElement("li");
+      li.className = i.sev === "err" ? "e" : i.sev === "warn" ? "w" : "i";
+      li.textContent = (i.sev === "err" ? "✕ " : i.sev === "warn" ? "! " : "· ") + i.msg;
+      ul.appendChild(li);
+    });
+    p.appendChild(ul);
+  }
+
+  /* ---------------- tidy: orphan nodes ---------------- */
+  // An orphan is a node with no edge at all. Nothing can route to it or through
+  // it, so it is dead weight on the plan and on every visitor's cached copy.
+  function orphanIds(){
+    var used = {};
+    edges().forEach(function(e){ used[e.from] = 1; used[e.to] = 1; });
+    return nodes().filter(function(n){ return !used[n.id]; })
+                  .map(function(n){ return n.id; });
+  }
+
+  // Nodes that are connected - but only to each other. An island is invisible on
+  // the plan yet just as unroutable as an orphan. Reported, never auto-deleted:
+  // it is usually real work missing one link, and silently binning it is worse.
+  function islands(){
+    var adj = {};
+    nodes().forEach(function(n){ adj[n.id] = []; });
+    edges().forEach(function(e){
+      if (adj[e.from] && adj[e.to]) { adj[e.from].push(e.to); adj[e.to].push(e.from); }
+    });
+    var seen = {}, groups = [];
+    nodes().forEach(function(n){
+      if (seen[n.id]) return;
+      var stack = [n.id], g = [];
+      seen[n.id] = 1;
+      while (stack.length) {
+        var x = stack.pop();
+        g.push(x);
+        adj[x].forEach(function(y){ if (!seen[y]) { seen[y] = 1; stack.push(y); } });
+      }
+      if (g.length > 1) groups.push(g);
+    });
+    groups.sort(function(a, b){ return b.length - a.length; });
+    return groups.slice(1);   // everything that is not the main body of the map
+  }
+
+  function label(id){
+    var n = node(id);
+    return (n && n.name) ? n.name + " (" + id + ")" : id;
+  }
+
+  function orphanReport(head, removed, isl){
+    var issues = [];
+    if (removed.length) {
+      issues.push({ sev: "info", msg: "Deleted " + removed.length + " orphan node(s): " +
+                                      removed.join(", ") });
+    }
+    isl.forEach(function(g){
+      issues.push({ sev: "warn", msg: g.length + " nodes are cut off from the rest of the map: " +
+                                     g.map(label).join(", ") + " - link them up or delete them." });
+    });
+    if (!issues.length) issues.push({ sev: "info", msg: "Every node is connected." });
+    showIssues({ issues: issues }, head);
+  }
+
+  $("tidy").onclick = function(){
+    if (!B) return say("Load a map first.", "bad");
+    var orph = orphanIds(), isl = islands();
+
+    if (!orph.length) {
+      say(isl.length ? "No orphans, but part of the map is cut off - see the panel."
+                     : "No orphan nodes.", isl.length ? "bad" : "good");
+      return orphanReport("Nothing to delete.", [], isl);
+    }
+
+    if (!confirm("Delete " + orph.length + " orphan node(s)?" + String.fromCharCode(10, 10) +
+                 orph.map(label).join(String.fromCharCode(10)) + String.fromCharCode(10, 10) +
+                 "They have no edges, so no route can use them.")) return;
+
+    var kill = {};
+    orph.forEach(function(id){ kill[id] = 1; });
+    map().nodes  = nodes().filter(function(n){ return !kill[n.id]; });
+    map().areas  = (map().areas || []).filter(function(a){ return !kill[a.node]; });
+    B.scanPoints = (B.scanPoints || []).filter(function(p){ return !kill[p.node]; });
+    if (sel && sel.kind === "node" && kill[sel.id]) sel = null;
+
+    render(); panel();
+    say("Deleted " + orph.length + " orphan node(s). Publish to make it live.", "good");
+    orphanReport("Orphans removed.", orph, isl);
+  };
+
+  $("validate").onclick = function(){
+    if (!B) return say("Nothing to validate.", "bad");
+    post("/api/validate", B).then(function(r){
+      if (r.s === 401) return say("Not signed in. Open admin.html and sign in first.", "bad");
+      var v = r.j;
+      say(v.ok ? "Valid — " + v.warnings + " warning(s)."
+               : v.errors + " error(s) — cannot publish.", v.ok ? "good" : "bad");
+      showIssues(v, v.ok ? "No errors." : "Fix these before publishing.");
+    });
+  };
+
+  $("publish").onclick = function(){
+    if (!B) return say("Nothing to publish.", "bad");
+    if (!confirm("Publish this map? It replaces the live map immediately.")) return;
+    post("/api/publish?note=" + encodeURIComponent("edited in the map editor"), B)
+      .then(function(r){
+        if (r.s === 401) return say("Not signed in. Open admin.html and sign in first.", "bad");
+        if (r.j.ok) { say("Published as " + r.j.published.version, "good"); showIssues(r.j, "Published."); }
+        else { say(r.j.error || "Publish refused.", "bad"); showIssues(r.j, "Nothing was published."); }
+      });
+  };
+
+  window.addEventListener("resize", function(){ if (B) fit(); });
+  panel();
+})();
+</script>
+</body>
+</html>

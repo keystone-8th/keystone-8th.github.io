@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>School — Placard Sheet</title>
+<style>
+  :root{
+    --bg:#05070f; --surface:#0c1424; --surface-2:#15203a; --line:#24314f;
+    --text:#f3f6fc; --muted:#9aaacb; --accent:#5b9bff; --accent-ink:#04101f;
+    --warn:#f0b866; --err:#ff8f8a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+  h1{font-size:22px;margin:0 0 4px}
+  .lede{color:var(--muted);font-size:14px;margin:0 0 20px;max-width:70ch}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:20px}
+  .row{display:flex;flex-wrap:wrap;gap:16px}
+  .f{flex:1 1 200px}
+  label{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:6px}
+  input,select{width:100%;padding:11px 12px;font:inherit;color:var(--text);
+    background:var(--surface-2);border:1px solid var(--line);border-radius:9px}
+  .metrics{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .met{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13px}
+  .met b{display:block;font-size:17px}
+  .note{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:9px;
+    background:var(--surface-2);border-left:3px solid var(--accent);color:var(--muted)}
+  .note.warn{border-left-color:var(--warn);color:var(--warn)}
+  button.print{background:var(--accent);color:var(--accent-ink);border:0;border-radius:9px;
+    padding:12px 20px;font:inherit;font-weight:700;cursor:pointer;margin-top:14px}
+
+  /* ---------- placards ---------- */
+  .sheet{display:flex;flex-wrap:wrap;gap:16px}
+  .placard{background:#fff;color:#111;border:1px solid var(--line);border-radius:10px;
+    padding:14px;display:flex;flex-direction:column;align-items:center;text-align:center;
+    page-break-inside:avoid;break-inside:avoid}
+  .p-top{font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#0d7a4f}
+  .p-title{font-size:15px;font-weight:800;margin:2px 0 8px;line-height:1.25}
+  .p-qr{width:100%;display:block}
+  .p-qr svg{width:100%;height:auto;display:block}
+  .p-url{font:600 10px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#444;
+    margin-top:8px;word-break:break-all}
+  .p-id{font:800 11px/1 ui-monospace,Menlo,Consolas,monospace;color:#0d7a4f;
+    border:1.5px solid #0d7a4f;border-radius:5px;padding:3px 7px;margin-top:7px;letter-spacing:.08em}
+  .p-foot{font-size:9px;color:#777;margin-top:6px}
+  .p-mount{font-size:10px;color:#555;margin-top:8px;border-top:1px dashed #ccc;padding-top:6px;
+    text-align:left;width:100%}
+  .p-mount b{color:#111}
+
+  /* ---------- index table ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  code{font:600 12px ui-monospace,Menlo,Consolas,monospace;background:var(--surface-2);
+    padding:1px 5px;border-radius:4px}
+  .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;
+    background:var(--surface-2);border:1px solid var(--line)}
+
+  @media print{
+    body{background:#fff}
+    .noprint{display:none !important}
+    .wrap{max-width:none;padding:0}
+    .sheet{gap:8mm}
+    .placard{border:1px dashed #999;border-radius:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="noprint">
+    <h1>Placard sheet — School</h1>
+    <p class="lede">One QR per physical scan point. The code encodes only a short id
+      (<code>?s=G1</code>) — the shorter the URL, the lower the QR version, the larger each module,
+      and the further away a phone can scan it.</p>
+
+    <div class="panel">
+      <div class="row">
+        <div class="f">
+          <label for="base">Base URL</label>
+          <input id="base" type="text" spellcheck="false">
+        </div>
+        <div class="f">
+          <label for="size">Printed QR width</label>
+          <select id="size">
+            <option value="150">150 mm — vehicle placard (~1.5 m scan)</option>
+            <option value="200">200 mm — gate / ramp, scanned from a car</option>
+            <option value="60" selected>60 mm — pedestrian placard (~0.6 m)</option>
+            <option value="40">40 mm — compact / lift lobby</option>
+          </select>
+        </div>
+        <div class="f">
+          <label for="ecc">Error correction</label>
+          <select id="ecc">
+            <option value="L">L — 7% (indoor, clean)</option>
+            <option value="M">M — 15% (screens, indoor)</option>
+            <option value="Q" selected>Q — 25% (recommended for placards)</option>
+            <option value="H">H — 30% (harsh, or logo overlay)</option>
+          </select>
+        </div>
+      </div>
+      <div class="metrics" id="metrics"></div>
+      <div id="notes"></div>
+      <button class="print" onclick="window.print()">Print sheet</button>
+    </div>
+
+    <div class="panel">
+      <h1 style="font-size:16px">Scan point index</h1>
+      <table id="index"></table>
+    </div>
+  </div>
+
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script src="qr.js"></script>
+<script src="scanpoints.js"></script>
+<script>
+(function(){
+  var baseEl = document.getElementById("base");
+  var sizeEl = document.getElementById("size");
+  var eccEl  = document.getElementById("ecc");
+
+  // Default to wherever this page is served from, so scanning with a phone
+  // on the same LAN just works without editing anything.
+  baseEl.value = location.origin + location.pathname.replace(/[^/]*$/, "").replace(/\/$/, "");
+  // The published address lives in site.json so the placards and the deploy
+  // script cannot disagree about it.
+  fetch("site.json").then(function(r){ return r.json(); }).then(function(s){ if (s && s.url) { baseEl.value = s.url; render(); } }).catch(function(){});
+
+  function render(){
+    var base = baseEl.value.trim() || location.origin;
+    var mm   = parseFloat(sizeEl.value);
+    var ecc  = eccEl.value;
+
+    var sheet = document.getElementById("sheet");
+    var idx   = document.getElementById("index");
+    sheet.innerHTML = "";
+    idx.innerHTML = "<tr><th>ID</th><th>Location</th><th>Node</th><th>Mode</th><th>QR</th><th>URL</th></tr>";
+
+    var maxVersion = 0, maxLen = 0, failed = [];
+
+    SCANPOINTS.all.forEach(function(sp){
+      var url = SCANPOINTS.url(base, sp.id);
+      var out;
+      try { out = QR.svg(url, { ecc: ecc, quiet: 4 }); }
+      catch(e){ failed.push(sp.id + ": " + e.message); return; }
+
+      maxVersion = Math.max(maxVersion, out.version);
+      maxLen = Math.max(maxLen, url.length);
+
+      var card = document.createElement("div");
+      card.className = "placard";
+      card.style.width = (mm + 28) + "mm";
+      card.innerHTML =
+        '<div class="p-top">Scan for directions</div>' +
+        '<div class="p-title">' + sp.label + '</div>' +
+        '<div class="p-qr" style="width:' + mm + 'mm">' + out.svg + '</div>' +
+        '<div class="p-url" style="max-width:' + (mm + 10) + 'mm">' + url.replace(/^https?:\/\//,'') + '</div>' +
+        '<div class="p-id">' + sp.id + '</div>' +
+        '<div class="p-foot">School · v' + out.version + '-' + ecc + ' · rev ' + sp.rev + '</div>' +
+        '<div class="p-mount"><b>Mount:</b> ' + sp.mount + '</div>';
+      sheet.appendChild(card);
+
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td><code>" + sp.id + "</code></td><td>" + sp.label + "</td>" +
+        "<td><code>" + sp.node + "</code></td>" +
+        "<td><span class='tag'>" + sp.audience + "</span></td>" +
+        "<td>v" + out.version + " · " + out.size + "×" + out.size + "</td>" +
+        "<td><code>" + url + "</code></td>";
+      idx.appendChild(tr);
+    });
+
+    /* physical scannability maths */
+    var modules = maxVersion * 4 + 17;
+    var moduleMm = mm / (modules + 8);            // + quiet zone
+    var maxDist  = mm * 10 / 1000;                // 10:1 rule of thumb
+
+    document.getElementById("metrics").innerHTML =
+      met(SCANPOINTS.all.length - failed.length, "placards") +
+      met("v" + maxVersion, "highest QR version") +
+      met(modules + "×" + modules, "modules") +
+      met(moduleMm.toFixed(2) + " mm", "module size") +
+      met("~" + maxDist.toFixed(1) + " m", "max scan distance") +
+      met(maxLen + " chars", "longest URL");
+
+    var notes = [];
+    if (moduleMm < 0.5)
+      notes.push(["warn", "Module size is under 0.5 mm — most phone cameras will struggle. Print larger or shorten the base URL."]);
+    if (eccEl.value === "L" || eccEl.value === "M")
+      notes.push(["warn", "Placards get scratched, faded and rained on. ECC Q is the recommended level " +
+        "for anything physically mounted — it tolerates 25% damage."]);
+    if (base.indexOf("localhost") >= 0)
+      notes.push(["warn", "Base URL is localhost — a phone cannot reach that. Serve on your LAN IP and reload this page to regenerate."]);
+    if (base.length > 30)
+      notes.push(["", "Base URL is " + base.length + " chars. A shorter domain lowers the QR version and makes every placard easier to scan."]);
+    failed.forEach(function(f){ notes.push(["warn", f]); });
+    if (!notes.length) notes.push(["", "All placards encode cleanly at this size and error-correction level."]);
+    notes.push(["", "Before printing all " + SCANPOINTS.all.length + " placards, scan two or three from " +
+      "this screen with a real phone. Decoders differ, and a placard is expensive to remount."]);
+
+    document.getElementById("notes").innerHTML = notes.map(function(n){
+      return '<div class="note ' + n[0] + '">' + n[1] + '</div>';
+    }).join("");
+  }
+
+  function met(v, l){ return '<div class="met"><b>' + v + '</b>' + l + '</div>'; }
+
+  baseEl.oninput = render; sizeEl.onchange = render; eccEl.onchange = render;
+  render();
+})();
+</script>
+</body>
+</html>

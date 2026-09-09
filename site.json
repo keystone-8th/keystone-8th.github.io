@@ -1,0 +1,4 @@
+{
+  "url": "https://keystone-8th.github.io",
+  "note": "The public address of the app. Every QR placard encodes it, so change it here BEFORE running tools/make-placards.js, then print."
+}

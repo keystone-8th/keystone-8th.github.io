@@ -1,0 +1,1259 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>School directions</title>
+<style>
+  /* Two palettes, chosen by where the visitor actually is.
+     Light reads better in sunlight at the gate; dark stops a white screen
+     glaring and wrecking night vision down in the basements. */
+  :root{
+    --bg:#f2f4f8; --surface:#ffffff; --surface-2:#eef1f6; --line:#dce2ec;
+    --text:#101827; --muted:#586780; --accent:#1f5fd0; --accent-ink:#ffffff;
+    --accent-soft:#e7effd; --warn:#8a5200; --err:#b3261e;
+    --hdr:#ffffff; --scrim:rgba(16,24,39,.45);
+    --shadow:0 1px 2px rgba(16,24,39,.06),0 4px 14px rgba(16,24,39,.07);
+    --hdrh:52px;
+  }
+  :root[data-theme="dark"]{
+    --bg:#05070f; --surface:#0c1424; --surface-2:#15203a; --line:#24314f;
+    --text:#f3f6fc; --muted:#9aaacb; --accent:#5b9bff; --accent-ink:#04101f;
+    --accent-soft:#10203c; --warn:#f0b866; --err:#ff8f8a;
+    --hdr:#080f1e; --scrim:rgba(0,0,0,.68);
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 4px 14px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  /* html must carry the background too: Chrome on Android paints the
+     system gesture-bar area from the canvas colour, and a bare html
+     element leaves a white strip under a dark page. */
+  html{background:var(--bg)}
+  html,body{height:100%;margin:0;overscroll-behavior:none}
+  body{
+    background:var(--bg);color:var(--text);
+    font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;height:100dvh;
+  }
+
+  /* ---------- fixed header ---------- */
+  header{
+    flex:0 0 auto;background:var(--hdr);color:var(--text);border-bottom:1px solid var(--line);
+    padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top));
+    display:flex;align-items:center;gap:10px;min-height:var(--hdrh);
+  }
+  .loc[hidden]{display:none}
+  .loc{display:flex;align-items:center;gap:7px;min-width:0;flex:1;
+    border:0;background:transparent;color:inherit;font:inherit;text-align:left;
+    padding:0;cursor:pointer}
+  .loc .edit{flex:0 0 auto;font-size:11px;font-weight:700;color:var(--accent);
+    border:1px solid var(--line);border-radius:7px;padding:3px 7px}
+  /* A scanned start is a fact; a chosen one is the visitor's best guess. Say so. */
+  .loc.guessed .dot{background:var(--muted);box-shadow:none}
+  .loc.guessed .k::after{content:" \2014 set by you";letter-spacing:0;text-transform:none}
+  .loc .dot{flex:0 0 8px;height:8px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 3px rgba(91,155,255,.22)}
+  .loc .txt{min-width:0}
+  .loc .k{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+    font-weight:700;line-height:1.2}
+  .loc .v{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* With the location control hidden on the landing page the gear was the only
+     thing in the header and slid to the left. Pin it to the right either way. */
+  .gear{flex:0 0 auto;margin-left:auto;width:34px;height:34px;border:1px solid var(--line);border-radius:9px;
+    cursor:pointer;background:var(--surface-2);color:var(--text);font-size:15px}
+
+  /* ---------- view container ---------- */
+  main{flex:1 1 auto;min-height:0;position:relative}
+  .view{position:absolute;inset:0;display:none;flex-direction:column;min-height:0}
+  .view.on{display:flex}
+  .scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0}
+
+  /* ---------- picker ---------- */
+  .pk-head{padding:16px 16px 10px;flex:0 0 auto}
+  .pk-head h2{margin:0 0 2px;font-size:21px;font-weight:800;letter-spacing:-.015em}
+  .pk-head p{margin:0;font-size:13.5px;color:var(--muted)}
+  .pk-search{padding:0 16px 10px;flex:0 0 auto}
+  input[type=search]{
+    width:100%;padding:13px 14px;font:inherit;font-size:16px;color:var(--text);
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;min-height:50px;
+  }
+  input[type=search]:focus{outline:2px solid var(--accent);outline-offset:-1px}
+  .grp[hidden]{display:none}
+  .grp{padding:12px 16px 2px;font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--muted);font-weight:800}
+  .list{padding:0 12px 16px}
+  .item{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    color:var(--text);font:inherit;padding:11px 13px;margin:6px 0;min-height:56px;cursor:pointer;
+    box-shadow:var(--shadow);
+  }
+  .item:active{background:var(--surface-2)}
+  .item .ic{flex:0 0 38px;height:38px;border-radius:10px;background:var(--accent-soft);
+    color:var(--accent);display:grid;place-items:center;font-size:18px}
+  /* These are spans, so they are inline by default and the title ran into
+     the subtitle on one line ("Visitor ParkingGround"). Force block. */
+  .item .tx{min-width:0;flex:1;display:block}
+  .item .t1{display:block;font-size:15.5px;font-weight:650;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .t2{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
+  .item .go{color:var(--muted);font-size:18px}
+  .empty{padding:26px 18px;text-align:center;color:var(--muted);font-size:14px}
+  .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  nav.tabs[hidden]{display:none}
+  .offbar{flex:0 0 auto;background:var(--warn);color:#1a1200;font-size:13px;font-weight:700;
+    text-align:center;padding:7px 12px;line-height:1.35}
+  .offbar[hidden]{display:none}
+  .backbar{flex:0 0 auto;padding:10px 16px 0}
+  .backbar button{border:1px solid var(--line);background:var(--surface);color:var(--text);
+    font:inherit;font-size:13.5px;font-weight:700;border-radius:9px;padding:9px 13px;
+    min-height:42px;cursor:pointer}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 12px 16px}
+  .gbtn{background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--text);
+    font:inherit;cursor:pointer;min-height:58px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:1px;padding:6px 4px;box-shadow:var(--shadow)}
+  .gbtn:active{background:var(--surface-2)}
+  /* Which block you are looking at, so the grid reads as tabs rather than as
+     six buttons that all look untouched. */
+  .gbtn.on{background:var(--accent);border-color:var(--accent)}
+  .gbtn.on .bl,.gbtn.on .bs{color:var(--accent-ink)}
+  .gbtn .bl{font-size:19px;font-weight:800;color:var(--accent);line-height:1.1}
+  .gbtn .bs{font-size:10.5px;color:var(--muted);font-weight:650}
+
+  /* ---------- route ---------- */
+  .rhead{flex:0 0 auto;background:var(--accent-soft);border-bottom:1px solid var(--line);
+    padding:11px 14px;display:flex;align-items:center;gap:10px}
+  .rhead .tx{flex:1;min-width:0}
+  .rhead .d{font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rhead .s{font-size:12.5px;color:var(--muted);margin-top:1px}
+  .rhead button{border:1px solid var(--line);background:var(--surface);color:var(--text);
+    font:inherit;font-size:12.5px;font-weight:700;border-radius:9px;padding:8px 11px;cursor:pointer;
+    min-height:40px;white-space:nowrap}
+  ol.steps{list-style:none;margin:0;padding:5px 11px 16px}
+  ol.steps li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin:5px 0;
+    box-shadow:var(--shadow)}
+  ol.steps li.now{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  ol.steps li.arrive{background:var(--accent-soft);border-color:var(--accent)}
+  .g{flex:0 0 31px;height:31px;border-radius:9px;background:var(--surface-2);
+    display:grid;place-items:center;font-size:16px;font-weight:700}
+  li.arrive .g{background:var(--accent);color:var(--accent-ink)}
+  .tx2{flex:1;min-width:0}
+  .t{font-size:14.5px;line-height:1.32}
+  li.arrive .t{font-weight:750}
+  .m{font-size:12px;color:var(--muted);margin-top:2px}
+  /* A turn that reads badly in words is the one place a picture earns its
+     keep. Bigger than a thumbnail or it is not worth looking at. */
+  img.thumb.shot{flex:0 0 88px;width:88px;height:66px;object-fit:cover;border-radius:9px;
+    border:1px solid var(--line);background:var(--surface-2)}
+  img.thumb.shot.missing{display:none}
+  .thumb{flex:0 0 38px;height:38px;border-radius:8px;border:1px dashed var(--line);
+    background:var(--surface-2);color:var(--muted);display:grid;place-items:center;font-size:15px}
+
+  /* One instruction at a time. A list is for reading at a desk; at the
+     wheel you want the next thing to do, as large as the screen allows. */
+  .slide{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 16px 12px;touch-action:pan-y}
+  .prog{flex:0 0 auto;display:flex;gap:5px;align-items:center;padding:12px 2px 10px}
+  .prog .pdot{flex:1 1 0;height:4px;border-radius:3px;background:var(--line)}
+  .prog .pdot.on{background:var(--accent)}
+  .prog .pnum{flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--muted);
+    margin-left:8px;letter-spacing:.04em}
+  .stepwrap{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;
+    justify-content:center;gap:16px;text-align:center;padding:4px 0;transition:transform .17s ease,opacity .17s ease}
+  .stepwrap.from-r{transform:translateX(22px);opacity:.25}
+  .stepwrap.from-l{transform:translateX(-22px);opacity:.25}
+  .stepwrap .sg{font-size:54px;line-height:1}
+  .stepwrap .st{font-size:26px;line-height:1.3;font-weight:750;letter-spacing:-.01em}
+  .stepwrap .sm{font-size:14px;color:var(--muted)}
+  .stepwrap img.shot{width:100%;max-width:420px;align-self:center;border-radius:14px;
+    border:1px solid var(--line)}
+  .stepwrap.arrive .st{color:var(--accent)}
+  .slidenav{flex:0 0 auto;display:flex;gap:10px;padding-top:12px}
+  .slidenav button{flex:1;min-height:56px;border:1px solid var(--line);border-radius:14px;
+    background:var(--surface);color:var(--text);font:inherit;font-size:16px;font-weight:750;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .slidenav button.go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .slidenav button:disabled{opacity:.4;box-shadow:none}
+
+  /* A scan answers "where am I" and nothing else. Landing straight on both
+     fields makes it obvious that either can be changed - and that the start is
+     only a starting point. */
+  #planpane{padding:18px 16px 0}
+  .plan-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    color:var(--text);font:inherit;padding:14px 15px;margin:0 0 10px;min-height:70px;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .plan-row:active{background:var(--surface-2)}
+  .plan-row .k{flex:0 0 96px;font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--muted);font-weight:800}
+  .plan-row .v{flex:1;min-width:0;font-size:16px;font-weight:700;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .plan-row.unset .v{color:var(--muted);font-weight:600}
+  .plan-row .go{color:var(--muted);font-size:20px}
+  .plan-row.parked{border-color:var(--accent);background:var(--accent-soft)}
+  .plan-row.parked .k{color:var(--accent)}
+  .plan-row[hidden]{display:none}
+  .parkbtn{border:1px solid var(--line);background:var(--surface);color:var(--text);
+    font:inherit;font-size:12.5px;font-weight:700;border-radius:9px;padding:8px 11px;
+    cursor:pointer;min-height:40px;white-space:nowrap}
+  .parkbtn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .parkbtn.wide{align-self:center;min-height:52px;padding:0 22px;font-size:15px;margin-top:4px}
+  .plan-hint{margin:4px 2px 0;font-size:13px;color:var(--muted)}
+  /* A segmented control, not two buttons: the pair reads as one question with
+     one answer already given, which is what it is. */
+  .modesw{display:flex;gap:6px;background:var(--surface-2);border:1px solid var(--line);
+    border-radius:14px;padding:5px;margin:0 0 12px}
+  .modesw button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;
+    font-size:15px;font-weight:700;border-radius:10px;padding:11px 6px;cursor:pointer;
+    min-height:46px}
+  .modesw button[aria-pressed="true"]{background:var(--surface);color:var(--text);
+    box-shadow:var(--shadow)}
+  .modesw[hidden]{display:none}
+  #planpane[hidden],#choosepane[hidden]{display:none}
+  #choosepane{display:flex;flex-direction:column;min-height:0;flex:1 1 auto}
+  .fromto{display:flex;align-items:stretch;gap:8px;padding:12px 16px 0}
+  .fromto .ft{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:2px;
+    border:1px solid var(--line);background:var(--surface-2);
+    border-radius:11px;padding:8px 10px}
+  .fromto .k{font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--muted);font-weight:700}
+  .fromto .v{font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis}
+  .fromto .arr{align-self:center;color:var(--muted);font-weight:700;flex:0 0 auto}
+
+  /* On a tablet the app was stretching a phone layout across 1300px: a step
+     of text marooned in the middle, and Back/Next a hand-span apart. Cap the
+     reading column and centre it. The map is exempt - it wants every pixel. */
+  @media (min-width: 720px){
+    .pk-head, .pk-search, .grp, .list, .backbar, #planpane, #towers-wrap,
+    .rhead, .slide, .notice, .modesw{
+      max-width:660px; margin-left:auto; margin-right:auto; width:100%;
+    }
+    .stepwrap .st{font-size:30px}
+    .slidenav{max-width:660px}
+  }
+
+  /* ---------- notice + dev sheet ---------- */
+  .notice{margin:12px;padding:12px 14px;border-radius:12px;font-size:13.5px;
+    background:var(--surface);border:1px solid var(--warn);color:var(--warn);font-weight:650}
+  .sheet{position:fixed;inset:0;background:var(--scrim);display:none;z-index:20;align-items:flex-end}
+  .sheet.on{display:flex}
+  .sheet-in{background:var(--bg);width:100%;max-height:82%;overflow-y:auto;
+    border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+  .sheet-in h3{margin:0 0 10px;font-size:16px}
+  .sheet-in label{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--muted);font-weight:800;margin:12px 0 6px}
+  select{width:100%;padding:12px;font:inherit;font-size:15px;color:var(--text);background:var(--surface);
+    border:1px solid var(--line);border-radius:10px;min-height:48px}
+  .vl{margin:10px 0 0;padding:0 0 0 18px;font-size:13px}
+  .vl li{margin:4px 0}
+  .sev-err{color:var(--err);font-weight:650}.sev-warn{color:var(--warn)}.sev-info{color:var(--muted)}
+  .sheet-in a{color:var(--accent)}
+  .close{width:100%;margin-top:14px;border:0;border-radius:11px;background:var(--accent);
+    color:var(--accent-ink);font:inherit;font-weight:800;padding:13px;min-height:48px;cursor:pointer}
+</style>
+</head>
+<body>
+<style>
+  /* ---------- search-first landing ---------- */
+  #planpane{padding:14px 16px 0;display:flex;flex-direction:column;min-height:0;flex:1 1 auto}
+  .fields{display:flex;gap:8px;align-items:stretch;flex:0 0 auto}
+  .fields .col{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .field{position:relative;display:flex;align-items:center;gap:10px;background:var(--surface);
+    border:1px solid var(--line);border-radius:14px;padding:6px 8px 6px 14px;min-height:60px;
+    box-shadow:var(--shadow)}
+  .field.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  .field .k{flex:0 0 auto;font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--muted);font-weight:800;width:44px}
+  .field input{flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:inherit;
+    font-size:16.5px;font-weight:700;padding:8px 0;outline:none;-webkit-appearance:none;appearance:none}
+  .field input::-webkit-search-cancel-button{display:none}
+  .field input::placeholder{color:var(--muted);font-weight:500}
+  .field .clr{flex:0 0 36px;height:36px;border:0;border-radius:10px;background:var(--surface-2);
+    color:var(--muted);font:inherit;font-size:18px;cursor:pointer}
+  .field .clr[hidden]{display:none}
+  .swap{flex:0 0 44px;border:1px solid var(--line);border-radius:14px;background:var(--surface);
+    color:var(--accent);font:inherit;font-size:20px;cursor:pointer;box-shadow:var(--shadow)}
+  .swap:disabled{opacity:.35}
+  .results{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;margin:10px -4px 0;padding:0 4px}
+  .results[hidden]{display:none}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 6px}
+  .chips[hidden]{display:none}
+  .chip{border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;
+    font-size:13px;font-weight:650;border-radius:999px;padding:8px 12px;cursor:pointer;min-height:38px}
+  .chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .results .grp{padding:10px 4px 2px}
+  .results .item{margin:5px 0}
+  .quiet{flex:0 0 auto;padding:10px 0 12px}
+  .quiet .plan-row{margin:0}
+  .plan-hint{margin:6px 2px 0}
+  .plan-hint.warn{color:var(--warn);font-weight:650}
+
+  /* ---------- step mini-map ---------- */
+  .stepwrap{justify-content:flex-start;gap:12px;padding-top:8px}
+  .stepwrap .sg{font-size:44px}
+  .stepwrap .st{font-size:22px}
+  svg.mini{width:100%;max-width:560px;align-self:center;height:34vh;min-height:150px;
+    border-radius:14px;border:1px solid var(--line);background:#e9e2d3;display:block}
+  @media (min-width:720px){ .stepwrap .st{font-size:26px} svg.mini{height:40vh} }
+
+  /* ---------- floor plan view ---------- */
+  .mapbar{flex:0 0 auto;display:flex;gap:8px;padding:10px 12px;align-items:center;
+    border-bottom:1px solid var(--line);background:var(--surface)}
+  .mapbar .t{flex:1;min-width:0;font-size:14px;font-weight:750;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis}
+  .mapbar button{border:1px solid var(--line);background:var(--surface-2);color:var(--text);
+    font:inherit;font-size:13px;font-weight:700;border-radius:9px;padding:8px 11px;
+    min-height:40px;cursor:pointer;white-space:nowrap}
+  .mapbar button[hidden]{display:none}
+  .mapbox{flex:1 1 auto;min-height:0;background:#d9e4c4;position:relative;overflow:hidden}
+  .mapbox svg{width:100%;height:100%;display:block;touch-action:none;cursor:grab;
+    user-select:none;-webkit-user-select:none}
+  .mapbox svg.drag{cursor:grabbing}
+  .zoomers{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+  .zoomers button{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);
+    background:var(--surface);color:var(--text);font:inherit;font-size:20px;font-weight:700;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .maphint{position:absolute;left:10px;bottom:10px;font-size:11.5px;color:var(--muted);
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+  .mapkey{display:flex;gap:14px;padding:6px 12px 8px;font-size:12px;color:var(--muted);
+    background:var(--surface);border-top:1px solid var(--line);flex:0 0 auto}
+  .mapkey i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;
+    vertical-align:-1px}
+
+  /* ---------- test sheet ---------- */
+  .seg{display:flex;gap:6px}
+  .seg button{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--text);
+    font:inherit;font-size:13.5px;font-weight:700;border-radius:9px;padding:9px 6px;min-height:42px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .plist{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .plist button{border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;
+    font-size:13px;font-weight:650;border-radius:999px;padding:7px 11px;cursor:pointer}
+  .plist button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+</style>
+
+<header>
+  <h1 class="vh" id="apptitle">School wayfinding</h1>
+  <button class="loc" id="startbtn" type="button" aria-label="Change where you are starting from">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="txt">
+      <span class="k" id="loc-k">You are at</span>
+      <div class="v" id="youare">Locating…</div>
+    </span>
+    <span class="edit" id="edit-lbl" aria-hidden="true">Change</span>
+  </button>
+  <button class="gear" id="gear" aria-label="Test tools">⚙</button>
+</header>
+
+<div class="offbar" id="offbar" hidden="">
+  Offline — showing the map saved on this phone
+</div>
+
+<main>
+  <!-- ============ 1. SEARCH (landing) ============ -->
+  <section class="view on" id="v-pick">
+    <div id="notice-slot"></div>
+    <div id="planpane">
+      <div class="fields">
+        <div class="col">
+          <div class="field" id="f-from">
+            <span class="k">From</span>
+            <input id="q-from" type="search" inputmode="search" autocomplete="off" enterkeyhint="go"
+                   placeholder="Where are you?" aria-label="Where are you now?">
+            <button class="clr" id="x-from" type="button" aria-label="Clear start" hidden>×</button>
+          </div>
+          <div class="field" id="f-to">
+            <span class="k">To</span>
+            <input id="q-to" type="search" inputmode="search" autocomplete="off" enterkeyhint="go"
+                   placeholder="Search a room, e.g. Library" aria-label="Where are you going?">
+            <button class="clr" id="x-to" type="button" aria-label="Clear destination" hidden>×</button>
+          </div>
+        </div>
+        <button class="swap" id="swap" type="button" aria-label="Swap start and destination" disabled>⇅</button>
+      </div>
+      <p class="plan-hint" id="plan-hint">Type a room name, or tap a field and pick from the list.</p>
+      <div class="results" id="results" hidden>
+        <div class="chips" id="chips"></div>
+        <div class="list" id="picklist"></div>
+      </div>
+      <div class="quiet" id="quiet">
+        <button type="button" class="plan-row" id="pr-map">
+          <span class="k">Floor plan</span>
+          <span class="v">See the whole school</span>
+          <span class="go" aria-hidden="true">›</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. DIRECTIONS ============ -->
+  <section class="view" id="v-route">
+    <div class="rhead">
+      <div class="tx">
+        <div class="d" id="r-dest">—</div>
+        <div class="s" id="r-stats"></div>
+      </div>
+      <button class="parkbtn" id="r-map">Full map</button>
+      <button class="parkbtn" id="r-share">Share</button>
+    </div>
+    <div class="slide" id="slide">
+      <div class="prog" id="prog"></div>
+      <div class="stepwrap" id="steps"></div>
+      <div class="slidenav">
+        <button id="s-prev">‹ Back</button>
+        <button id="s-next" class="go">Next ›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. FLOOR PLAN ============ -->
+  <section class="view" id="v-map">
+    <div class="mapbar">
+      <button id="m-back">‹ Back</button>
+      <div class="t" id="m-title">Ground Floor</div>
+      <button id="m-zoom" hidden="">Whole floor</button>
+    </div>
+    <div class="mapbox" id="mapbox">
+      <svg id="mapsvg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan"></svg>
+      <div class="zoomers">
+        <button id="m-in" aria-label="Zoom in">+</button>
+        <button id="m-out" aria-label="Zoom out">−</button>
+      </div>
+      <div class="maphint">Drag to move · pinch or scroll to zoom · tap a room to go there</div>
+    </div>
+    <div class="mapkey">
+      <span><i style="background:#1f5fd0"></i>You</span>
+      <span><i style="background:#b3261e"></i>Destination</span>
+      <span><i style="background:#1f5fd0;border-radius:2px;width:22px;height:4px"></i>Route</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- test harness, kept out of the visitor's way -->
+<div class="sheet" id="sheet">
+  <div class="sheet-in">
+    <h3>Test tools</h3>
+    <label for="anchor-q">Simulate scanning a placard</label>
+    <input id="anchor-q" type="search" autocomplete="off" placeholder="Search a placard, e.g. Cafeteria"
+           style="width:100%;padding:11px 12px;font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:10px">
+    <div class="plist" id="anchor-list"></div>
+    <label>Appearance</label>
+    <div class="seg" id="theme" role="group" aria-label="Appearance">
+      <button type="button" data-v="auto">Auto</button>
+      <button type="button" data-v="light">Light</button>
+      <button type="button" data-v="dark">Dark</button>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin:8px 0 0">
+      In the school this comes from the URL — <code>?s=ME</code> — so the app knows where you are
+      without GPS.
+      <a href="qr.html">Open the placard sheet →</a>
+    </p>
+    <label>Publish-time validation</label>
+    <ul class="vl" id="val"></ul>
+    <label>Saved copy</label>
+    <button id="clear-cache" style="width:100%">Clear saved copy and reload</button>
+    <button class="close" id="sheet-close">Close</button>
+  </div>
+</div>
+
+<script src="map.js"></script>
+<script src="engine.js"></script>
+<script src="scanpoints.js"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var state = { at:null, dest:null, scan:null, view:"pick", themePref:"auto",
+                // Only a scan or a tap counts as "I know where I am".
+                startChosen:false,
+                stepIx:0,
+                // category chip on the results list, or null for all
+                browse:null,
+                // A QR scan is evidence. Anything else is the visitor's guess.
+                guessedStart:false, atLabel:null,
+                // floor plan: zoomed to the route or showing the whole floor
+                mapZoom:"route" };
+  try { state.themePref = localStorage.getItem("sw_theme") || "auto"; } catch (e) {}
+
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){
+    return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
+
+  var ENG = createEngine(MAP);
+  var G = ENG.G, route = ENG.route, validate = ENG.validate,
+      resolveDest = ENG.resolveDest, nodeLabel = ENG.nodeLabel;
+  var LEVEL = MAP.levels[0];
+
+  (function seedPosition(){
+    var anchor = MAP.nodes.filter(function(n){ return n.anchor; })[0];
+    var start  = anchor || MAP.nodes[0];
+    state.at   = start ? start.id : null;
+  })();
+
+  (function nameApp(){
+    var c = (MAP.community || "").trim() || "School";
+    document.title = c + " — Directions";
+    $("apptitle").textContent = c + " wayfinding";
+  })();
+
+  /* ================= places ================= */
+  var CATS = [
+    { id:"entry",  label:"Entrances & reception",        icon:"🚪" },
+    { id:"class",  label:"Classrooms",                   icon:"🏫" },
+    { id:"common", label:"Library, PLC & shared spaces", icon:"📚" },
+    { id:"studio", label:"Studios & Maker's Hives",      icon:"🎨" },
+    { id:"office", label:"Staff & meeting rooms",        icon:"🗂️" },
+    { id:"food",   label:"Cafeteria",                    icon:"🍽️" },
+    { id:"wash",   label:"Washrooms",                    icon:"🚻" },
+    { id:"stairs", label:"Stairs",                       icon:"🪜" }
+  ];
+  var OTHER = { id:"other", label:"Other places", icon:"📍" };
+  var CAT = {}; CATS.forEach(function(c){ CAT[c.id] = c; });
+  function catOf(n){ return CAT[n.cat] || OTHER; }
+  function catRank(id){ for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return i; return CATS.length; }
+
+  function row(n){
+    var c = catOf(n);
+    return { id:n.id, node:n.id, icon:c.icon, t1:n.name || n.id,
+             t2:(n.sub ? n.sub + " · " : "") + c.label, cat:c.id };
+  }
+  var DESTS = MAP.nodes.filter(function(n){ return n.dest; }).map(row);
+  DESTS.sort(function(a, b){
+    var d = catRank(a.cat) - catRank(b.cat);
+    if (d) return d;
+    return a.t1.localeCompare(b.t1, undefined, { numeric:true });
+  });
+  var DEST_BY = {}; DESTS.forEach(function(r){ DEST_BY[r.id] = r; });
+  var CAT_KEYS = CATS.concat([OTHER]).filter(function(c){
+    return DESTS.some(function(r){ return r.cat === c.id; });
+  });
+
+  /* Matches on the name first, then on the category, then on any word inside
+     the name - "hive" finds both Maker's Hives, "wash" finds every washroom. */
+  function searchRows(raw){
+    var q = raw.trim().toLowerCase();
+    if (!q) return DESTS.slice();
+    var starts = [], inside = [], bycat = [];
+    DESTS.forEach(function(r){
+      var t = r.t1.toLowerCase();
+      if (t.indexOf(q) === 0) starts.push(r);
+      else if (t.indexOf(q) >= 0) inside.push(r);
+      else if (catOf({cat:r.cat}).label.toLowerCase().indexOf(q) >= 0) bycat.push(r);
+    });
+    // "lib" should offer the Library before the Library Entrance: the shorter
+    // name is the one people mean.
+    starts.sort(function(a, b){ return a.t1.length - b.t1.length; });
+    return starts.concat(inside, bycat).slice(0, 40);
+  }
+  function destLabel(){
+    var d = state.dest ? resolveDest(state.dest) : null;
+    return d && d.node ? nodeLabel(d.node) : (state.dest || "");
+  }
+  function hereLabel(){
+    if (!state.startChosen) return null;
+    return state.scan ? state.scan.label : (state.atLabel || nodeLabel(G.nodes[state.at]));
+  }
+
+  /* ================= entry: resolve the placard ================= */
+  var params = new URLSearchParams(location.search);
+
+  function applyScan(sp){
+    state.scan = sp; state.at = sp.node;
+    state.startChosen = true; state.guessedStart = false;
+    state.atLabel = null;
+  }
+
+  var HOME = null;
+  function markHome(){ HOME = { at: state.at, scan: state.scan, chosen: state.startChosen }; }
+  function startOver(){
+    if (HOME) { state.at = HOME.at; state.scan = HOME.scan; }
+    state.dest = null;
+    state.startChosen = !!(HOME && HOME.scan);
+    state.browse = null; state.guessedStart = false;
+    state.atLabel = HOME ? null : state.atLabel;
+    lastRoute = null; active = null;
+    header();
+    if (location.hash === "#/" || location.hash === "") { show("pick"); }
+    else location.hash = "#/";
+  }
+
+  if (params.get("s")) {
+    var sp0 = SCANPOINTS.byId(params.get("s"));
+    if (sp0) applyScan(sp0);
+    else {
+      var n = document.createElement("div");
+      n.className = "notice";
+      n.textContent = "Placard “" + params.get("s") + "” is not recognised. It may have been " +
+        "replaced. Type where you are in the From box, and please tell the office the code on the placard.";
+      $("notice-slot").appendChild(n);
+    }
+  } else if (params.get("at") && G.nodes[params.get("at")]) {
+    state.at = params.get("at");
+    state.scan = SCANPOINTS.byNode(params.get("at"));
+    state.startChosen = true;
+  }
+
+  /* ================= routing between views ================= */
+  function router(){
+    var h = location.hash.replace(/^#\/?/, "");
+    if (h.indexOf("r/") === 0) {
+      state.dest = decodeURIComponent(h.slice(2));
+      show("route");
+    } else if (h === "map") {
+      show("map");
+    } else {
+      show("pick");
+    }
+  }
+  function show(v){
+    state.view = v;
+    header();
+    ["pick","route","map"].forEach(function(k){ $("v-"+k).classList.toggle("on", k === v); });
+    if (v === "route") renderRoute();
+    if (v === "pick")  renderPick();
+    if (v === "map")   { if (state.dest && state.startChosen && !lastRoute) computeRoute(); renderMap(); }
+    applyTheme();
+  }
+  function goRoute(){
+    if (state.startChosen && state.at && state.dest) {
+      location.hash = "#/r/" + encodeURIComponent(state.dest);
+      return true;
+    }
+    return false;
+  }
+
+  /* ================= 1. search landing ================= */
+  var FIELD = { from: $("q-from"), to: $("q-to") };
+  var active = null;              // which field the results list belongs to
+  var typed  = { from: "", to: "" };
+
+  function syncFields(){
+    var here = hereLabel(), to = state.dest ? destLabel() : "";
+    if (document.activeElement !== FIELD.from) FIELD.from.value = here || "";
+    if (document.activeElement !== FIELD.to)   FIELD.to.value = to;
+    $("x-from").hidden = !here;
+    $("x-to").hidden = !to;
+    $("swap").disabled = !(here && to);
+    $("f-from").classList.toggle("on", active === "from");
+    $("f-to").classList.toggle("on", active === "to");
+    var hint = $("plan-hint");
+    hint.className = "plan-hint";
+    if (here && to) hint.textContent = "Opening your directions…";
+    else if (to && !here) { hint.textContent = "Now tell me where you are, and the directions open."; hint.className = "plan-hint warn"; }
+    else if (here && !to) hint.textContent = "Type where you want to go, or tap the To box and pick from the list.";
+    else hint.textContent = "Type a room name, or tap a field and pick from the list.";
+  }
+
+  function openField(which){
+    active = which;
+    typed[which] = "";
+    state.browse = null;
+    // The box holds the chosen place; typing should replace it, not append.
+    try { FIELD[which].select(); } catch (e) {}
+    renderPick();
+  }
+  function closeField(){
+    active = null;
+    renderPick();
+  }
+
+  function renderChips(){
+    var box = $("chips");
+    box.innerHTML = "";
+    CAT_KEYS.forEach(function(c){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (state.browse === c.id ? " on" : "");
+      b.textContent = c.icon + " " + c.label;
+      b.onmousedown = function(e){ e.preventDefault(); };   // keep the keyboard focus where it is
+      b.onclick = function(){ state.browse = state.browse === c.id ? null : c.id; renderPick(); };
+      box.appendChild(b);
+    });
+  }
+
+  function renderPick(){
+    syncFields();
+    var res = $("results");
+    res.hidden = active === null;
+    $("quiet").hidden = active !== null;
+    if (active === null) return;
+
+    var raw = typed[active];
+    var searching = raw.trim().length > 0;
+    var list = $("picklist"), rows = [];
+    list.innerHTML = "";
+    $("chips").hidden = searching;
+    if (!searching) renderChips();
+
+    function section(label, rs){
+      if (rs.length) rows.push({ head: label });
+      rows = rows.concat(rs);
+    }
+    if (searching) {
+      section("Matches", searchRows(raw));
+    } else {
+      var cats = state.browse ? CAT_KEYS.filter(function(c){ return c.id === state.browse; }) : CAT_KEYS;
+      cats.forEach(function(c){
+        section(c.label, DESTS.filter(function(r){ return r.cat === c.id; }));
+      });
+    }
+
+    if (!rows.length) {
+      list.innerHTML = '<div class="empty">Nothing matches “' + esc(raw) + '”.<br>Try a room like <b>Library</b> or <b>Cafeteria</b>.</div>';
+      return;
+    }
+    rows.forEach(function(r){
+      if (r.head) {
+        var h = document.createElement("div");
+        h.className = "grp"; h.textContent = r.head;
+        list.appendChild(h);
+        return;
+      }
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "item";
+      b.innerHTML = '<span class="ic" aria-hidden="true">' + (r.icon || "") + '</span>' +
+                    '<span class="tx"><span class="t1">' + esc(r.t1) + '</span>' +
+                    '<span class="t2">' + esc(r.t2) + '</span></span>' +
+                    '<span class="go" aria-hidden="true">›</span>';
+      b.setAttribute("aria-label", r.t1 + ". " + r.t2);
+      // mousedown, not click: a click lands after the input has lost focus
+      // and the list has already been hidden under it.
+      b.onmousedown = function(e){ e.preventDefault(); };
+      b.onclick = function(){ choose(active, r); };
+      list.appendChild(b);
+    });
+  }
+
+  function choose(which, r){
+    if (!G.nodes[r.node]) return;
+    if (which === "from") {
+      state.at = r.node;
+      state.atLabel = r.t1;
+      state.startChosen = true;
+      state.scan = null;
+      state.guessedStart = true;
+    } else {
+      state.dest = r.id;
+    }
+    lastRoute = null;
+    active = null;
+    FIELD[which].blur();
+    header();
+    if (goRoute()) return;
+    renderPick();
+    // One answer down, one to go: put the cursor in the empty box.
+    var other = which === "from" ? "to" : "from";
+    var empty = other === "from" ? !state.startChosen : !state.dest;
+    if (empty) setTimeout(function(){ FIELD[other].focus(); }, 50);
+  }
+
+  function clearField(which){
+    if (which === "from") { state.startChosen = false; state.scan = null; state.atLabel = null; state.guessedStart = false; }
+    else state.dest = null;
+    lastRoute = null;
+    typed[which] = "";
+    FIELD[which].value = "";
+    header(); renderPick();
+    FIELD[which].focus();
+  }
+  $("x-from").onclick = function(){ clearField("from"); };
+  $("x-to").onclick   = function(){ clearField("to"); };
+  $("swap").onclick = function(){
+    if (!(state.startChosen && state.dest)) return;
+    var d = resolveDest(state.dest);
+    if (!d || !d.node) return;
+    var newDest = state.at, newAt = d.node.id;
+    state.dest = newDest; state.at = newAt;
+    state.atLabel = nodeLabel(d.node); state.scan = null; state.guessedStart = true;
+    lastRoute = null;
+    header(); syncFields();
+    goRoute();
+  };
+
+  ["from","to"].forEach(function(which){
+    var el = FIELD[which];
+    el.addEventListener("focus", function(){ openField(which); });
+    el.addEventListener("input", function(){ typed[which] = el.value; renderPick(); });
+    el.addEventListener("keydown", function(e){
+      if (e.key === "Enter" || e.keyCode === 13) { var f = $("picklist").querySelector(".item"); if (f) f.click(); }
+      if (e.key === "Escape") el.blur();
+    });
+    el.addEventListener("blur", function(){
+      // Let a tap on a result land first.
+      setTimeout(function(){ if (document.activeElement !== el && active === which) closeField(); }, 120);
+    });
+  });
+
+  /* ================= 2. directions ================= */
+  var lastRoute = null;
+  var lastKey = null;
+
+  function renderStep(){
+    var r = lastRoute;
+    if (!r || !r.steps) return;
+    var i = state.stepIx, s = r.steps[i], n = r.steps.length;
+
+    var dots = "";
+    for (var k = 0; k < n; k++)
+      dots += '<span class="pdot' + (k <= i ? " on" : "") + '"></span>';
+    $("prog").innerHTML = dots + '<span class="pnum">' + (i + 1) + " / " + n + "</span>";
+
+    var w = $("steps");
+    w.className = "stepwrap" + (s.final ? " arrive" : "");
+    w.innerHTML =
+      '<div class="sg" aria-hidden="true">' + s.glyph + "</div>" +
+      '<div class="st">' + esc(s.text) + "</div>" +
+      (s.len ? '<div class="sm">' + Math.round(s.len) + " m</div>" : "") +
+      '<svg class="mini" id="mini" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of this step"></svg>' +
+      (s.photo ? '<img class="shot" src="photos/' + s.photo + '.jpg" alt="" onerror="this.remove()">' : "");
+
+    // The mini-map shows exactly the bit of corridor this step walks.
+    var from = s.edgeFrom == null ? r.path.edges.length - 1 : s.edgeFrom;
+    var to   = s.edgeTo == null ? r.path.edges.length - 1 : s.edgeTo;
+    drawPlan($("mini"), { route: r, hi: [from, to], fit: "hi", pad: 70, minW: 260 });
+
+    $("s-prev").disabled = i === 0;
+    $("s-next").disabled = i >= n - 1;
+    $("s-next").textContent = i >= n - 1 ? "Arrived" : "Next ›";
+  }
+  function stepBy(d){
+    if (!lastRoute) return;
+    state.stepIx = Math.max(0, Math.min(state.stepIx + d, lastRoute.steps.length - 1));
+    renderStep();
+    var w = $("steps");
+    w.classList.add(d > 0 ? "from-r" : "from-l");
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ w.classList.remove("from-r", "from-l"); });
+    });
+  }
+  function shareUrl(){
+    var path = location.pathname.replace(/[^/]*$/, "index.html");
+    return location.origin + path + "?to=" + encodeURIComponent(state.dest);
+  }
+  function flash(msg){
+    var b = $("r-share"), was = b.textContent;
+    b.textContent = msg;
+    setTimeout(function(){ b.textContent = was; }, 1800);
+  }
+  $("r-share").onclick = async function(){
+    if (!state.dest) return;
+    var url = shareUrl();
+    var text = "Directions to " + destLabel() + (MAP.community ? " at " + MAP.community : "") + ".";
+    if (navigator.share) {
+      try { await navigator.share({ title: "School directions", text: text, url: url }); return; }
+      catch (e) { if (e && e.name === "AbortError") return; }
+    }
+    try { await navigator.clipboard.writeText(url); flash("Link copied"); }
+    catch (e) { window.prompt("Copy this link and send it:", url); }
+  };
+  $("r-map").onclick = function(){ state.mapZoom = "route"; location.hash = "#/map"; };
+
+  $("s-prev").onclick = function(){ stepBy(-1); };
+  $("s-next").onclick = function(){ stepBy(1); };
+
+  /* Swipe between steps. Pointer and touch tracked separately - Chrome cancels
+     the pointer stream a dozen pixels into a horizontal drag. */
+  (function(){
+    var el = $("slide");
+    function tracker(){
+      var sx = 0, sy = 0, live = false, fired = false;
+      return {
+        down: function(x, y){ sx = x; sy = y; live = true; fired = false; },
+        move: function(x, y){
+          if (!live || fired) return;
+          var dx = x - sx, dy = y - sy;
+          if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+          fired = true;
+          stepBy(dx < 0 ? 1 : -1);
+        },
+        end: function(){ live = false; }
+      };
+    }
+    var byPointer = tracker(), byTouch = tracker();
+    el.addEventListener("pointerdown", function(e){
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      byPointer.down(e.clientX, e.clientY);
+    });
+    el.addEventListener("pointermove", function(e){ byPointer.move(e.clientX, e.clientY); });
+    el.addEventListener("pointerup", byPointer.end);
+    el.addEventListener("pointercancel", byPointer.end);
+    el.addEventListener("touchstart", function(e){
+      var t = e.changedTouches[0]; byTouch.down(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener("touchmove", function(e){
+      var t = e.changedTouches[0]; byTouch.move(t.clientX, t.clientY);
+    }, { passive: true });
+    el.addEventListener("touchend", byTouch.end);
+    el.addEventListener("touchcancel", byTouch.end);
+  })();
+
+  function computeRoute(){
+    var r = route(state.at, state.dest, "foot");
+    lastRoute = r.error ? null : r;
+    var key = state.at + ">" + state.dest;
+    if (key !== lastKey) { lastKey = key; state.stepIx = 0; }
+    return r;
+  }
+
+  function renderRoute(){
+    var r = computeRoute();
+
+    if (r.error) {
+      $("r-dest").textContent = "No route";
+      $("r-stats").textContent = "";
+      $("prog").innerHTML = "";
+      $("steps").className = "stepwrap";
+      $("steps").innerHTML = '<div class="empty">' + esc(r.error) +
+        '<br><br>Tap Start over and choose again.</div>';
+      $("s-prev").disabled = $("s-next").disabled = true;
+      $("r-share").hidden = true;
+      $("r-map").hidden = true;
+      return;
+    }
+    $("r-share").hidden = false;
+    $("r-map").hidden = false;
+
+    var metres = r.steps.reduce(function(a,s){ return a + s.len; }, 0);
+    $("r-dest").textContent = destLabel();
+    $("r-stats").textContent = Math.round(metres) + " m · about " +
+      Math.max(1, Math.round(metres / 75)) + " min walk · " + r.steps.length + " steps";
+
+    state.stepIx = Math.max(0, Math.min(state.stepIx, r.steps.length - 1));
+    renderStep();
+  }
+
+  /* ================= plan drawing, shared by the mini-map and the map view ================= */
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs){
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function marker(svg, xy, colour, text, big){
+    var g = el("g", {});
+    var r = big ? 13 : 10;
+    g.appendChild(el("circle", { cx: xy[0], cy: xy[1], r: r, fill: "#ffffff", stroke: colour, "stroke-width": big ? 4 : 3 }));
+    g.appendChild(el("circle", { cx: xy[0], cy: xy[1], r: r * 0.4, fill: colour }));
+    if (text) {
+      var t = el("text", { x: xy[0], y: xy[1] - r - 7, "text-anchor": "middle", "font-size": big ? 15 : 13,
+                           "font-weight": 800, fill: colour, stroke: "#ffffff", "stroke-width": 4,
+                           "paint-order": "stroke", "font-family": "system-ui, sans-serif" });
+      t.textContent = text;
+      g.appendChild(t);
+    }
+    svg.appendChild(g);
+  }
+  function pts(r, i0, i1){
+    var out = [];
+    if (!r || !r.path) return out;
+    out.push(G.nodes[r.path.edges[i0].a].xy);
+    for (var i = i0; i <= i1; i++) out.push(G.nodes[r.path.edges[i].b].xy);
+    return out;
+  }
+  function poly(svg, p, colour, width, dash){
+    var s = p.map(function(q){ return q.join(","); }).join(" ");
+    svg.appendChild(el("polyline", { points: s, fill: "none", stroke: "#ffffff", "stroke-width": width + 5,
+                                     "stroke-linejoin": "round", "stroke-linecap": "round", opacity: 0.9 }));
+    var a = { points: s, fill: "none", stroke: colour, "stroke-width": width,
+              "stroke-linejoin": "round", "stroke-linecap": "round" };
+    if (dash) a["stroke-dasharray"] = dash;
+    svg.appendChild(el("polyline", a));
+  }
+  function bbox(list){
+    var xs = list.map(function(p){ return p[0]; }), ys = list.map(function(p){ return p[1]; });
+    return [Math.min.apply(null, xs), Math.min.apply(null, ys), Math.max.apply(null, xs), Math.max.apply(null, ys)];
+  }
+  function fitTo(svg, b, pad, minW){
+    var box = svg.getBoundingClientRect();
+    var aspect = box.width && box.height ? box.width / box.height : 1.6;
+    var w = Math.max(minW || 300, b[2] - b[0] + pad * 2), h = Math.max((minW || 300) / aspect, b[3] - b[1] + pad * 2);
+    if (w / h < aspect) w = h * aspect; else h = w / aspect;
+    var cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;
+    return [cx - w / 2, cy - h / 2, w, h];
+  }
+  /* Draws the plan, the route and the markers into any svg. Returns the
+     viewBox it chose, so the map view can carry on panning from there. */
+  function drawPlan(svg, o){
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var box = LEVEL.imageBox || [0, 0, MAP.view.w, MAP.view.h];
+    var img = el("image", { x: box[0], y: box[1], width: box[2], height: box[3], href: LEVEL.image });
+    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", LEVEL.image);
+    svg.appendChild(img);
+
+    var r = o.route, all = [], hi = [];
+    if (r && r.path) {
+      all = pts(r, 0, r.path.edges.length - 1);
+      poly(svg, all, "#7fa4e6", 4, "10 8");
+      if (o.hi) { hi = pts(r, o.hi[0], o.hi[1]); poly(svg, hi, "#1f5fd0", 6); }
+    }
+    var here = state.startChosen ? G.nodes[state.at] : null;
+    var dest = state.dest ? resolveDest(state.dest) : null;
+    if (hi.length) marker(svg, hi[0], "#1f5fd0", o.hi[0] === 0 ? "You" : "", false);
+    else if (here) marker(svg, here.xy, "#1f5fd0", "You", true);
+    if (dest && dest.node) marker(svg, dest.node.xy, "#b3261e", nodeLabel(dest.node), o.fit !== "hi");
+    if (hi.length && o.hi[1] === r.path.edges.length - 1 && dest && dest.node) { /* final leg: the flag says it */ }
+    else if (hi.length) marker(svg, hi[hi.length - 1], "#1f5fd0", "", false);
+
+    var focus = o.fit === "hi" && hi.length ? hi : all.slice();
+    if (o.fit !== "hi") { if (here) focus.push(here.xy); if (dest && dest.node) focus.push(dest.node.xy); }
+    var vb;
+    if (o.fit === "whole" || !focus.length) {
+      vb = fitTo(svg, [0, 0, MAP.view.w, MAP.view.h], 10, 300);
+    } else vb = fitTo(svg, bbox(focus), o.pad || 70, o.minW || 360);
+    svg.setAttribute("viewBox", vb.map(function(v){ return Math.round(v * 10) / 10; }).join(" "));
+    return vb;
+  }
+
+  /* ================= 3. floor plan view ================= */
+  var view = null;     // current viewBox [x, y, w, h]
+  function setView(vb){
+    var W = MAP.view.w, H = MAP.view.h;
+    vb[2] = Math.max(120, Math.min(vb[2], W * 1.2));
+    vb[3] = Math.max(60, Math.min(vb[3], H * 1.6));
+    vb[0] = Math.max(-W * 0.1, Math.min(vb[0], W - vb[2] * 0.5));
+    vb[1] = Math.max(-H * 0.3, Math.min(vb[1], H - vb[3] * 0.5));
+    view = vb;
+    $("mapsvg").setAttribute("viewBox", vb.map(function(v){ return Math.round(v * 10) / 10; }).join(" "));
+  }
+  function renderMap(){
+    var svg = $("mapsvg");
+    var hasRoute = !!(lastRoute && lastRoute.path);
+    var vb = drawPlan(svg, { route: lastRoute, fit: state.mapZoom === "route" ? "route" : "whole", pad: 70, minW: 360 });
+    setView(vb);
+    // Tap a room on the plan to make it the destination.
+    MAP.nodes.filter(function(n){ return n.dest; }).forEach(function(n){
+      var hit = el("circle", { cx: n.xy[0], cy: n.xy[1], r: 22, fill: "transparent", "pointer-events": "all" });
+      hit.style.cursor = "pointer";
+      hit.setAttribute("data-id", n.id);
+      svg.appendChild(hit);
+    });
+    var here = state.startChosen ? G.nodes[state.at] : null;
+    var dest = state.dest ? resolveDest(state.dest) : null;
+    $("m-zoom").hidden = !(hasRoute || here || (dest && dest.node));
+    $("m-zoom").textContent = state.mapZoom === "route" ? "Whole floor" : "Zoom in";
+    $("m-title").textContent = hasRoute
+      ? (hereLabel() || "Start") + " → " + destLabel()
+      : levelName(LEVEL.id) + (dest && dest.node ? " · " + nodeLabel(dest.node) : "");
+  }
+  $("m-zoom").onclick = function(){
+    state.mapZoom = state.mapZoom === "route" ? "whole" : "route";
+    renderMap();
+  };
+  $("m-back").onclick = function(){
+    if (state.dest && state.startChosen) location.hash = "#/r/" + encodeURIComponent(state.dest);
+    else location.hash = "#/";
+  };
+  $("pr-map").onclick = function(){ state.mapZoom = "whole"; location.hash = "#/map"; };
+  function zoomBy(f, cx, cy){
+    if (!view) return;
+    var v = view.slice();
+    var px = cx == null ? v[0] + v[2] / 2 : cx, py = cy == null ? v[1] + v[3] / 2 : cy;
+    setView([px - (px - v[0]) * f, py - (py - v[1]) * f, v[2] * f, v[3] * f]);
+  }
+  $("m-in").onclick  = function(){ zoomBy(0.7); };
+  $("m-out").onclick = function(){ zoomBy(1 / 0.7); };
+
+  /* Drag to pan, wheel and pinch to zoom, tap a room to choose it. */
+  (function(){
+    var svg = $("mapsvg");
+    var ptrs = {}, last = null, pinch = null, moved = 0, downId = null;
+    function toMap(x, y){
+      var r = svg.getBoundingClientRect();
+      return [view[0] + (x - r.left) / r.width * view[2], view[1] + (y - r.top) / r.height * view[3]];
+    }
+    svg.addEventListener("pointerdown", function(e){
+      ptrs[e.pointerId] = [e.clientX, e.clientY];
+      svg.setPointerCapture(e.pointerId);
+      svg.classList.add("drag");
+      moved = 0; downId = e.target && e.target.getAttribute ? e.target.getAttribute("data-id") : null;
+      var ids = Object.keys(ptrs);
+      if (ids.length === 2) {
+        var a = ptrs[ids[0]], b = ptrs[ids[1]];
+        pinch = { d: Math.hypot(a[0]-b[0], a[1]-b[1]), v: view.slice() };
+      } else { last = [e.clientX, e.clientY]; pinch = null; }
+    });
+    svg.addEventListener("pointermove", function(e){
+      if (!ptrs[e.pointerId] || !view) return;
+      ptrs[e.pointerId] = [e.clientX, e.clientY];
+      var ids = Object.keys(ptrs);
+      if (ids.length >= 2 && pinch) {
+        var a = ptrs[ids[0]], b = ptrs[ids[1]];
+        var d = Math.hypot(a[0]-b[0], a[1]-b[1]) || 1;
+        var f = pinch.d / d;
+        var mid = toMap((a[0]+b[0])/2, (a[1]+b[1])/2);
+        view = pinch.v.slice();
+        zoomBy(f, mid[0], mid[1]);
+        moved += 10;
+        return;
+      }
+      if (!last) return;
+      var r = svg.getBoundingClientRect();
+      var dx = (e.clientX - last[0]) / r.width * view[2];
+      var dy = (e.clientY - last[1]) / r.height * view[3];
+      moved += Math.abs(e.clientX - last[0]) + Math.abs(e.clientY - last[1]);
+      last = [e.clientX, e.clientY];
+      setView([view[0] - dx, view[1] - dy, view[2], view[3]]);
+    });
+    function up(e){
+      delete ptrs[e.pointerId];
+      if (!Object.keys(ptrs).length) {
+        last = null; pinch = null; svg.classList.remove("drag");
+        if (moved < 8 && downId && DEST_BY[downId]) {
+          state.dest = downId; lastRoute = null;
+          if (state.startChosen) { computeRoute(); state.mapZoom = "route"; }
+          header(); renderMap();
+        }
+        downId = null;
+      } else { var k = Object.keys(ptrs)[0]; last = ptrs[k]; pinch = null; }
+    }
+    svg.addEventListener("pointerup", up);
+    svg.addEventListener("pointercancel", up);
+    svg.addEventListener("wheel", function(e){
+      if (!view) return;
+      e.preventDefault();
+      var m = toMap(e.clientX, e.clientY);
+      zoomBy(e.deltaY > 0 ? 1.15 : 1 / 1.15, m[0], m[1]);
+    }, { passive: false });
+    window.addEventListener("resize", function(){
+      if (state.view === "map") renderMap();
+      if (state.view === "route") renderStep();
+    });
+  })();
+
+  /* ================= dev sheet ================= */
+  function renderAnchors(){
+    var q = $("anchor-q").value.trim().toLowerCase();
+    var box = $("anchor-list");
+    box.innerHTML = "";
+    SCANPOINTS.all.filter(function(s){ return !q || (s.label + " " + s.id).toLowerCase().indexOf(q) >= 0; })
+      .forEach(function(s2){
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = state.scan && state.scan.id === s2.id ? "on" : "";
+        b.textContent = s2.id + " · " + s2.label;
+        b.onclick = function(){
+          applyScan(s2); lastRoute = null;
+          $("sheet").classList.remove("on");
+          header(); show(state.view);
+        };
+        box.appendChild(b);
+      });
+  }
+  $("anchor-q").oninput = renderAnchors;
+  renderAnchors();
+
+  function renderThemeSeg(){
+    Array.prototype.forEach.call($("theme").querySelectorAll("button"), function(b){
+      b.setAttribute("aria-pressed", b.getAttribute("data-v") === state.themePref);
+    });
+  }
+  $("theme").onclick = function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    state.themePref = b.getAttribute("data-v");
+    try { localStorage.setItem("sw_theme", state.themePref); } catch (e2) {}
+    applyTheme();
+  };
+
+  $("clear-cache").onclick = function(){
+    var done = function(){ location.reload(); };
+    if (!("serviceWorker" in navigator)) return done();
+    navigator.serviceWorker.getRegistrations()
+      .then(function(rs){ return Promise.all(rs.map(function(r){ return r.unregister(); })); })
+      .then(function(){ return caches.keys(); })
+      .then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); })
+      .then(done, done);
+  };
+
+  $("gear").onclick = function(){ renderAnchors(); $("sheet").classList.add("on"); };
+  $("sheet-close").onclick = function(){ $("sheet").classList.remove("on"); };
+  $("sheet").onclick = function(e){ if (e.target === $("sheet")) $("sheet").classList.remove("on"); };
+
+  /* The header control: on a journey it starts over; otherwise it drops the
+     cursor into the From box. */
+  $("startbtn").onclick = function(){
+    if ((state.view === "route" || state.view === "map") && state.dest) return startOver();
+    if (state.view !== "pick") { location.hash = "#/"; }
+    setTimeout(function(){ FIELD.from.focus(); }, 50);
+  };
+
+  var spIssues = [];
+  SCANPOINTS.all.forEach(function(sp){
+    if (!G.nodes[sp.node])
+      spIssues.push({ sev:"err", msg:"Placard " + sp.id + " points at unknown node '" + sp.node + "'" });
+    else if (G.nodes[sp.node].level !== sp.level)
+      spIssues.push({ sev:"warn", msg:"Placard " + sp.id + " says level " + sp.level +
+                      " but node " + sp.node + " is on " + G.nodes[sp.node].level });
+  });
+  spIssues.concat(validate()).forEach(function(i){
+    var li = document.createElement("li");
+    li.className = "sev-" + i.sev;
+    li.textContent = (i.sev === "err" ? "✕ " : i.sev === "warn" ? "! " : "· ") + i.msg;
+    $("val").appendChild(li);
+  });
+  if (!$("val").children.length) $("val").innerHTML = '<li class="sev-info">· Map is valid: every room is reachable from every placard.</li>';
+
+  /* ================= shared ================= */
+  function autoTheme(){
+    var lvl = G.nodes[state.at] ? G.nodes[state.at].level : null;
+    var L = (MAP.levels || []).filter(function(x){ return x.id === lvl; })[0];
+    return L && L.underground ? "dark" : "light";
+  }
+  function applyTheme(){
+    var t = state.themePref === "auto" ? autoTheme() : state.themePref;
+    document.documentElement.setAttribute("data-theme", t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", t === "dark" ? "#080f1e" : "#ffffff");
+    renderThemeSeg();
+  }
+
+  function levelName(id){
+    var l = MAP.levels.filter(function(x){ return x.id === id; })[0];
+    return l ? l.name : id;
+  }
+  function header(){
+    var here = hereLabel();
+    var moving = (state.view === "route" || state.view === "map") && state.dest;
+    if (moving) {
+      $("loc-k").textContent = "Your journey";
+      $("youare").textContent = (here || "Start") + "  →  " + destLabel();
+      $("edit-lbl").textContent = "Start over";
+    } else if (state.view === "map") {
+      $("loc-k").textContent = "Floor plan";
+      $("youare").textContent = levelName(LEVEL.id);
+      $("edit-lbl").textContent = "Close";
+    } else {
+      $("loc-k").textContent = "You are at";
+      $("youare").textContent = here || "Type it in the From box";
+      $("edit-lbl").textContent = "Change";
+    }
+    $("startbtn").classList.toggle("guessed", !moving && !!state.guessedStart && !state.scan);
+  }
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    });
+  }
+
+  function showOffline(){ $("offbar").hidden = navigator.onLine; }
+  window.addEventListener("online",  showOffline);
+  window.addEventListener("offline", showOffline);
+  showOffline();
+
+  markHome();
+  window.addEventListener("hashchange", router);
+  header();
+
+  // A shared link (?to=lib) fills the destination; the start is still theirs to answer.
+  if (params.get("to")) {
+    state.dest = params.get("to");
+    if (!goRoute()) { show("pick"); setTimeout(function(){ FIELD.from.focus(); }, 300); }
+  }
+  else router();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,12 @@
+# Never commit the admin password hash or the session-signing secret.
+server/data/config.json
+
+# Published version history is local state, not source.
+server/data/versions/
+server/data/current.json
+
+# Built bundle - regenerate with tools/build-dist.sh
+dist/
+
+# Local HTTPS test certificate and private key - never publish.
+tools/tls/

@@ -1,0 +1,1931 @@
+{
+  "map": {
+    "community": "School",
+    "view": {
+      "w": 1620,
+      "h": 580
+    },
+    "levels": [
+      {
+        "id": "G",
+        "name": "Ground Floor",
+        "underground": false,
+        "image": "plans/school-ground.svg",
+        "imageBox": [
+          0,
+          0,
+          1620,
+          580
+        ]
+      }
+    ],
+    "blocks": [],
+    "slotRuns": [],
+    "allotments": [],
+    "slots": [],
+    "areas": [
+      {
+        "id": "a-kanvas",
+        "level": "G",
+        "node": "kanvas",
+        "name": "Kanvas Studio",
+        "points": [
+          [
+            22,
+            400
+          ],
+          [
+            110,
+            400
+          ],
+          [
+            110,
+            505
+          ],
+          [
+            22,
+            505
+          ]
+        ]
+      },
+      {
+        "id": "a-kukoos",
+        "level": "G",
+        "node": "kukoos",
+        "name": "Kukoos Studio",
+        "points": [
+          [
+            22,
+            296
+          ],
+          [
+            110,
+            296
+          ],
+          [
+            110,
+            400
+          ],
+          [
+            22,
+            400
+          ]
+        ]
+      },
+      {
+        "id": "a-plc",
+        "level": "G",
+        "node": "plc",
+        "name": "PLC",
+        "points": [
+          [
+            110,
+            460
+          ],
+          [
+            215,
+            460
+          ],
+          [
+            215,
+            530
+          ],
+          [
+            110,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-cls1",
+        "level": "G",
+        "node": "cls1",
+        "name": "Classroom 1",
+        "points": [
+          [
+            215,
+            460
+          ],
+          [
+            320,
+            460
+          ],
+          [
+            320,
+            530
+          ],
+          [
+            215,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-conf",
+        "level": "G",
+        "node": "conf",
+        "name": "Conference Room",
+        "points": [
+          [
+            320,
+            460
+          ],
+          [
+            375,
+            460
+          ],
+          [
+            375,
+            530
+          ],
+          [
+            320,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-staff",
+        "level": "G",
+        "node": "staff",
+        "name": "Staffroom",
+        "points": [
+          [
+            405,
+            460
+          ],
+          [
+            445,
+            460
+          ],
+          [
+            445,
+            530
+          ],
+          [
+            405,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-boys-s",
+        "level": "G",
+        "node": "boys-s",
+        "name": "Boys Washroom (south)",
+        "points": [
+          [
+            445,
+            460
+          ],
+          [
+            470,
+            460
+          ],
+          [
+            470,
+            530
+          ],
+          [
+            445,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-girls-s",
+        "level": "G",
+        "node": "girls-s",
+        "name": "Girls Washroom (south)",
+        "points": [
+          [
+            535,
+            460
+          ],
+          [
+            560,
+            460
+          ],
+          [
+            560,
+            530
+          ],
+          [
+            535,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-cls2",
+        "level": "G",
+        "node": "cls2",
+        "name": "Classroom 2",
+        "points": [
+          [
+            560,
+            460
+          ],
+          [
+            705,
+            460
+          ],
+          [
+            705,
+            530
+          ],
+          [
+            560,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-cls3",
+        "level": "G",
+        "node": "cls3",
+        "name": "Classroom 3",
+        "points": [
+          [
+            705,
+            460
+          ],
+          [
+            850,
+            460
+          ],
+          [
+            850,
+            530
+          ],
+          [
+            705,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-cls4",
+        "level": "G",
+        "node": "cls4",
+        "name": "Classroom 4",
+        "points": [
+          [
+            895,
+            460
+          ],
+          [
+            1020,
+            460
+          ],
+          [
+            1020,
+            530
+          ],
+          [
+            895,
+            530
+          ]
+        ]
+      },
+      {
+        "id": "a-stairs-s",
+        "level": "G",
+        "node": "stairs-s",
+        "name": "Stairs (south wall)",
+        "points": [
+          [
+            1166,
+            462
+          ],
+          [
+            1206,
+            462
+          ],
+          [
+            1206,
+            488
+          ],
+          [
+            1166,
+            488
+          ]
+        ]
+      },
+      {
+        "id": "a-stairs-se",
+        "level": "G",
+        "node": "stairs-se",
+        "name": "Stairs (cafeteria corner)",
+        "points": [
+          [
+            1562,
+            470
+          ],
+          [
+            1592,
+            470
+          ],
+          [
+            1592,
+            525
+          ],
+          [
+            1562,
+            525
+          ]
+        ]
+      },
+      {
+        "id": "a-meet",
+        "level": "G",
+        "node": "meet",
+        "name": "Meeting Room",
+        "points": [
+          [
+            430,
+            274
+          ],
+          [
+            502,
+            274
+          ],
+          [
+            502,
+            336
+          ],
+          [
+            430,
+            336
+          ]
+        ]
+      },
+      {
+        "id": "a-stairs-m",
+        "level": "G",
+        "node": "stairs-m",
+        "name": "Stairs (by Meeting Room)",
+        "points": [
+          [
+            502,
+            274
+          ],
+          [
+            535,
+            274
+          ],
+          [
+            535,
+            336
+          ],
+          [
+            502,
+            336
+          ]
+        ]
+      },
+      {
+        "id": "a-cls5",
+        "level": "G",
+        "node": "cls5",
+        "name": "Classroom 5",
+        "points": [
+          [
+            545,
+            274
+          ],
+          [
+            695,
+            274
+          ],
+          [
+            695,
+            336
+          ],
+          [
+            545,
+            336
+          ]
+        ]
+      },
+      {
+        "id": "a-cls6",
+        "level": "G",
+        "node": "cls6",
+        "name": "Classroom 6",
+        "points": [
+          [
+            695,
+            274
+          ],
+          [
+            827,
+            274
+          ],
+          [
+            827,
+            336
+          ],
+          [
+            695,
+            336
+          ]
+        ]
+      },
+      {
+        "id": "a-lr",
+        "level": "G",
+        "node": "lr",
+        "name": "LR",
+        "points": [
+          [
+            262,
+            95
+          ],
+          [
+            302,
+            95
+          ],
+          [
+            302,
+            135
+          ],
+          [
+            262,
+            135
+          ]
+        ]
+      },
+      {
+        "id": "a-stairs-n",
+        "level": "G",
+        "node": "stairs-n",
+        "name": "Stairs (by LR)",
+        "points": [
+          [
+            262,
+            135
+          ],
+          [
+            302,
+            135
+          ],
+          [
+            302,
+            165
+          ],
+          [
+            262,
+            165
+          ]
+        ]
+      },
+      {
+        "id": "a-lib-door",
+        "level": "G",
+        "node": "lib-door",
+        "name": "Library Entrance",
+        "points": [
+          [
+            1087,
+            322
+          ],
+          [
+            1135,
+            322
+          ],
+          [
+            1135,
+            348
+          ],
+          [
+            1087,
+            348
+          ]
+        ]
+      },
+      {
+        "id": "a-teach",
+        "level": "G",
+        "node": "teach",
+        "name": "Teacher's Cubicle",
+        "points": [
+          [
+            1053,
+            348
+          ],
+          [
+            1128,
+            348
+          ],
+          [
+            1128,
+            388
+          ],
+          [
+            1053,
+            388
+          ]
+        ]
+      },
+      {
+        "id": "a-recep",
+        "level": "G",
+        "node": "recep",
+        "name": "Reception 2",
+        "points": [
+          [
+            1157,
+            305
+          ],
+          [
+            1219,
+            305
+          ],
+          [
+            1219,
+            361
+          ],
+          [
+            1157,
+            361
+          ]
+        ]
+      },
+      {
+        "id": "a-stairs-ne",
+        "level": "G",
+        "node": "stairs-ne",
+        "name": "Stairs (by Reception)",
+        "points": [
+          [
+            1405,
+            139
+          ],
+          [
+            1462,
+            139
+          ],
+          [
+            1462,
+            165
+          ],
+          [
+            1405,
+            165
+          ]
+        ]
+      },
+      {
+        "id": "a-caf",
+        "level": "G",
+        "node": "caf",
+        "name": "Cafeteria",
+        "points": [
+          [
+            1435,
+            165
+          ],
+          [
+            1592,
+            165
+          ],
+          [
+            1592,
+            426
+          ],
+          [
+            1435,
+            426
+          ]
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "j-w",
+        "level": "G",
+        "xy": [
+          128,
+          420
+        ]
+      },
+      {
+        "id": "j-plc",
+        "level": "G",
+        "xy": [
+          161,
+          420
+        ]
+      },
+      {
+        "id": "j-cls1",
+        "level": "G",
+        "xy": [
+          265,
+          420
+        ]
+      },
+      {
+        "id": "j-conf",
+        "level": "G",
+        "xy": [
+          344,
+          420
+        ]
+      },
+      {
+        "id": "j-staff",
+        "level": "G",
+        "xy": [
+          411,
+          420
+        ]
+      },
+      {
+        "id": "j-mid",
+        "level": "G",
+        "xy": [
+          466,
+          420
+        ]
+      },
+      {
+        "id": "j-stm",
+        "level": "G",
+        "xy": [
+          519,
+          420
+        ]
+      },
+      {
+        "id": "j-cls2",
+        "level": "G",
+        "xy": [
+          615,
+          420
+        ]
+      },
+      {
+        "id": "j-cls3",
+        "level": "G",
+        "xy": [
+          760,
+          420
+        ]
+      },
+      {
+        "id": "j-entr",
+        "level": "G",
+        "xy": [
+          872,
+          420
+        ]
+      },
+      {
+        "id": "j-cls4",
+        "level": "G",
+        "xy": [
+          957,
+          420
+        ]
+      },
+      {
+        "id": "j-teach",
+        "level": "G",
+        "xy": [
+          1090,
+          420
+        ]
+      },
+      {
+        "id": "j-lobby",
+        "level": "G",
+        "xy": [
+          1150,
+          420
+        ]
+      },
+      {
+        "id": "j-caf",
+        "level": "G",
+        "xy": [
+          1513,
+          420
+        ]
+      },
+      {
+        "id": "j-se",
+        "level": "G",
+        "xy": [
+          1577,
+          420
+        ]
+      },
+      {
+        "id": "j-kuk",
+        "level": "G",
+        "xy": [
+          128,
+          348
+        ]
+      },
+      {
+        "id": "j-wing",
+        "level": "G",
+        "xy": [
+          122,
+          285
+        ]
+      },
+      {
+        "id": "p-hive1",
+        "level": "G",
+        "xy": [
+          154,
+          210
+        ]
+      },
+      {
+        "id": "p-boys",
+        "level": "G",
+        "xy": [
+          182,
+          169
+        ]
+      },
+      {
+        "id": "p-wash",
+        "level": "G",
+        "xy": [
+          204,
+          136
+        ]
+      },
+      {
+        "id": "p-girls",
+        "level": "G",
+        "xy": [
+          228,
+          101
+        ]
+      },
+      {
+        "id": "p-north",
+        "level": "G",
+        "xy": [
+          245,
+          125
+        ]
+      },
+      {
+        "id": "a-top",
+        "level": "G",
+        "xy": [
+          330,
+          165
+        ]
+      },
+      {
+        "id": "a-door",
+        "level": "G",
+        "xy": [
+          405,
+          225
+        ]
+      },
+      {
+        "id": "a-side",
+        "level": "G",
+        "xy": [
+          412,
+          380
+        ]
+      },
+      {
+        "id": "l-gap",
+        "level": "G",
+        "xy": [
+          1145,
+          372
+        ]
+      },
+      {
+        "id": "lobby",
+        "level": "G",
+        "xy": [
+          1290,
+          290
+        ],
+        "name": "Reception lobby"
+      },
+      {
+        "id": "kanvas",
+        "level": "G",
+        "xy": [
+          66,
+          453
+        ],
+        "dest": true,
+        "cat": "studio",
+        "name": "Kanvas Studio"
+      },
+      {
+        "id": "kukoos",
+        "level": "G",
+        "xy": [
+          66,
+          348
+        ],
+        "dest": true,
+        "cat": "studio",
+        "name": "Kukoos Studio"
+      },
+      {
+        "id": "plc",
+        "level": "G",
+        "xy": [
+          163,
+          495
+        ],
+        "dest": true,
+        "cat": "common",
+        "name": "PLC"
+      },
+      {
+        "id": "cls1",
+        "level": "G",
+        "xy": [
+          268,
+          495
+        ],
+        "dest": true,
+        "cat": "class",
+        "name": "Classroom 1",
+        "sub": "Grade not filled in"
+      },
+      {
+        "id": "conf",
+        "level": "G",
+        "xy": [
+          348,
+          495
+        ],
+        "dest": true,
+        "cat": "office",
+        "name": "Conference Room"
+      },
+      {
+        "id": "staff",
+        "level": "G",
+        "xy": [
+          425,
+          495
+        ],
+        "dest": true,
+        "cat": "office",
+        "name": "Staffroom"
+      },
+      {
+        "id": "boys-s",
+        "level": "G",
+        "xy": [
+          458,
+          495
+        ],
+        "dest": true,
+        "cat": "wash",
+        "name": "Boys Washroom (south)"
+      },
+      {
+        "id": "girls-s",
+        "level": "G",
+        "xy": [
+          548,
+          495
+        ],
+        "dest": true,
+        "cat": "wash",
+        "name": "Girls Washroom (south)"
+      },
+      {
+        "id": "cls2",
+        "level": "G",
+        "xy": [
+          633,
+          495
+        ],
+        "dest": true,
+        "cat": "class",
+        "name": "Classroom 2",
+        "sub": "Grade not filled in"
+      },
+      {
+        "id": "cls3",
+        "level": "G",
+        "xy": [
+          778,
+          495
+        ],
+        "dest": true,
+        "cat": "class",
+        "name": "Classroom 3",
+        "sub": "Grade not filled in"
+      },
+      {
+        "id": "cls4",
+        "level": "G",
+        "xy": [
+          958,
+          495
+        ],
+        "dest": true,
+        "cat": "class",
+        "name": "Classroom 4"
+      },
+      {
+        "id": "stairs-s",
+        "level": "G",
+        "xy": [
+          1186,
+          475
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "Stairs (south wall)"
+      },
+      {
+        "id": "stairs-se",
+        "level": "G",
+        "xy": [
+          1577,
+          498
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "Stairs (cafeteria corner)"
+      },
+      {
+        "id": "meet",
+        "level": "G",
+        "xy": [
+          466,
+          305
+        ],
+        "dest": true,
+        "cat": "office",
+        "name": "Meeting Room"
+      },
+      {
+        "id": "stairs-m",
+        "level": "G",
+        "xy": [
+          519,
+          305
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "Stairs (by Meeting Room)"
+      },
+      {
+        "id": "cls5",
+        "level": "G",
+        "xy": [
+          620,
+          305
+        ],
+        "dest": true,
+        "cat": "class",
+        "name": "Classroom 5",
+        "sub": "Grade not filled in"
+      },
+      {
+        "id": "cls6",
+        "level": "G",
+        "xy": [
+          761,
+          305
+        ],
+        "dest": true,
+        "cat": "class",
+        "name": "Classroom 6",
+        "sub": "Grade not filled in"
+      },
+      {
+        "id": "lr",
+        "level": "G",
+        "xy": [
+          282,
+          115
+        ],
+        "dest": true,
+        "cat": "common",
+        "name": "LR"
+      },
+      {
+        "id": "stairs-n",
+        "level": "G",
+        "xy": [
+          282,
+          150
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "Stairs (by LR)"
+      },
+      {
+        "id": "lib-door",
+        "level": "G",
+        "xy": [
+          1111,
+          335
+        ],
+        "dest": true,
+        "cat": "entry",
+        "name": "Library Entrance"
+      },
+      {
+        "id": "teach",
+        "level": "G",
+        "xy": [
+          1091,
+          368
+        ],
+        "dest": true,
+        "cat": "office",
+        "name": "Teacher's Cubicle"
+      },
+      {
+        "id": "recep",
+        "level": "G",
+        "xy": [
+          1188,
+          333
+        ],
+        "dest": true,
+        "cat": "entry",
+        "name": "Reception 2",
+        "anchor": true
+      },
+      {
+        "id": "stairs-ne",
+        "level": "G",
+        "xy": [
+          1434,
+          152
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "Stairs (by Reception)"
+      },
+      {
+        "id": "caf",
+        "level": "G",
+        "xy": [
+          1514,
+          296
+        ],
+        "dest": true,
+        "cat": "food",
+        "name": "Cafeteria"
+      },
+      {
+        "id": "hive2",
+        "level": "G",
+        "xy": [
+          74,
+          240
+        ],
+        "dest": true,
+        "cat": "studio",
+        "name": "Maker's Hive-2"
+      },
+      {
+        "id": "hive1",
+        "level": "G",
+        "xy": [
+          113,
+          182
+        ],
+        "dest": true,
+        "cat": "studio",
+        "name": "Maker's Hive-1"
+      },
+      {
+        "id": "boys-n",
+        "level": "G",
+        "xy": [
+          141,
+          141
+        ],
+        "dest": true,
+        "cat": "wash",
+        "name": "Boys Washroom (north)"
+      },
+      {
+        "id": "girls-n",
+        "level": "G",
+        "xy": [
+          187,
+          72
+        ],
+        "dest": true,
+        "cat": "wash",
+        "name": "Girls Washroom (north)"
+      },
+      {
+        "id": "prints",
+        "level": "G",
+        "xy": [
+          262,
+          186
+        ],
+        "dest": true,
+        "cat": "office",
+        "name": "Prints Room"
+      },
+      {
+        "id": "amph",
+        "level": "G",
+        "xy": [
+          283,
+          290
+        ],
+        "dest": true,
+        "cat": "common",
+        "name": "Amphitheatre",
+        "sub": "Open steps - not labelled on the sketch"
+      },
+      {
+        "id": "lib",
+        "level": "G",
+        "xy": [
+          930,
+          250
+        ],
+        "dest": true,
+        "cat": "common",
+        "name": "Library"
+      },
+      {
+        "id": "entrance",
+        "level": "G",
+        "xy": [
+          872,
+          475
+        ],
+        "dest": true,
+        "cat": "entry",
+        "name": "Main Entrance",
+        "anchor": true,
+        "gate": true
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-j-w-j-plc",
+        "from": "j-w",
+        "to": "j-plc",
+        "mode": [
+          "foot"
+        ],
+        "len": 3,
+        "instruction": null
+      },
+      {
+        "id": "e-j-plc-j-cls1",
+        "from": "j-plc",
+        "to": "j-cls1",
+        "mode": [
+          "foot"
+        ],
+        "len": 10,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls1-j-conf",
+        "from": "j-cls1",
+        "to": "j-conf",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-conf-j-staff",
+        "from": "j-conf",
+        "to": "j-staff",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-j-staff-j-mid",
+        "from": "j-staff",
+        "to": "j-mid",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-j-mid-j-stm",
+        "from": "j-mid",
+        "to": "j-stm",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-j-stm-j-cls2",
+        "from": "j-stm",
+        "to": "j-cls2",
+        "mode": [
+          "foot"
+        ],
+        "len": 10,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls2-j-cls3",
+        "from": "j-cls2",
+        "to": "j-cls3",
+        "mode": [
+          "foot"
+        ],
+        "len": 15,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls3-j-entr",
+        "from": "j-cls3",
+        "to": "j-entr",
+        "mode": [
+          "foot"
+        ],
+        "len": 11,
+        "instruction": null
+      },
+      {
+        "id": "e-j-entr-j-cls4",
+        "from": "j-entr",
+        "to": "j-cls4",
+        "mode": [
+          "foot"
+        ],
+        "len": 9,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls4-j-teach",
+        "from": "j-cls4",
+        "to": "j-teach",
+        "mode": [
+          "foot"
+        ],
+        "len": 13,
+        "instruction": null
+      },
+      {
+        "id": "e-j-teach-j-lobby",
+        "from": "j-teach",
+        "to": "j-lobby",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-j-lobby-j-caf",
+        "from": "j-lobby",
+        "to": "j-caf",
+        "mode": [
+          "foot"
+        ],
+        "len": 36,
+        "instruction": null
+      },
+      {
+        "id": "e-j-caf-j-se",
+        "from": "j-caf",
+        "to": "j-se",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-j-plc-plc",
+        "from": "j-plc",
+        "to": "plc",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls1-cls1",
+        "from": "j-cls1",
+        "to": "cls1",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-conf-conf",
+        "from": "j-conf",
+        "to": "conf",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-staff-staff",
+        "from": "j-staff",
+        "to": "staff",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-mid-boys-s",
+        "from": "j-mid",
+        "to": "boys-s",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-stm-girls-s",
+        "from": "j-stm",
+        "to": "girls-s",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls2-cls2",
+        "from": "j-cls2",
+        "to": "cls2",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls3-cls3",
+        "from": "j-cls3",
+        "to": "cls3",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls4-cls4",
+        "from": "j-cls4",
+        "to": "cls4",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-lobby-stairs-s",
+        "from": "j-lobby",
+        "to": "stairs-s",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-j-se-stairs-se",
+        "from": "j-se",
+        "to": "stairs-se",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-j-mid-meet",
+        "from": "j-mid",
+        "to": "meet",
+        "mode": [
+          "foot"
+        ],
+        "len": 12,
+        "instruction": null
+      },
+      {
+        "id": "e-j-stm-stairs-m",
+        "from": "j-stm",
+        "to": "stairs-m",
+        "mode": [
+          "foot"
+        ],
+        "len": 12,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls2-cls5",
+        "from": "j-cls2",
+        "to": "cls5",
+        "mode": [
+          "foot"
+        ],
+        "len": 12,
+        "instruction": null
+      },
+      {
+        "id": "e-j-cls3-cls6",
+        "from": "j-cls3",
+        "to": "cls6",
+        "mode": [
+          "foot"
+        ],
+        "len": 12,
+        "instruction": null
+      },
+      {
+        "id": "e-j-teach-teach",
+        "from": "j-teach",
+        "to": "teach",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-j-caf-caf",
+        "from": "j-caf",
+        "to": "caf",
+        "mode": [
+          "foot"
+        ],
+        "len": 12,
+        "instruction": null
+      },
+      {
+        "id": "e-entrance-j-entr",
+        "from": "entrance",
+        "to": "j-entr",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": "Come in through the Main Entrance. The long corridor runs both ways in front of you.",
+        "instructionRev": "Go out through the Main Entrance."
+      },
+      {
+        "id": "e-j-w-j-kuk",
+        "from": "j-w",
+        "to": "j-kuk",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": "Take the narrow passage between the studios and the amphitheatre.",
+        "instructionRev": "Come down the passage to the main corridor."
+      },
+      {
+        "id": "e-j-w-kanvas",
+        "from": "j-w",
+        "to": "kanvas",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-j-kuk-kukoos",
+        "from": "j-kuk",
+        "to": "kukoos",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-j-kuk-j-wing",
+        "from": "j-kuk",
+        "to": "j-wing",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-j-wing-hive2",
+        "from": "j-wing",
+        "to": "hive2",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-j-wing-p-hive1",
+        "from": "j-wing",
+        "to": "p-hive1",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": "Follow the bent wing, keeping the Maker's Hives beside you.",
+        "instructionRev": "Follow the bent wing back down towards the studios."
+      },
+      {
+        "id": "e-p-hive1-hive1",
+        "from": "p-hive1",
+        "to": "hive1",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-p-hive1-p-boys",
+        "from": "p-hive1",
+        "to": "p-boys",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-p-boys-boys-n",
+        "from": "p-boys",
+        "to": "boys-n",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-p-boys-p-wash",
+        "from": "p-boys",
+        "to": "p-wash",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-p-wash-p-girls",
+        "from": "p-wash",
+        "to": "p-girls",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-p-girls-girls-n",
+        "from": "p-girls",
+        "to": "girls-n",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-p-girls-p-north",
+        "from": "p-girls",
+        "to": "p-north",
+        "mode": [
+          "foot"
+        ],
+        "len": 3,
+        "instruction": null
+      },
+      {
+        "id": "e-p-north-lr",
+        "from": "p-north",
+        "to": "lr",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-p-north-stairs-n",
+        "from": "p-north",
+        "to": "stairs-n",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-p-north-prints",
+        "from": "p-north",
+        "to": "prints",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-p-north-a-top",
+        "from": "p-north",
+        "to": "a-top",
+        "mode": [
+          "foot"
+        ],
+        "len": 9,
+        "instruction": "Walk along the top of the amphitheatre.",
+        "instructionRev": "Walk back along the top of the amphitheatre."
+      },
+      {
+        "id": "e-a-top-a-door",
+        "from": "a-top",
+        "to": "a-door",
+        "mode": [
+          "foot"
+        ],
+        "len": 10,
+        "instruction": null
+      },
+      {
+        "id": "e-a-door-amph",
+        "from": "a-door",
+        "to": "amph",
+        "mode": [
+          "foot"
+        ],
+        "len": 14,
+        "instruction": "Go down the steps into the amphitheatre.",
+        "instructionRev": "Climb the steps out of the amphitheatre."
+      },
+      {
+        "id": "e-a-door-a-side",
+        "from": "a-door",
+        "to": "a-side",
+        "mode": [
+          "foot"
+        ],
+        "len": 16,
+        "instruction": null
+      },
+      {
+        "id": "e-a-side-j-mid",
+        "from": "a-side",
+        "to": "j-mid",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-j-lobby-l-gap",
+        "from": "j-lobby",
+        "to": "l-gap",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": "Go up through the gap between the Teacher's Cubicle and Reception 2.",
+        "instructionRev": "Come back down past Reception 2 to the corridor."
+      },
+      {
+        "id": "e-l-gap-lobby",
+        "from": "l-gap",
+        "to": "lobby",
+        "mode": [
+          "foot"
+        ],
+        "len": 17,
+        "instruction": null
+      },
+      {
+        "id": "e-lobby-recep",
+        "from": "lobby",
+        "to": "recep",
+        "mode": [
+          "foot"
+        ],
+        "len": 11,
+        "instruction": null
+      },
+      {
+        "id": "e-recep-l-gap",
+        "from": "recep",
+        "to": "l-gap",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": null
+      },
+      {
+        "id": "e-lobby-stairs-ne",
+        "from": "lobby",
+        "to": "stairs-ne",
+        "mode": [
+          "foot"
+        ],
+        "len": 20,
+        "instruction": null
+      },
+      {
+        "id": "e-l-gap-lib-door",
+        "from": "l-gap",
+        "to": "lib-door",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": "Go through the Library Entrance, beside the Teacher's Cubicle.",
+        "instructionRev": "Leave the library through the Library Entrance."
+      },
+      {
+        "id": "e-lib-door-lib",
+        "from": "lib-door",
+        "to": "lib",
+        "mode": [
+          "foot"
+        ],
+        "len": 20,
+        "instruction": null
+      }
+    ]
+  },
+  "scanPoints": [
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "ME",
+      "node": "entrance",
+      "label": "Main Entrance",
+      "mount": "Inside the entrance door, at eye level."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "RC",
+      "node": "recep",
+      "label": "Reception 2",
+      "mount": "On the reception counter."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "CF",
+      "node": "caf",
+      "label": "Cafeteria",
+      "mount": "Beside the cafeteria door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "LB",
+      "node": "lib-door",
+      "label": "Library Entrance",
+      "mount": "On the library door frame."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "AM",
+      "node": "amph",
+      "label": "Amphitheatre",
+      "mount": "On the post at the top of the steps."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "PL",
+      "node": "plc",
+      "label": "PLC",
+      "mount": "Beside the PLC door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "SR",
+      "node": "staff",
+      "label": "Staffroom",
+      "mount": "Beside the staffroom door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "MR",
+      "node": "meet",
+      "label": "Meeting Room",
+      "mount": "Beside the meeting room door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "KV",
+      "node": "kanvas",
+      "label": "Kanvas Studio",
+      "mount": "Beside the studio door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "KK",
+      "node": "kukoos",
+      "label": "Kukoos Studio",
+      "mount": "Beside the studio door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "MH",
+      "node": "hive1",
+      "label": "Maker's Hive-1",
+      "mount": "Beside the Maker's Hive-1 door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "CR",
+      "node": "conf",
+      "label": "Conference Room",
+      "mount": "Beside the conference room door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "TC",
+      "node": "teach",
+      "label": "Teacher's Cubicle",
+      "mount": "On the cubicle partition."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "SS",
+      "node": "stairs-s",
+      "label": "South stairs",
+      "mount": "At the foot of the stairs."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "SN",
+      "node": "stairs-ne",
+      "label": "Stairs by Reception",
+      "mount": "At the foot of the stairs."
+    }
+  ]
+}

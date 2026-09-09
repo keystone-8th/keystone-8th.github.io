@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080f1e">
+<title>School Wayfinding — Map Admin</title>
+<style>
+  :root{
+    --bg:#05070f; --surface:#0c1424; --surface-2:#15203a; --line:#24314f;
+    --text:#f3f6fc; --muted:#9aaacb; --accent:#5b9bff; --accent-ink:#04101f;
+    --warn:#f0b866; --err:#ff8f8a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:26px 16px 70px}
+  h1{font-size:22px;margin:0 0 4px}
+  .lede{color:var(--muted);font-size:14px;margin:0 0 20px;max-width:74ch}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:18px;margin-bottom:18px}
+  h2{font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+  label{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--muted);font-weight:800;margin:0 0 6px}
+  input,textarea{width:100%;padding:12px;font:inherit;background:var(--surface-2);
+    border:1px solid var(--line);border-radius:10px;color:var(--text)}
+  textarea{min-height:190px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+  input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{border:1px solid var(--line);background:var(--surface-2);color:var(--text);
+    font:inherit;font-weight:700;border-radius:10px;padding:12px 18px;cursor:pointer;min-height:46px}
+  button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .row>div{flex:1 1 220px}
+  .pill{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;
+    padding:4px 11px;border:1px solid var(--line);background:var(--surface-2)}
+  .pill.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;
+    background:var(--surface-2);border-left:3px solid var(--accent)}
+  .msg.bad{border-left-color:var(--err);color:var(--err)}
+  .msg.warn{border-left-color:var(--warn);color:var(--warn)}
+  ul.issues{margin:12px 0 0;padding-left:20px;font-size:13.5px;max-height:320px;overflow:auto}
+  ul.issues li{margin:4px 0}
+  .e{color:var(--err);font-weight:650}.w{color:var(--warn)}.i{color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td{padding:9px 6px;border-bottom:1px solid var(--line)}
+  code{font:600 12.5px ui-monospace,Menlo,Consolas,monospace;background:var(--surface-2);
+    padding:2px 6px;border-radius:5px}
+  .hide{display:none}
+</style>
+</head>
+<body><div class="wrap">
+
+<h1>Map admin</h1>
+<p class="lede">Upload a map, validate it, publish it. A map that fails validation is never
+published — the validator here is the exact same code the visitor app runs, so it cannot
+disagree with what people will actually experience.</p>
+
+<!-- ---------- login ---------- -->
+<div class="panel" id="login-panel">
+  <h2>Sign in</h2>
+  <label for="pw">Admin password</label>
+  <input id="pw" type="password" autocomplete="current-password" placeholder="••••••••••">
+  <div class="btns"><button class="primary" id="login">Sign in</button></div>
+  <div id="login-msg"></div>
+</div>
+
+<!-- ---------- workspace ---------- -->
+<div id="work" class="hide">
+  <div class="panel">
+    <h2>Current published map</h2>
+    <div id="current">—</div>
+    <div class="btns"><button id="logout">Sign out</button></div>
+  </div>
+
+  <div class="panel">
+    <h2>Upload</h2>
+    <div class="row">
+      <div>
+        <label for="file">Choose a map bundle (.json)</label>
+        <input id="file" type="file" accept="application/json,.json">
+      </div>
+      <div>
+        <label for="note">Note (optional)</label>
+        <input id="note" type="text" placeholder="e.g. fixed B2 aisle 2 direction">
+      </div>
+    </div>
+    <label for="json" style="margin-top:14px">…or paste it here</label>
+    <textarea id="json" spellcheck="false" placeholder='{ "map": { "levels": [...], "nodes": [...], "edges": [...] }, "scanPoints": [...] }'></textarea>
+    <div class="btns">
+      <button id="validate">Validate only</button>
+      <button class="primary" id="publish" disabled>Publish</button>
+      <button id="loadcur">Load current map into the box</button>
+      <a href="editor.html" style="align-self:center;margin-left:4px">Open the map editor →</a>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Version history</h2>
+    <table id="versions"><tr><td>—</td></tr></table>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var lastValidBundle = null;
+
+  function api(path, opts){
+    return fetch(path, Object.assign({ credentials:"same-origin" }, opts||{}))
+      .then(function(r){ return r.json().then(function(j){ return { status:r.status, body:j }; }); });
+  }
+
+  function msg(el, text, cls){
+    el.innerHTML = '<div class="msg ' + (cls||'') + '">' + text + '</div>';
+  }
+
+  function renderIssues(container, issues, headline, cls){
+    var html = '<div class="msg ' + (cls||'') + '">' + headline + '</div>';
+    if (issues && issues.length){
+      html += '<ul class="issues">' + issues.map(function(i){
+        var mark = i.sev === "err" ? "✕" : i.sev === "warn" ? "!" : "·";
+        return '<li class="' + (i.sev==="err"?"e":i.sev==="warn"?"w":"i") + '">' +
+               mark + " " + i.msg + '</li>';
+      }).join("") + '</ul>';
+    }
+    container.innerHTML = html;
+  }
+
+  function refresh(){
+    api("/api/status").then(function(r){
+      var authed = r.body.authed;
+      $("login-panel").className = authed ? "panel hide" : "panel";
+      $("work").className = authed ? "" : "hide";
+      if (!authed) return;
+      var c = r.body.current;
+      $("current").innerHTML = c
+        ? '<span class="pill on">live</span> <code>' + c.version + '</code>' +
+          '<div style="margin-top:8px;color:var(--muted);font-size:13.5px">Published ' +
+          new Date(c.publishedAt).toLocaleString() + (c.note ? ' — ' + c.note : '') + '</div>'
+        : '<span class="pill">nothing published yet</span>' +
+          '<div style="margin-top:8px;color:var(--muted);font-size:13.5px">The app is running on its ' +
+          'bundled map.js until you publish.</div>';
+      loadVersions();
+    });
+  }
+
+  function loadVersions(){
+    api("/api/versions").then(function(r){
+      var vs = (r.body.versions)||[], cur = r.body.current && r.body.current.version;
+      $("versions").innerHTML = vs.length ? vs.map(function(v){
+        return '<tr><td><code>' + v + '</code> ' +
+               (v===cur ? '<span class="pill on">live</span>' : '') + '</td>' +
+               '<td style="text-align:right">' +
+               (v===cur ? '' : '<button data-v="' + v + '" class="rb">Roll back to this</button>') +
+               '</td></tr>';
+      }).join("") : '<tr><td>No versions yet.</td></tr>';
+      Array.prototype.forEach.call(document.querySelectorAll(".rb"), function(b){
+        b.onclick = function(){
+          if (!confirm("Roll back to " + b.dataset.v + "? This replaces the live map.")) return;
+          api("/api/rollback/" + encodeURIComponent(b.dataset.v), { method:"POST" })
+            .then(function(r){
+              if (r.body.ok) { msg($("result"), "Rolled back to " + b.dataset.v + ".", ""); refresh(); }
+              else renderIssues($("result"), r.body.issues, r.body.error, "bad");
+            });
+        };
+      });
+    });
+  }
+
+  $("login").onclick = function(){
+    api("/api/login", { method:"POST", headers:{"Content-Type":"application/json"},
+                        body: JSON.stringify({ password: $("pw").value }) })
+      .then(function(r){
+        if (r.body.ok) { $("pw").value = ""; $("login-msg").innerHTML = ""; refresh(); }
+        else msg($("login-msg"), r.body.error || "Sign-in failed", "bad");
+      });
+  };
+  $("pw").onkeydown = function(e){ if (e.key === "Enter") $("login").click(); };
+  $("logout").onclick = function(){ api("/api/logout", { method:"POST" }).then(refresh); };
+
+  $("file").onchange = function(){
+    var f = $("file").files[0];
+    if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function(){ $("json").value = fr.result; $("publish").disabled = true;
+                            msg($("result"), "Loaded " + f.name + " — validate it before publishing.", ""); };
+    fr.readAsText(f);
+  };
+
+  function parseBox(){
+    try { return { ok:true, value: JSON.parse($("json").value) }; }
+    catch(e){ return { ok:false, error: e.message }; }
+  }
+
+  $("validate").onclick = function(){
+    var p = parseBox();
+    if (!p.ok) { $("publish").disabled = true; return msg($("result"), "Invalid JSON: " + p.error, "bad"); }
+    api("/api/validate", { method:"POST", headers:{"Content-Type":"application/json"},
+                           body: JSON.stringify(p.value) })
+      .then(function(r){
+        var b = r.body;
+        if (b.ok){
+          lastValidBundle = p.value;
+          $("publish").disabled = false;
+          renderIssues($("result"), b.issues,
+            "Valid — 0 errors, " + b.warnings + " warning(s). Safe to publish.",
+            b.warnings ? "warn" : "");
+        } else {
+          lastValidBundle = null;
+          $("publish").disabled = true;
+          renderIssues($("result"), b.issues,
+            b.errors + " error(s) — fix these before publishing.", "bad");
+        }
+      });
+  };
+
+  $("publish").onclick = function(){
+    var p = parseBox();
+    if (!p.ok) return msg($("result"), "Invalid JSON: " + p.error, "bad");
+    var note = encodeURIComponent($("note").value || "");
+    api("/api/publish?note=" + note, { method:"POST", headers:{"Content-Type":"application/json"},
+                                       body: JSON.stringify(p.value) })
+      .then(function(r){
+        if (r.body.ok){
+          renderIssues($("result"), r.body.issues,
+            "Published as " + r.body.published.version + ". The app is live on it now.", "");
+          $("publish").disabled = true;
+          refresh();
+        } else {
+          renderIssues($("result"), r.body.issues, r.body.error, "bad");
+        }
+      });
+  };
+
+  $("loadcur").onclick = function(){
+    fetch("/map.js").then(function(r){ return r.text(); }).then(function(t){
+      var i = t.indexOf("{");
+      var j = t.lastIndexOf("}");
+      if (i < 0 || j < 0) return msg($("result"), "Could not read the current map.js", "bad");
+      $("json").value = JSON.stringify({ map: JSON.parse(t.slice(i, j+1)) }, null, 2);
+      $("publish").disabled = true;
+      msg($("result"), "Loaded the live map. Edit it, validate, then publish.", "");
+    }).catch(function(e){ msg($("result"), "Could not load map.js: " + e.message, "bad"); });
+  };
+
+  refresh();
+})();
+</script>
+</div></body>
+</html>
