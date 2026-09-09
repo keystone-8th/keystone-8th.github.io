@@ -18,6 +18,7 @@ with a small map of each step.
 | `tools/build-school-map.js` | Generates `map.js`, the SVG, `scanpoints.js` and `maps/school-ground.json` from one room list |
 | `tools/make-placards.js` | Generates the QR codes (`qr-png/`) and a print sheet (`placards.html`) |
 | `tools/placard-sheet.py` | Puts every QR code on one labelled poster, `qr-png/all-placards.png` |
+| `tools/stamp-sw.js` | Gives the offline copy a new version stamp so phones pick up changes |
 | `plans/school-map-transcription.md` | The sketch, read into text |
 
 ## Change the map
@@ -47,6 +48,12 @@ Reception, further than the sketch suggests.
 4. Make the placards (see below) and push again.
 
 Nothing else is needed: the app is static files and never talks to a server.
+
+After editing `index.html`, `engine.js` or `sw.js` by hand, run
+`node tools/stamp-sw.js` before pushing (the map builder does it for you).
+Phones keep a saved copy of the app for use without signal, and only replace
+it when this stamp changes. A phone that already has the app open may need
+one reload to pick up a new version.
 `tools/deploy.sh` is an optional script that builds a minimal bundle in `dist/`
 and pushes it; the plain push above works just as well.
 

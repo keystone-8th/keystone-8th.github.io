@@ -18,7 +18,7 @@
          network genuinely is not there.
    ============================================================ */
 
-const VERSION    = "school-v1";
+const VERSION    = "school-6023707571";
 const DATA_FILES = ["map.js", "scanpoints.js"];
 const NET_TIMEOUT = 2500;
 
@@ -85,6 +85,9 @@ self.addEventListener("activate", event => {
 
 /* ---------- helpers ---------- */
 function isData(url) {
+  // The floor plan is part of the map, not part of the shell: a redrawn plan
+  // must show up as soon as there is signal, the same as a changed map.js.
+  if (url.pathname.indexOf("/plans/") >= 0) return true;
   return DATA_FILES.some(f => url.pathname.endsWith("/" + f) || url.pathname === "/" + f);
 }
 

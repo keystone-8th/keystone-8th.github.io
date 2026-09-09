@@ -512,3 +512,6 @@ SCANPOINTS.forEach(p => {
 });
 console.log("nodes " + NODES.length + ", edges " + EDGES.length + ", destinations " + NODES.filter(n => n.dest).length + ", placards " + SCANPOINTS.length);
 if (issues.some(i => i.sev === "err")) process.exit(1);
+
+/* A new map means a new saved-copy name, or phones keep showing the old one. */
+require("child_process").execFileSync(process.execPath, [path.join(__dirname, "stamp-sw.js")], { stdio: "inherit" });

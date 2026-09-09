@@ -1236,6 +1236,13 @@
     window.addEventListener("load", function(){
       navigator.serviceWorker.register("sw.js").catch(function(){});
     });
+    // A new version has just taken over from the saved copy this page was
+    // drawn from. Reload once so the visitor sees it now, not next time.
+    // (No controller at load means this is the first visit - nothing to swap.)
+    var hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      if (hadController && !window.__reloading) { window.__reloading = true; location.reload(); }
+    });
   }
 
   function showOffline(){ $("offbar").hidden = navigator.onLine; }
