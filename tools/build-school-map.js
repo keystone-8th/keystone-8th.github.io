@@ -17,13 +17,14 @@ const fs = require("fs");
 const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 
-const W = 2850, H = 580;
+const W = 2850, H = 650;
 /* The cafeteria is about 150 m along the corridor from Reception - the sketch
    drew it next door, but the paper was short, not the corridor. */
 const CAF_X = 2650;
 /* The Gallery Area: the open stretch between the lobby and the cafeteria,
-   laid out as a rock garden. Open to the corridor along its south side. */
-const GAL = { x: 1500, y: 240, w: 1050, h: 169 };
+   laid out as a rock garden on the SOUTH side of the corridor, open to the
+   corridor along its top edge. */
+const GAL = { x: 1500, y: 460, w: 1050, h: 169 };
 const M_PER_PX = 0.1;
 
 /* ---------- rooms: rectangles [x, y, w, h] ---------- */
@@ -339,7 +340,7 @@ function rock(cx, cy, r) {
 }
 function gallery(g) {
   rect(g.x, g.y, g.w, g.h, { fill: "url(#gravel)" });
-  line(g.x, g.y, g.x + g.w, g.y, { stroke: C.wall, "stroke-width": 3 });
+  line(g.x, g.y + g.h, g.x + g.w, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
   line(g.x, g.y, g.x, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
   line(g.x + g.w, g.y, g.x + g.w, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
   // a winding stepping-stone path through the middle
@@ -356,8 +357,8 @@ function gallery(g) {
   }
   for (let i = 0; i < 60; i++) rock(g.x + 12 + rnd() * (g.w - 24), g.y + 12 + rnd() * (g.h - 24), 2 + rnd() * 2.5);
   // a few shrubs and benches along the edges
-  [0.15, 0.4, 0.65, 0.9].forEach(f => { tree(g.x + g.w * f, g.y + 26, 9); });
-  [0.28, 0.55, 0.8].forEach(f => bench(g.x + g.w * f - 20, g.y + g.h - 12, 40));
+  [0.15, 0.4, 0.65, 0.9].forEach(f => { tree(g.x + g.w * f, g.y + g.h - 26, 9); });
+  [0.28, 0.55, 0.8].forEach(f => bench(g.x + g.w * f - 20, g.y + 10, 40));
 }
 function plant(cx, cy) { circle(cx, cy, 4, { fill: "#8e7b5c" }); circle(cx, cy, 3, { fill: C.treeDark }); }
 function bench(x, y, w) { rect(x, y, w, 4, { fill: C.wood, stroke: C.woodDark, "stroke-width": 0.5 }); }
@@ -424,7 +425,7 @@ svg.push('<defs>' +
 rect(0, 0, W, H, { fill: "url(#lawn)" });
 rect(CAF_X - 60, 548, 300, 32, { fill: C.walk });          // and a path to the cafeteria door
 [[700, 555], [780, 556], [1000, 556], [1080, 555]].forEach(p => tree(p[0], p[1], 9));
-[[60, 200], [130, 60], [560, 120], [700, 100], [1220, 60], [1330, 70], [1560, 80], [1700, 200], [1900, 120], [2100, 240], [2300, 90], [2500, 200], [2780, 100], [2790, 520], [1800, 520], [2200, 530]].forEach(p => tree(p[0], p[1], 12));
+[[60, 200], [130, 60], [560, 120], [700, 100], [1220, 60], [1330, 70], [1560, 80], [1700, 200], [1900, 120], [2100, 240], [2300, 90], [2500, 200], [2780, 100], [2790, 520], [1800, 615], [2200, 625]].forEach(p => tree(p[0], p[1], 12));
 [[610, 60], [1520, 500]].forEach(p => tree(p[0], p[1], 8));
 
 // corridors and open floors
@@ -447,7 +448,7 @@ pathd("M223 240 a55 55 0 0 0 0 100 z", { fill: "#cbbfa4", stroke: C.wall, "strok
 svg.push('</g>');
 
 // walls that are not rooms
-[[110, 460, CAF_X + 157, 460], [1219, 409, 1383, 409], [1383, 409, 1383, 139], [1135, 139, 1383, 139], [1383, 409, GAL.x, 409], [GAL.x + GAL.w, 409, CAF_X, 409], [1383, 336, 1383, 409], [CAF_X + 157, 139, CAF_X + 157, 530],
+[[110, 460, GAL.x, 460], [GAL.x + GAL.w, 460, CAF_X + 157, 460], [1219, 409, 1383, 409], [1383, 409, 1383, 139], [1135, 139, 1383, 139], [1383, 409, CAF_X, 409], [1383, 336, 1383, 409], [CAF_X + 157, 139, CAF_X + 157, 530],
  [830, 150, 1030, 150], [1030, 150, 1030, 322], [830, 150, 830, 336], [830, 336, 1053, 336]]
   .forEach(l => line(l[0], l[1], l[2], l[3], { stroke: C.wall, "stroke-width": 3 }));
 
@@ -492,13 +493,13 @@ line(1005, 233, 1005, 258, { stroke: C.wall, "stroke-width": 1 }); line(1025, 23
 
 // the gallery area
 gallery(GAL);
-label(GAL.x + GAL.w / 2, GAL.y + 60, "Gallery Area", { size: 16, weight: 700, halo: "#e3ddd0" });
+label(GAL.x + GAL.w / 2, GAL.y + GAL.h - 60, "Gallery Area", { size: 16, weight: 700, halo: "#e3ddd0" });
 
 // lobby and corridor: seating and plants
 bench(1240, 200, 40); bench(1300, 200, 40);
 plant(1150, 150); plant(1370, 150); plant(1370, 395);
 bench(560, 340, 40); bench(1240, 445, 40); bench(1300, 445, 40); plant(140, 345); plant(CAF_X + 140, 345);
-for (let x = 1480; x < CAF_X - 60; x += 220) { bench(x + 110, 445, 40); if (x < GAL.x - 60 || x > GAL.x + GAL.w) { bench(x, 340, 40); plant(x + 60, 348); } }
+for (let x = 1480; x < CAF_X - 60; x += 220) { bench(x, 340, 40); plant(x + 60, 348); if (x + 150 < GAL.x || x + 110 > GAL.x + GAL.w) bench(x + 110, 445, 40); }
 
 
 // labels

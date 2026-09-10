@@ -3,7 +3,7 @@ const MAP = {
   "community": "School",
   "view": {
     "w": 2850,
-    "h": 580
+    "h": 650
   },
   "levels": [
     {
@@ -15,7 +15,7 @@ const MAP = {
         0,
         0,
         2850,
-        580
+        650
       ]
     }
   ],
@@ -1188,7 +1188,7 @@ const MAP = {
       "level": "G",
       "xy": [
         2025,
-        335
+        555
       ],
       "dest": true,
       "cat": "common",
@@ -1821,7 +1821,7 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 9,
+      "len": 14,
       "instruction": null
     }
   ]
