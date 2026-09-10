@@ -36,7 +36,9 @@ any room is unreachable from a placard.
 The grades on the sketch were left blank, so classrooms are numbered 1 to 6.
 The big rounded shape with steps is unlabelled on the sketch; the app calls it
 the Amphitheatre. The Cafeteria sits about 150 m along the corridor from
-Reception, further than the sketch suggests.
+Reception, further than the sketch suggests, with the Gallery Area (a rock
+garden) along the way. The doorway the sketch shows beside Classroom 3 is not
+an entrance, so the map has none there.
 
 ## Put it on GitHub Pages
 
@@ -82,7 +84,7 @@ Reception and the lobby stairs. Add or remove them in the builder.
 python -m http.server 8139
 ```
 
-Then open `http://localhost:8139/?s=ME`. The `s=` code is the placard that
+Then open `http://localhost:8139/?s=RC`. The `s=` code is the placard that
 was scanned. `?to=lib` pre-fills a destination for a shared link. The gear
 button at the top right has a test panel where you can pretend to scan any
 placard.

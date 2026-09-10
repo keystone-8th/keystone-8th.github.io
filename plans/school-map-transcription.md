@@ -47,3 +47,6 @@ east wall) | stairs (bottom-right corner) | stairs (on the south wall, mid-way)
 * The Cafeteria is about 150 m further along the corridor to the right than
   the sketch shows; the paper ran out, not the corridor. The map places it
   there, with the corner stairs beside it. The lobby stairs stay by Reception.
+* The open stretch between the lobby and the Cafeteria is the Gallery Area, a
+  rock garden. The double-line doorway drawn beside Classroom 3 is not a main
+  entrance; there is no entrance there.

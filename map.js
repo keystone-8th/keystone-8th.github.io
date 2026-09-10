@@ -675,14 +675,6 @@ const MAP = {
       ]
     },
     {
-      "id": "j-entr",
-      "level": "G",
-      "xy": [
-        872,
-        420
-      ]
-    },
-    {
       "id": "j-cls4",
       "level": "G",
       "xy": [
@@ -711,6 +703,14 @@ const MAP = {
       "level": "G",
       "xy": [
         1700,
+        420
+      ]
+    },
+    {
+      "id": "j-gal",
+      "level": "G",
+      "xy": [
+        2025,
         420
       ]
     },
@@ -1184,17 +1184,16 @@ const MAP = {
       "name": "Library"
     },
     {
-      "id": "entrance",
+      "id": "gallery",
       "level": "G",
       "xy": [
-        872,
-        475
+        2025,
+        335
       ],
       "dest": true,
-      "cat": "entry",
-      "name": "Main Entrance",
-      "anchor": true,
-      "gate": true
+      "cat": "common",
+      "name": "Gallery Area",
+      "sub": "Rock garden on the way to the Cafeteria"
     }
   ],
   "edges": [
@@ -1279,23 +1278,13 @@ const MAP = {
       "instruction": null
     },
     {
-      "id": "e-j-cls3-j-entr",
+      "id": "e-j-cls3-j-cls4",
       "from": "j-cls3",
-      "to": "j-entr",
-      "mode": [
-        "foot"
-      ],
-      "len": 11,
-      "instruction": null
-    },
-    {
-      "id": "e-j-entr-j-cls4",
-      "from": "j-entr",
       "to": "j-cls4",
       "mode": [
         "foot"
       ],
-      "len": 9,
+      "len": 20,
       "instruction": null
     },
     {
@@ -1326,17 +1315,27 @@ const MAP = {
         "foot"
       ],
       "len": 55,
-      "instruction": "Follow the long corridor all the way to the far end. The Cafeteria is at the end of it.",
+      "instruction": "Follow the long corridor towards the Cafeteria. The Gallery Area opens off it on the way.",
       "instructionRev": "Follow the long corridor back towards Reception 2."
     },
     {
-      "id": "e-j-e1-j-e2",
+      "id": "e-j-e1-j-gal",
       "from": "j-e1",
+      "to": "j-gal",
+      "mode": [
+        "foot"
+      ],
+      "len": 33,
+      "instruction": null
+    },
+    {
+      "id": "e-j-gal-j-e2",
+      "from": "j-gal",
       "to": "j-e2",
       "mode": [
         "foot"
       ],
-      "len": 55,
+      "len": 23,
       "instruction": null
     },
     {
@@ -1528,17 +1527,6 @@ const MAP = {
       ],
       "len": 12,
       "instruction": null
-    },
-    {
-      "id": "e-entrance-j-entr",
-      "from": "entrance",
-      "to": "j-entr",
-      "mode": [
-        "foot"
-      ],
-      "len": 6,
-      "instruction": "Come in through the Main Entrance. The long corridor runs both ways in front of you.",
-      "instructionRev": "Go out through the Main Entrance."
     },
     {
       "id": "e-j-w-j-kuk",
@@ -1824,6 +1812,16 @@ const MAP = {
         "foot"
       ],
       "len": 20,
+      "instruction": null
+    },
+    {
+      "id": "e-j-gal-gallery",
+      "from": "j-gal",
+      "to": "gallery",
+      "mode": [
+        "foot"
+      ],
+      "len": 9,
       "instruction": null
     }
   ]

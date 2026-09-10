@@ -21,6 +21,9 @@ const W = 2850, H = 580;
 /* The cafeteria is about 150 m along the corridor from Reception - the sketch
    drew it next door, but the paper was short, not the corridor. */
 const CAF_X = 2650;
+/* The Gallery Area: the open stretch between the lobby and the cafeteria,
+   laid out as a rock garden. Open to the corridor along its south side. */
+const GAL = { x: 1500, y: 240, w: 1050, h: 169 };
 const M_PER_PX = 0.1;
 
 /* ---------- rooms: rectangles [x, y, w, h] ---------- */
@@ -87,8 +90,8 @@ function centre(b) { return [b[0] + b[2]/2, b[1] + b[3]/2]; }
 /* corridor spine, y = 420 */
 const SPINE = [
   ["j-w", 128], ["j-plc", 161], ["j-cls1", 265], ["j-conf", 344], ["j-staff", 411],
-  ["j-mid", 466], ["j-stm", 519], ["j-cls2", 615], ["j-cls3", 760], ["j-entr", 872],
-  ["j-cls4", 957], ["j-teach", 1090], ["j-lobby", 1150], ["j-e1", 1700], ["j-e2", 2250], ["j-caf", CAF_X + 78], ["j-se", CAF_X + 142]
+  ["j-mid", 466], ["j-stm", 519], ["j-cls2", 615], ["j-cls3", 760],
+  ["j-cls4", 957], ["j-teach", 1090], ["j-lobby", 1150], ["j-e1", 1700], ["j-gal", GAL.x + GAL.w / 2], ["j-e2", 2250], ["j-caf", CAF_X + 78], ["j-se", CAF_X + 142]
 ];
 SPINE.forEach(([id, x]) => node(id, [x, 420]));
 
@@ -116,7 +119,7 @@ WING.rooms.filter(r => r.cat !== "none").forEach(r => {
 node("prints",   [262, 186],  { dest: true, cat: "office", name: "Prints Room" });
 node("amph",     [283, 290],  { dest: true, cat: "common", name: "Amphitheatre", sub: "Open steps - not labelled on the sketch" });
 node("lib",      [930, 250],  { dest: true, cat: "common", name: "Library" });
-node("entrance", [872, 475],  { dest: true, cat: "entry", name: "Main Entrance", anchor: true, gate: true });
+node("gallery",  [GAL.x + GAL.w / 2, GAL.y + GAL.h / 2 + 10], { dest: true, cat: "common", name: "Gallery Area", sub: "Rock garden on the way to the Cafeteria" });
 NODES.find(n => n.id === "recep").anchor = true;
 
 const BY = {}; NODES.forEach(n => BY[n.id] = n);
@@ -133,7 +136,7 @@ function edge(a, b, text, rev, extra) {
 
 for (let i = 1; i < SPINE.length; i++) {
   if (SPINE[i-1][0] === "j-lobby")
-    edge("j-lobby", "j-e1", "Follow the long corridor all the way to the far end. The Cafeteria is at the end of it.",
+    edge("j-lobby", "j-e1", "Follow the long corridor towards the Cafeteria. The Gallery Area opens off it on the way.",
                             "Follow the long corridor back towards Reception 2.");
   else edge(SPINE[i-1][0], SPINE[i][0]);
 }
@@ -143,10 +146,6 @@ for (let i = 1; i < SPINE.length; i++) {
  ["j-stm","girls-s"],["j-cls2","cls2"],["j-cls3","cls3"],["j-cls4","cls4"],["j-lobby","stairs-s"],
  ["j-se","stairs-se"],["j-mid","meet"],["j-stm","stairs-m"],["j-cls2","cls5"],["j-cls3","cls6"],
  ["j-teach","teach"],["j-caf","caf"]].forEach(([j, r]) => edge(j, r));
-
-edge("entrance", "j-entr",
-  "Come in through the Main Entrance. The long corridor runs both ways in front of you.",
-  "Go out through the Main Entrance.");
 
 edge("j-w", "j-kuk",
   "Take the narrow passage between the studios and the amphitheatre.",
@@ -182,6 +181,7 @@ edge("lobby", "stairs-ne");
 edge("l-gap", "lib-door", "Go through the Library Entrance, beside the Teacher's Cubicle.",
                           "Leave the library through the Library Entrance.");
 edge("lib-door", "lib");
+edge("j-gal", "gallery");
 
 const MAP = {
   community: "School",
@@ -201,7 +201,6 @@ const MAP = {
    the URL short, which keeps the QR code coarse enough to scan from a metre
    away. */
 const SCANPOINTS = [
-  { id: "ME", node: "entrance", label: "Main Entrance",     mount: "Inside the entrance door, at eye level." },
   { id: "RC", node: "recep",    label: "Reception 2",       mount: "On the reception counter." },
   { id: "CF", node: "caf",      label: "Cafeteria",         mount: "Beside the cafeteria door." },
   { id: "LB", node: "lib-door", label: "Library Entrance",  mount: "On the library door frame." },
@@ -215,7 +214,8 @@ const SCANPOINTS = [
   { id: "CR", node: "conf",     label: "Conference Room",   mount: "Beside the conference room door." },
   { id: "TC", node: "teach",    label: "Teacher's Cubicle", mount: "On the cubicle partition." },
   { id: "SS", node: "stairs-s", label: "Stairs opposite Reception", mount: "At the foot of the stairs." },
-  { id: "SN", node: "stairs-ne",label: "Cafeteria Stairs", mount: "At the foot of the stairs, in the lobby behind Reception 2." }
+  { id: "SN", node: "stairs-ne",label: "Cafeteria Stairs", mount: "At the foot of the stairs, in the lobby behind Reception 2." },
+  { id: "GA", node: "gallery",  label: "Gallery Area",      mount: "On the wall at the corridor end of the rock garden." }
 ].map(p => Object.assign({ level: "G", audience: "foot", rev: 1 }, p));
 
 /* ============================================================
@@ -322,6 +322,43 @@ function tree(cx, cy, r) {
   circle(cx, cy, r, { fill: C.tree });
   circle(cx - r * 0.3, cy - r * 0.3, r * 0.55, { fill: C.treeDark, opacity: 0.55 });
 }
+/* Small deterministic generator so the rocks land in the same places every build. */
+let seed = 7;
+function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+function rock(cx, cy, r) {
+  const n = 6 + Math.floor(rnd() * 3), pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2, rr = r * (0.7 + rnd() * 0.5);
+    pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr * 0.8]);
+  }
+  const d = pts.map(p => p.map(v => r1(v)).join(",")).join(" ");
+  svg.push('<polygon points="' + d + '" transform="translate(2 2)" fill="rgba(0,0,0,.14)"/>');
+  svg.push('<polygon points="' + d + '" fill="#a8a196" stroke="#6e685f" stroke-width="1"/>');
+  // a lighter face so it reads as a lump, not a blot
+  svg.push('<polygon points="' + pts.slice(0, Math.ceil(n / 2) + 1).map(p => r1(p[0] - r * 0.15) + "," + r1(p[1] - r * 0.15)).join(" ") + '" fill="#c4bdb1" opacity="0.7"/>');
+}
+function gallery(g) {
+  rect(g.x, g.y, g.w, g.h, { fill: "url(#gravel)" });
+  line(g.x, g.y, g.x + g.w, g.y, { stroke: C.wall, "stroke-width": 3 });
+  line(g.x, g.y, g.x, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
+  line(g.x + g.w, g.y, g.x + g.w, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
+  // a winding stepping-stone path through the middle
+  for (let x = g.x + 40; x < g.x + g.w - 30; x += 34) {
+    const y = g.y + g.h / 2 + Math.sin((x - g.x) / 90) * 28;
+    svg.push('<ellipse cx="' + r1(x) + '" cy="' + r1(y) + '" rx="12" ry="8" fill="#d8d2c6" stroke="#9a9388" stroke-width="1"/>');
+  }
+  // boulders of three sizes, kept off the stepping stones
+  for (let i = 0; i < 26; i++) {
+    const x = g.x + 25 + rnd() * (g.w - 50), y = g.y + 22 + rnd() * (g.h - 44);
+    const mid = g.y + g.h / 2 + Math.sin((x - g.x) / 90) * 28;
+    if (Math.abs(y - mid) < 22) continue;
+    rock(x, y, 7 + rnd() * 13);
+  }
+  for (let i = 0; i < 60; i++) rock(g.x + 12 + rnd() * (g.w - 24), g.y + 12 + rnd() * (g.h - 24), 2 + rnd() * 2.5);
+  // a few shrubs and benches along the edges
+  [0.15, 0.4, 0.65, 0.9].forEach(f => { tree(g.x + g.w * f, g.y + 26, 9); });
+  [0.28, 0.55, 0.8].forEach(f => bench(g.x + g.w * f - 20, g.y + g.h - 12, 40));
+}
 function plant(cx, cy) { circle(cx, cy, 4, { fill: "#8e7b5c" }); circle(cx, cy, 3, { fill: C.treeDark }); }
 function bench(x, y, w) { rect(x, y, w, 4, { fill: C.wood, stroke: C.woodDark, "stroke-width": 0.5 }); }
 
@@ -380,12 +417,11 @@ svg.push('<defs>' +
   '<pattern id="lawn" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="' + C.grass + '"/><circle cx="4" cy="5" r="1" fill="#c8d6ae"/><circle cx="10" cy="11" r="1" fill="#c8d6ae"/></pattern>' +
   '<clipPath id="amc"><ellipse cx="283" cy="290" rx="120" ry="112"/></clipPath>' +
   '<clipPath id="amr"><rect x="300" y="150" width="130" height="290"/></clipPath>' +
+  '<pattern id="gravel" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#e3ddd0"/><circle cx="3" cy="3" r="0.9" fill="#c9c2b4"/><circle cx="7.5" cy="7" r="0.7" fill="#c9c2b4"/></pattern>' +
   '</defs>');
 
 // grounds
 rect(0, 0, W, H, { fill: "url(#lawn)" });
-rect(852, 470, 40, 110, { fill: C.walk });                 // footpath to the entrance
-rect(600, 548, 700, 32, { fill: C.walk });                 // the path along the front
 rect(CAF_X - 60, 548, 300, 32, { fill: C.walk });          // and a path to the cafeteria door
 [[700, 555], [780, 556], [1000, 556], [1080, 555]].forEach(p => tree(p[0], p[1], 9));
 [[60, 200], [130, 60], [560, 120], [700, 100], [1220, 60], [1330, 70], [1560, 80], [1700, 200], [1900, 120], [2100, 240], [2300, 90], [2500, 200], [2780, 100], [2790, 520], [1800, 520], [2200, 530]].forEach(p => tree(p[0], p[1], 12));
@@ -411,7 +447,7 @@ pathd("M223 240 a55 55 0 0 0 0 100 z", { fill: "#cbbfa4", stroke: C.wall, "strok
 svg.push('</g>');
 
 // walls that are not rooms
-[[110, 460, CAF_X + 157, 460], [1219, 409, 1383, 409], [1383, 409, 1383, 139], [1135, 139, 1383, 139], [1383, 409, CAF_X, 409], [1383, 336, 1383, 409], [CAF_X + 157, 139, CAF_X + 157, 530],
+[[110, 460, CAF_X + 157, 460], [1219, 409, 1383, 409], [1383, 409, 1383, 139], [1135, 139, 1383, 139], [1383, 409, GAL.x, 409], [GAL.x + GAL.w, 409, CAF_X, 409], [1383, 336, 1383, 409], [CAF_X + 157, 139, CAF_X + 157, 530],
  [830, 150, 1030, 150], [1030, 150, 1030, 322], [830, 150, 830, 336], [830, 336, 1053, 336]]
   .forEach(l => line(l[0], l[1], l[2], l[3], { stroke: C.wall, "stroke-width": 3 }));
 
@@ -454,20 +490,16 @@ tree(975, 185, 10); tree(1000, 200, 7); tree(965, 210, 6);
 for (let i = 0; i < 5; i++) line(1005, 235 + i * 5, 1025, 235 + i * 5, { stroke: C.wall, "stroke-width": 1 });
 line(1005, 233, 1005, 258, { stroke: C.wall, "stroke-width": 1 }); line(1025, 233, 1025, 258, { stroke: C.wall, "stroke-width": 1 });
 
+// the gallery area
+gallery(GAL);
+label(GAL.x + GAL.w / 2, GAL.y + 60, "Gallery Area", { size: 16, weight: 700, halo: "#e3ddd0" });
+
 // lobby and corridor: seating and plants
 bench(1240, 200, 40); bench(1300, 200, 40);
 plant(1150, 150); plant(1370, 150); plant(1370, 395);
 bench(560, 340, 40); bench(1240, 445, 40); bench(1300, 445, 40); plant(140, 345); plant(CAF_X + 140, 345);
-for (let x = 1480; x < CAF_X - 60; x += 220) { bench(x, 340, 40); bench(x + 110, 445, 40); plant(x + 60, 348); }
+for (let x = 1480; x < CAF_X - 60; x += 220) { bench(x + 110, 445, 40); if (x < GAL.x - 60 || x > GAL.x + GAL.w) { bench(x, 340, 40); plant(x + 60, 348); } }
 
-// main entrance: double doors, mat, canopy posts
-rect(852, 452, 40, 16, { fill: C.corridor });
-line(852, 460, 892, 460, { stroke: C.corridor, "stroke-width": 5 });
-pathd("M852 460 v-16 a16 16 0 0 1 16 16", { fill: "none", stroke: C.wall, "stroke-width": 1 });
-pathd("M892 460 v-16 a16 16 0 0 0 -16 16", { fill: "none", stroke: C.wall, "stroke-width": 1 });
-rect(856, 462, 32, 10, { fill: "#b9b1a0", opacity: 0.8 });
-circle(850, 486, 2, { fill: C.wall }); circle(894, 486, 2, { fill: C.wall });
-label(872, 500, "Main Entrance", { size: 10, halo: C.walk });
 
 // labels
 ROOMS.forEach(r => fitLabel(r, r.box[0], r.box[1], r.box[2], r.box[3]));
