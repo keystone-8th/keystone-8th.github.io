@@ -331,20 +331,20 @@ const MAP = {
       "name": "Stairs (cafeteria corner)",
       "points": [
         [
-          2777,
-          470
+          2700,
+          462
         ],
         [
           2807,
-          470
+          462
         ],
         [
           2807,
-          525
+          494
         ],
         [
-          2777,
-          525
+          2700,
+          494
         ]
       ]
     },
@@ -986,8 +986,8 @@ const MAP = {
       "id": "stairs-se",
       "level": "F1",
       "xy": [
-        2792,
-        498
+        2754,
+        478
       ],
       "dest": true,
       "cat": "stairs",
@@ -1617,7 +1617,7 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 8,
+      "len": 7,
       "instruction": null
     },
     {

@@ -49,7 +49,7 @@ const ROOMS = [
   { id: "cls3",    name: "Classroom 3",        cat: "class",  box: [705, 460, 145,  70], door: "n", sub: "Grade not filled in" },
   { id: "cls4",    name: "Classroom 4",        cat: "class",  box: [895, 460, 125,  70], door: "n" },
   { id: "stairs-s",name: "Stairs (opposite Reception)",cat: "stairs", box: [1166, 462, 40, 26], short: "stairs", dir: "h" },
-  { id: "stairs-se",name:"Stairs (cafeteria corner)", cat: "stairs", box: [CAF_X + 127, 470, 30, 55], short: "stairs", dir: "v" },
+  { id: "stairs-se",name:"Stairs (cafeteria corner)", cat: "stairs", box: [CAF_X + 50, 462, 107, 32], short: "stairs", dir: "hl" },
 
   // middle row (north of the corridor)
   { id: "meet",    name: "Meeting Room",       cat: "office", box: [430, 274,  72,  62], door: "s" },
@@ -380,9 +380,12 @@ function washroom(x, y, w, h, vertical) {
 }
 function stairs(x, y, w, h, dir) {
   const n = 6;
-  if (dir === "h") for (let i = 1; i < n; i++) line(x + w * i / n, y + 2, x + w * i / n, y + h - 2, { stroke: C.wall, "stroke-width": 1 });
+  const across = dir === "h" || dir === "hl";
+  if (across) for (let i = 1; i < n; i++) line(x + w * i / n, y + 2, x + w * i / n, y + h - 2, { stroke: C.wall, "stroke-width": 1 });
   else for (let i = 1; i < n; i++) line(x + 2, y + h * i / n, x + w - 2, y + h * i / n, { stroke: C.wall, "stroke-width": 1 });
-  if (dir === "h") pathd("M" + r1(x + 5) + " " + r1(y + h / 2) + " H" + r1(x + w - 7) + " m-4 -3 l4 3 l-4 3", { fill: "none", stroke: "#7a5a2a", "stroke-width": 1.4 });
+  // The arrow points the way UP, so it says which way the flight is climbed.
+  if (dir === "h")       pathd("M" + r1(x + 5) + " " + r1(y + h / 2) + " H" + r1(x + w - 7) + " m-4 -3 l4 3 l-4 3", { fill: "none", stroke: "#7a5a2a", "stroke-width": 1.4 });
+  else if (dir === "hl") pathd("M" + r1(x + w - 5) + " " + r1(y + h / 2) + " H" + r1(x + 7) + " m4 -3 l-4 3 l4 3", { fill: "none", stroke: "#7a5a2a", "stroke-width": 1.4 });
   else pathd("M" + r1(x + w / 2) + " " + r1(y + h - 5) + " V" + r1(y + 7) + " m-3 4 l3 -4 l3 4", { fill: "none", stroke: "#7a5a2a", "stroke-width": 1.4 });
 }
 function shelves(x, y, w, h, vertical) {

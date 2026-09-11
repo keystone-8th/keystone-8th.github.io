@@ -370,13 +370,13 @@
 <line x1="1192.7" y1="464" x2="1192.7" y2="486" stroke="#3d3934" stroke-width="1"/>
 <line x1="1199.3" y1="464" x2="1199.3" y2="486" stroke="#3d3934" stroke-width="1"/>
 <path d="M1171 475 H1199 m-4 -3 l4 3 l-4 3" fill="none" stroke="#7a5a2a" stroke-width="1.4"/>
-<rect x="2777" y="470" width="30" height="55" fill="#f4efe3" stroke="#3d3934" stroke-width="2.5"/>
-<line x1="2779" y1="479.2" x2="2805" y2="479.2" stroke="#3d3934" stroke-width="1"/>
-<line x1="2779" y1="488.3" x2="2805" y2="488.3" stroke="#3d3934" stroke-width="1"/>
-<line x1="2779" y1="497.5" x2="2805" y2="497.5" stroke="#3d3934" stroke-width="1"/>
-<line x1="2779" y1="506.7" x2="2805" y2="506.7" stroke="#3d3934" stroke-width="1"/>
-<line x1="2779" y1="515.8" x2="2805" y2="515.8" stroke="#3d3934" stroke-width="1"/>
-<path d="M2792 520 V477 m-3 4 l3 -4 l3 4" fill="none" stroke="#7a5a2a" stroke-width="1.4"/>
+<rect x="2700" y="462" width="107" height="32" fill="#f4efe3" stroke="#3d3934" stroke-width="2.5"/>
+<line x1="2717.8" y1="464" x2="2717.8" y2="492" stroke="#3d3934" stroke-width="1"/>
+<line x1="2735.7" y1="464" x2="2735.7" y2="492" stroke="#3d3934" stroke-width="1"/>
+<line x1="2753.5" y1="464" x2="2753.5" y2="492" stroke="#3d3934" stroke-width="1"/>
+<line x1="2771.3" y1="464" x2="2771.3" y2="492" stroke="#3d3934" stroke-width="1"/>
+<line x1="2789.2" y1="464" x2="2789.2" y2="492" stroke="#3d3934" stroke-width="1"/>
+<path d="M2802 478 H2707 m4 -3 l-4 3 l4 3" fill="none" stroke="#7a5a2a" stroke-width="1.4"/>
 <rect x="430" y="274" width="72" height="62" fill="#f4efe3" stroke="#3d3934" stroke-width="2.5"/>
 <rect x="441" y="293" width="50" height="24" rx="12" fill="#e6d9bf" stroke="#a98756" stroke-width="0.8"/>
 <circle cx="447.3" cy="288" r="2.3" fill="#8d8a83"/>
@@ -1014,7 +1014,7 @@
 <text x="777.5" y="495" font-size="12.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="777.5">Classroom 3</tspan></text>
 <text x="957.5" y="495" font-size="12.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="957.5">Classroom 4</tspan></text>
 <text x="1186" y="475" font-size="10.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="1186">stairs</tspan></text>
-<text x="2792" y="497.5" font-size="10" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" transform="rotate(-90 2792 497.5)" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="2792">stairs</tspan></text>
+<text x="2753.5" y="478" font-size="12.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="2753.5">stairs</tspan></text>
 <text x="466" y="298.7" font-size="10.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="466">Meeting</tspan><tspan x="466" dy="12.075">Room</tspan></text>
 <text x="518.5" y="305" font-size="10" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" transform="rotate(-90 518.5 305)" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="518.5">stairs</tspan></text>
 <text x="620" y="305" font-size="12.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="620">Classroom 5</tspan></text>
