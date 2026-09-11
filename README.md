@@ -46,7 +46,9 @@ garden) along the way. The doorway drawn beside Classroom 3 is not an entrance.
 
 The ground floor is one long block with a corridor down the middle: the
 Infirmary at the west end, Reception and the Lift in the middle, a staircase at
-each end. The EYP Atelier is a wedge attached to the north side, with Atelier
+each end. Its corridor ends at the First Floor Stairs, under Reception 2 on
+the floor above; the first floor carries on east from there to the Gallery Area
+and the Cafeteria. The EYP Atelier is a wedge attached to the north side, with Atelier
 Classes 1 to 4 along its straight wall, Classes 5 to 8 and the washrooms along
 its angled wall, and a planted courtyard between them.
 

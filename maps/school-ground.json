@@ -1275,15 +1275,7 @@
         "id": "gc-eyp",
         "level": "G",
         "xy": [
-          1930,
-          815
-        ]
-      },
-      {
-        "id": "gc-e",
-        "level": "G",
-        "xy": [
-          1980,
+          1650,
           815
         ]
       },
@@ -1407,7 +1399,7 @@
         "id": "a-door",
         "level": "G",
         "xy": [
-          1930,
+          1650,
           620
         ]
       },
@@ -1415,8 +1407,8 @@
         "id": "eyp",
         "level": "G",
         "xy": [
-          1900,
-          585
+          1650,
+          580
         ],
         "dest": true,
         "cat": "studio",
@@ -2128,7 +2120,7 @@
         "mode": [
           "foot"
         ],
-        "len": 166,
+        "len": 140,
         "instruction": null
       },
       {
@@ -2138,7 +2130,7 @@
         "mode": [
           "foot"
         ],
-        "len": 168,
+        "len": 141,
         "instruction": "Go down the steps into the amphitheatre.",
         "instructionRev": "Climb the steps out of the amphitheatre."
       },
@@ -2149,7 +2141,7 @@
         "mode": [
           "foot"
         ],
-        "len": 154,
+        "len": 126,
         "instruction": null
       },
       {
@@ -2322,17 +2314,7 @@
         "mode": [
           "foot"
         ],
-        "len": 41,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-eyp-gc-e",
-        "from": "gc-eyp",
-        "to": "gc-e",
-        "mode": [
-          "foot"
-        ],
-        "len": 5,
+        "len": 13,
         "instruction": null
       },
       {
@@ -2469,7 +2451,7 @@
         "mode": [
           "foot"
         ],
-        "len": 5,
+        "len": 4,
         "instruction": null
       },
       {
@@ -2479,7 +2461,7 @@
         "mode": [
           "foot"
         ],
-        "len": 52,
+        "len": 27,
         "instruction": "Follow the corridor along the bottom of the courtyard.",
         "instructionRev": "Follow the corridor back towards the Atelier doors."
       },
@@ -2611,8 +2593,8 @@
         "mode": [
           "foot"
         ],
-        "len": 8,
-        "instruction": "Follow the corridor up the far side of the courtyard.",
+        "len": 20,
+        "instruction": "Follow the corridor up the far side of the courtyard, past the washrooms.",
         "instructionRev": "Follow the corridor back down towards the Atelier doors."
       },
       {
@@ -2656,23 +2638,23 @@
         "instruction": null
       },
       {
-        "id": "e-eyp-girls-a",
-        "from": "eyp",
+        "id": "e-ad-3-girls-a",
+        "from": "ad-3",
         "to": "girls-a",
         "mode": [
           "foot"
         ],
-        "len": 11,
+        "len": 13,
         "instruction": null
       },
       {
-        "id": "e-eyp-boys-a",
-        "from": "eyp",
+        "id": "e-ad-3-boys-a",
+        "from": "ad-3",
         "to": "boys-a",
         "mode": [
           "foot"
         ],
-        "len": 12,
+        "len": 17,
         "instruction": null
       },
       {
@@ -2704,7 +2686,7 @@
         "mode": [
           "foot"
         ],
-        "len": 10,
+        "len": 60,
         "instruction": "Take the lift up to the first floor. You come out in the corridor by Reception 2.",
         "instructionRev": "Take the lift down to the ground floor. You come out beside Reception."
       }

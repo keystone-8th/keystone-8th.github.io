@@ -759,14 +759,14 @@
 <path d="M531 120 v-14 a14 14 0 0 1 14 14" fill="none" stroke="#3d3934" stroke-width="1"/>
 <text x="538" y="102" font-size="10" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="538">Boys</tspan></text>
 </g>
-<rect x="200" y="620" width="1820" height="360" fill="url(#tiles)" stroke="#3d3934" stroke-width="3"/>
+<rect x="200" y="620" width="1500" height="360" fill="url(#tiles)" stroke="#3d3934" stroke-width="3"/>
 <line x1="200" y1="770" x2="620" y2="770" stroke="#3d3934" stroke-width="2"/>
 <line x1="800" y1="770" x2="1300" y2="770" stroke="#3d3934" stroke-width="2"/>
-<line x1="1380" y1="770" x2="2020" y2="770" stroke="#3d3934" stroke-width="2"/>
+<line x1="1380" y1="770" x2="1700" y2="770" stroke="#3d3934" stroke-width="2"/>
 <line x1="200" y1="860" x2="210" y2="860" stroke="#3d3934" stroke-width="2"/>
 <line x1="520" y1="860" x2="950" y2="860" stroke="#3d3934" stroke-width="2"/>
 <line x1="1240" y1="860" x2="1400" y2="860" stroke="#3d3934" stroke-width="2"/>
-<line x1="1650" y1="860" x2="2020" y2="860" stroke="#3d3934" stroke-width="2"/>
+<line x1="1650" y1="860" x2="1700" y2="860" stroke="#3d3934" stroke-width="2"/>
 <rect x="210" y="860" width="310" height="110" fill="#f4efe3" stroke="#3d3934" stroke-width="2.5"/>
 <rect x="234" y="900" width="110" height="56" rx="6" fill="#eef2f5" stroke="#8e9aa3" stroke-width="1"/>
 <rect x="240" y="906" width="22" height="44" rx="6" fill="#fff" stroke="#b8c2ca" stroke-width="1"/>
@@ -812,8 +812,8 @@
 <path d="M1342 702 l7 11 l7 -11 z" fill="#7a5a2a"/>
 <line x1="458" y1="620" x2="472" y2="620" stroke="#ece4d2" stroke-width="4"/>
 <path d="M458 620 v14 a14 14 0 0 0 14 -14" fill="none" stroke="#3d3934" stroke-width="1"/>
-<line x1="1923" y1="620" x2="1937" y2="620" stroke="#ece4d2" stroke-width="4"/>
-<path d="M1923 620 v14 a14 14 0 0 0 14 -14" fill="none" stroke="#3d3934" stroke-width="1"/>
+<line x1="1643" y1="620" x2="1657" y2="620" stroke="#ece4d2" stroke-width="4"/>
+<path d="M1643 620 v14 a14 14 0 0 0 14 -14" fill="none" stroke="#3d3934" stroke-width="1"/>
 <line x1="1193" y1="980" x2="1207" y2="980" stroke="#ece4d2" stroke-width="4"/>
 <path d="M1193 980 v-14 a14 14 0 0 1 14 14" fill="none" stroke="#3d3934" stroke-width="1"/>
 <line x1="813" y1="980" x2="827" y2="980" stroke="#ece4d2" stroke-width="4"/>

@@ -137,7 +137,7 @@ NODES.find(n => n.id === "recep").anchor = true;
    The bus bay on the sketch is left out on purpose.
    ============================================================ */
 const GW = 2500, GH = 1500;
-const B = { x: 200, y: 620, w: 1820, h: 360 };       // the main block
+const B = { x: 200, y: 620, w: 1500, h: 360 };       // the main block
 const COR = { top: 770, bot: 860, y: 815 };          // its corridor band and centre line
 const GF = {
   inf:   { x: 210,  y: 860, w: 310, h: 110 },        // Infirmary, south side
@@ -147,7 +147,7 @@ const GF = {
   lift:  { x: 1300, y: 650, w: 80,  h: 120 },        // the lift, beside Reception
   field: { x: 230,  y: 140, w: 470, h: 360 },
   gate:  { x: 2070, y: 1230, w: 220, h: 90 },
-  fieldX: 465, doorX: 1200, eypX: 1930, gateX: 2180, foreY: 1060, roadY: 1350
+  fieldX: 465, doorX: 1200, eypX: 1650, gateX: 2180, foreY: 1060, roadY: 1350
 };
 
 /* ---- the Atelier wedge: straight west wall, angled east wall ---- */
@@ -182,7 +182,7 @@ CUR = "G";
 /* the corridor, west to east */
 const GSPINE = [
   ["gc-w", 300], ["gc-inf", 365], ["gc-fld", GF.fieldX], ["gc-cs", 710], ["gc-rec", 1095],
-  ["gc-door", GF.doorX], ["gc-lift", 1340], ["gc-ffs", 1525], ["gc-eyp", GF.eypX], ["gc-e", 1980]
+  ["gc-door", GF.doorX], ["gc-lift", 1340], ["gc-ffs", 1525], ["gc-eyp", GF.eypX]
 ];
 GSPINE.forEach(([id, x]) => node(id, [x, COR.y]));
 
@@ -202,7 +202,7 @@ node("g-gate",    [GF.gateX, GF.gate.y + GF.gate.h], { dest: true, cat: "entry",
 
 /* ---- inside the Atelier: a ring of corridor around the courtyard ---- */
 node("a-door",    [GF.eypX, B.y]);
-node("eyp",       [1900, 585], { dest: true, cat: "studio", name: "EYP Atelier", sub: "Early years wing" });
+node("eyp",       [1650, 580], { dest: true, cat: "studio", name: "EYP Atelier", sub: "Early years wing" });
 AT.west.forEach(function (r, i) {
   node("aw-" + i,  [AT.corX, r.y + AT.wh / 2]);
   node(r.id,       [AT.wx + AT.ww / 2, r.y + AT.wh / 2], { dest: true, cat: "class", name: r.name, sub: "EYP Atelier" });
@@ -308,9 +308,9 @@ AT.west.forEach((r, i) => edge("aw-" + i, r.id));
 edge("aw-0", "a-n", "Go round the top of the courtyard.", "Go round the top of the courtyard.");
 edge("a-n", "ad-0");
 for (let i = 0; i < 3; i++) edge("ad-" + i, "ad-" + (i + 1));
-edge("eyp", "ad-3", "Follow the corridor up the far side of the courtyard.",
+edge("eyp", "ad-3", "Follow the corridor up the far side of the courtyard, past the washrooms.",
                     "Follow the corridor back down towards the Atelier doors.");
-AT.rooms.forEach(function (r, i) { edge(r.cat === "class" ? "ad-" + i : "eyp", r.id); });
+AT.rooms.forEach(function (r, i) { edge(r.cat === "class" ? "ad-" + i : "ad-3", r.id); });
 
 /* the staircases and the lift that join the two floors. Their length is a
    flight of stairs, not the distance between two drawings. */
@@ -318,10 +318,11 @@ edge("ffs", "stairs-s", "Climb the First Floor Stairs. You come out on the first
                          "Take the stairs down to the ground floor. You come out beside Reception.", { len: 8 });
 edge("cs", "stairs-ne", "Climb the Cafeteria Stairs to the first floor. You come out in the lobby behind Reception 2.",
                          "Take the Cafeteria Stairs down to the ground floor. You come out at the Infirmary end of the corridor.", { len: 8 });
-// A little longer than the stairs, so the stairs stay the default and the
-// lift is there for anyone who needs it.
+// Counted as a good walk longer than it is, because waiting for a lift takes
+// time a staircase does not. Without that the lift is the shortest path for
+// everyone, and the app tells a whole school to queue for it.
 edge("lift", "j-lobby", "Take the lift up to the first floor. You come out in the corridor by Reception 2.",
-                         "Take the lift down to the ground floor. You come out beside Reception.", { len: 10 });
+                         "Take the lift down to the ground floor. You come out beside Reception.", { len: 60 });
 
 const MAP = {
   community: "School",

@@ -72,6 +72,9 @@ Turned the right way up, the newer sketch shows:
 * **Main Gate** to the south-east, on the road, with a **Bus Bay** beyond it.
   The bus bay is left off the map at the school's request.
 * Three round planters in a row on the forecourt.
+* The block ends at the stairs by Reception. On the floor above, that is where
+  Reception 2 stands, and the first floor carries on east past it to the
+  Gallery Area and the Cafeteria.
 
 ## Inside the Atelier (third sketch)
 
