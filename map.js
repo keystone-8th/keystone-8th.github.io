@@ -14,8 +14,8 @@ const MAP = {
       "imageBox": [
         0,
         0,
-        2300,
-        1700
+        2500,
+        1500
       ]
     },
     {
@@ -1208,11 +1208,194 @@ const MAP = {
       "sub": "Rock garden on the way to the Cafeteria"
     },
     {
+      "id": "gc-w",
+      "level": "G",
+      "xy": [
+        300,
+        815
+      ]
+    },
+    {
+      "id": "gc-inf",
+      "level": "G",
+      "xy": [
+        365,
+        815
+      ]
+    },
+    {
+      "id": "gc-fld",
+      "level": "G",
+      "xy": [
+        465,
+        815
+      ]
+    },
+    {
+      "id": "gc-cs",
+      "level": "G",
+      "xy": [
+        710,
+        815
+      ]
+    },
+    {
+      "id": "gc-rec",
+      "level": "G",
+      "xy": [
+        1095,
+        815
+      ]
+    },
+    {
+      "id": "gc-door",
+      "level": "G",
+      "xy": [
+        1200,
+        815
+      ]
+    },
+    {
+      "id": "gc-lift",
+      "level": "G",
+      "xy": [
+        1340,
+        815
+      ]
+    },
+    {
+      "id": "gc-ffs",
+      "level": "G",
+      "xy": [
+        1525,
+        815
+      ]
+    },
+    {
+      "id": "gc-eyp",
+      "level": "G",
+      "xy": [
+        1930,
+        815
+      ]
+    },
+    {
+      "id": "gc-e",
+      "level": "G",
+      "xy": [
+        1980,
+        815
+      ]
+    },
+    {
+      "id": "infirmary",
+      "level": "G",
+      "xy": [
+        365,
+        915
+      ],
+      "dest": true,
+      "cat": "office",
+      "name": "Infirmary",
+      "sub": "First aid and the nurse"
+    },
+    {
+      "id": "g-recep",
+      "level": "G",
+      "xy": [
+        1095,
+        915
+      ],
+      "dest": true,
+      "cat": "entry",
+      "name": "Reception",
+      "anchor": true
+    },
+    {
+      "id": "ffs",
+      "level": "G",
+      "xy": [
+        1525,
+        915
+      ],
+      "dest": true,
+      "cat": "stairs",
+      "name": "First Floor Stairs",
+      "sub": "Up to the first floor, beside Reception"
+    },
+    {
+      "id": "cs",
+      "level": "G",
+      "xy": [
+        710,
+        703
+      ],
+      "dest": true,
+      "cat": "stairs",
+      "name": "Cafeteria Stairs (ground floor)",
+      "sub": "Up to the first floor"
+    },
+    {
+      "id": "lift",
+      "level": "G",
+      "xy": [
+        1340,
+        710
+      ],
+      "dest": true,
+      "cat": "stairs",
+      "name": "Lift",
+      "sub": "Step-free way up to the first floor"
+    },
+    {
+      "id": "g-fld-door",
+      "level": "G",
+      "xy": [
+        465,
+        620
+      ]
+    },
+    {
+      "id": "field-s",
+      "level": "G",
+      "xy": [
+        465,
+        500
+      ]
+    },
+    {
+      "id": "field",
+      "level": "G",
+      "xy": [
+        465,
+        320
+      ],
+      "dest": true,
+      "cat": "sport",
+      "name": "Football Field"
+    },
+    {
+      "id": "g-out",
+      "level": "G",
+      "xy": [
+        1200,
+        1060
+      ]
+    },
+    {
+      "id": "g-fore",
+      "level": "G",
+      "xy": [
+        2180,
+        1060
+      ]
+    },
+    {
       "id": "g-gate",
       "level": "G",
       "xy": [
-        1510,
-        1330
+        2180,
+        1320
       ],
       "dest": true,
       "cat": "entry",
@@ -1221,131 +1404,216 @@ const MAP = {
       "gate": true
     },
     {
-      "id": "g-jpath",
+      "id": "a-door",
       "level": "G",
       "xy": [
-        1510,
-        1045
-      ]
-    },
-    {
-      "id": "g-jeyp",
-      "level": "G",
-      "xy": [
-        1510,
-        704
+        1930,
+        620
       ]
     },
     {
       "id": "eyp",
       "level": "G",
       "xy": [
-        1640,
-        425
+        1900,
+        585
       ],
       "dest": true,
       "cat": "studio",
       "name": "EYP Atelier",
-      "sub": "Early years studio"
+      "sub": "Early years wing"
     },
     {
-      "id": "g-jrecep",
+      "id": "aw-0",
       "level": "G",
       "xy": [
-        930,
-        1045
+        1385,
+        213
       ]
     },
     {
-      "id": "g-recep",
+      "id": "cls-a1",
       "level": "G",
       "xy": [
-        820,
-        980
+        1263,
+        213
       ],
       "dest": true,
-      "cat": "entry",
-      "name": "Reception",
-      "anchor": true
+      "cat": "class",
+      "name": "Atelier Class 1",
+      "sub": "EYP Atelier"
     },
     {
-      "id": "g-jstairs",
+      "id": "aw-1",
       "level": "G",
       "xy": [
-        680,
-        980
+        1385,
+        323
       ]
     },
     {
-      "id": "g-jfield",
+      "id": "cls-a2",
       "level": "G",
       "xy": [
-        505,
-        980
+        1263,
+        323
+      ],
+      "dest": true,
+      "cat": "class",
+      "name": "Atelier Class 2",
+      "sub": "EYP Atelier"
+    },
+    {
+      "id": "aw-2",
+      "level": "G",
+      "xy": [
+        1385,
+        433
       ]
     },
     {
-      "id": "infirmary",
+      "id": "cls-a3",
       "level": "G",
       "xy": [
-        185,
-        1035
+        1263,
+        433
       ],
       "dest": true,
-      "cat": "office",
-      "name": "Infirmary",
-      "sub": "First aid and the nurse"
+      "cat": "class",
+      "name": "Atelier Class 3",
+      "sub": "EYP Atelier"
     },
     {
-      "id": "field-s",
+      "id": "aw-3",
       "level": "G",
       "xy": [
-        505,
-        794
+        1385,
+        543
       ]
     },
     {
-      "id": "field",
+      "id": "cls-a4",
       "level": "G",
       "xy": [
-        480,
-        465
+        1263,
+        543
       ],
       "dest": true,
-      "cat": "sport",
-      "name": "Football Field"
+      "cat": "class",
+      "name": "Atelier Class 4",
+      "sub": "EYP Atelier"
     },
     {
-      "id": "field-e",
+      "id": "a-n",
       "level": "G",
       "xy": [
-        656,
-        400
+        1425,
+        240
       ]
     },
     {
-      "id": "cs",
+      "id": "ad-0",
       "level": "G",
       "xy": [
-        1055,
-        290
-      ],
-      "dest": true,
-      "cat": "stairs",
-      "name": "Cafeteria Stairs (ground floor)",
-      "sub": "Up to the first floor"
+        1590,
+        314
+      ]
     },
     {
-      "id": "ffs",
+      "id": "cls-a5",
       "level": "G",
       "xy": [
-        645,
-        1365
+        1658,
+        234
       ],
       "dest": true,
-      "cat": "stairs",
-      "name": "First Floor Stairs",
-      "sub": "Up to the first floor, by Reception"
+      "cat": "class",
+      "name": "Atelier Class 5",
+      "sub": "EYP Atelier"
+    },
+    {
+      "id": "ad-1",
+      "level": "G",
+      "xy": [
+        1673,
+        386
+      ]
+    },
+    {
+      "id": "cls-a6",
+      "level": "G",
+      "xy": [
+        1741,
+        306
+      ],
+      "dest": true,
+      "cat": "class",
+      "name": "Atelier Class 6",
+      "sub": "EYP Atelier"
+    },
+    {
+      "id": "ad-2",
+      "level": "G",
+      "xy": [
+        1757,
+        457
+      ]
+    },
+    {
+      "id": "cls-a7",
+      "level": "G",
+      "xy": [
+        1825,
+        378
+      ],
+      "dest": true,
+      "cat": "class",
+      "name": "Atelier Class 7",
+      "sub": "EYP Atelier"
+    },
+    {
+      "id": "ad-3",
+      "level": "G",
+      "xy": [
+        1840,
+        529
+      ]
+    },
+    {
+      "id": "cls-a8",
+      "level": "G",
+      "xy": [
+        1908,
+        449
+      ],
+      "dest": true,
+      "cat": "class",
+      "name": "Atelier Class 8",
+      "sub": "EYP Atelier"
+    },
+    {
+      "id": "girls-a",
+      "level": "G",
+      "xy": [
+        1970,
+        502
+      ],
+      "dest": true,
+      "cat": "wash",
+      "name": "Girls Washroom (Atelier)",
+      "sub": "EYP Atelier"
+    },
+    {
+      "id": "boys-a",
+      "level": "G",
+      "xy": [
+        2009,
+        536
+      ],
+      "dest": true,
+      "cat": "wash",
+      "name": "Boys Washroom (Atelier)",
+      "sub": "EYP Atelier"
     }
   ],
   "edges": [
@@ -1860,7 +2128,7 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 10,
+      "len": 166,
       "instruction": null
     },
     {
@@ -1870,7 +2138,7 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 14,
+      "len": 168,
       "instruction": "Go down the steps into the amphitheatre.",
       "instructionRev": "Climb the steps out of the amphitheatre."
     },
@@ -1881,7 +2149,7 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 16,
+      "len": 154,
       "instruction": null
     },
     {
@@ -1977,73 +2245,40 @@ const MAP = {
       "instruction": null
     },
     {
-      "id": "e-g-gate-g-jpath",
-      "from": "g-gate",
-      "to": "g-jpath",
+      "id": "e-gc-w-gc-inf",
+      "from": "gc-w",
+      "to": "gc-inf",
       "mode": [
         "foot"
       ],
-      "len": 29,
-      "instruction": "Come in through the Main Gate and walk up to the main walkway.",
-      "instructionRev": "Walk down the path to the Main Gate."
-    },
-    {
-      "id": "e-g-jpath-g-jrecep",
-      "from": "g-jpath",
-      "to": "g-jrecep",
-      "mode": [
-        "foot"
-      ],
-      "len": 58,
-      "instruction": "Follow the walkway towards Reception.",
-      "instructionRev": "Follow the walkway away from Reception, towards the gate path."
-    },
-    {
-      "id": "e-g-jrecep-g-recep",
-      "from": "g-jrecep",
-      "to": "g-recep",
-      "mode": [
-        "foot"
-      ],
-      "len": 13,
+      "len": 7,
       "instruction": null
     },
     {
-      "id": "e-g-jpath-g-jeyp",
-      "from": "g-jpath",
-      "to": "g-jeyp",
+      "id": "e-gc-inf-gc-fld",
+      "from": "gc-inf",
+      "to": "gc-fld",
       "mode": [
         "foot"
       ],
-      "len": 34,
-      "instruction": "Cross the walkway and carry on up the path to the EYP Atelier.",
-      "instructionRev": "Come down the path from the EYP Atelier to the main walkway."
-    },
-    {
-      "id": "e-g-jeyp-eyp",
-      "from": "g-jeyp",
-      "to": "eyp",
-      "mode": [
-        "foot"
-      ],
-      "len": 31,
+      "len": 10,
       "instruction": null
     },
     {
-      "id": "e-g-recep-g-jstairs",
-      "from": "g-recep",
-      "to": "g-jstairs",
+      "id": "e-gc-fld-gc-cs",
+      "from": "gc-fld",
+      "to": "gc-cs",
       "mode": [
         "foot"
       ],
-      "len": 14,
-      "instruction": "From Reception, take the path that runs past the First Floor Stairs.",
-      "instructionRev": "Follow the path back to Reception."
+      "len": 25,
+      "instruction": "Follow the corridor towards Reception.",
+      "instructionRev": "Follow the corridor towards the Infirmary end."
     },
     {
-      "id": "e-g-jstairs-ffs",
-      "from": "g-jstairs",
-      "to": "ffs",
+      "id": "e-gc-cs-gc-rec",
+      "from": "gc-cs",
+      "to": "gc-rec",
       "mode": [
         "foot"
       ],
@@ -2051,36 +2286,127 @@ const MAP = {
       "instruction": null
     },
     {
-      "id": "e-g-jstairs-g-jfield",
-      "from": "g-jstairs",
-      "to": "g-jfield",
+      "id": "e-gc-rec-gc-door",
+      "from": "gc-rec",
+      "to": "gc-door",
       "mode": [
         "foot"
       ],
-      "len": 18,
+      "len": 11,
       "instruction": null
     },
     {
-      "id": "e-g-jfield-infirmary",
-      "from": "g-jfield",
-      "to": "infirmary",
+      "id": "e-gc-door-gc-lift",
+      "from": "gc-door",
+      "to": "gc-lift",
       "mode": [
         "foot"
       ],
-      "len": 32,
-      "instruction": "Carry on along the path to the Infirmary at the end.",
-      "instructionRev": "Walk back along the path from the Infirmary."
+      "len": 14,
+      "instruction": null
     },
     {
-      "id": "e-g-jfield-field-s",
-      "from": "g-jfield",
-      "to": "field-s",
+      "id": "e-gc-lift-gc-ffs",
+      "from": "gc-lift",
+      "to": "gc-ffs",
       "mode": [
         "foot"
       ],
       "len": 19,
-      "instruction": "Take the side path up to the Football Field.",
-      "instructionRev": "Come down the side path from the Football Field."
+      "instruction": null
+    },
+    {
+      "id": "e-gc-ffs-gc-eyp",
+      "from": "gc-ffs",
+      "to": "gc-eyp",
+      "mode": [
+        "foot"
+      ],
+      "len": 41,
+      "instruction": null
+    },
+    {
+      "id": "e-gc-eyp-gc-e",
+      "from": "gc-eyp",
+      "to": "gc-e",
+      "mode": [
+        "foot"
+      ],
+      "len": 5,
+      "instruction": null
+    },
+    {
+      "id": "e-gc-inf-infirmary",
+      "from": "gc-inf",
+      "to": "infirmary",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": "The Infirmary is at the end of the corridor.",
+      "instructionRev": "Come out of the Infirmary into the corridor."
+    },
+    {
+      "id": "e-gc-rec-g-recep",
+      "from": "gc-rec",
+      "to": "g-recep",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": null
+    },
+    {
+      "id": "e-gc-ffs-ffs",
+      "from": "gc-ffs",
+      "to": "ffs",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": null
+    },
+    {
+      "id": "e-gc-cs-cs",
+      "from": "gc-cs",
+      "to": "cs",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-gc-lift-lift",
+      "from": "gc-lift",
+      "to": "lift",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-gc-fld-g-fld-door",
+      "from": "gc-fld",
+      "to": "g-fld-door",
+      "mode": [
+        "foot"
+      ],
+      "len": 20,
+      "instruction": "Go out through the north door.",
+      "instructionRev": "Go in through the north door of the main block."
+    },
+    {
+      "id": "e-g-fld-door-field-s",
+      "from": "g-fld-door",
+      "to": "field-s",
+      "mode": [
+        "foot"
+      ],
+      "len": 12,
+      "instruction": "Take the path across to the Football Field.",
+      "instructionRev": "Take the path back to the main block."
     },
     {
       "id": "e-field-s-field",
@@ -2089,29 +2415,265 @@ const MAP = {
       "mode": [
         "foot"
       ],
-      "len": 33,
+      "len": 18,
       "instruction": null
     },
     {
-      "id": "e-field-field-e",
-      "from": "field",
-      "to": "field-e",
+      "id": "e-gc-door-g-out",
+      "from": "gc-door",
+      "to": "g-out",
       "mode": [
         "foot"
       ],
-      "len": 19,
+      "len": 25,
+      "instruction": "Go out through the main doors onto the forecourt.",
+      "instructionRev": "Go in through the main doors of the block."
+    },
+    {
+      "id": "e-g-out-g-fore",
+      "from": "g-out",
+      "to": "g-fore",
+      "mode": [
+        "foot"
+      ],
+      "len": 98,
+      "instruction": "Cross the forecourt, past the planters.",
+      "instructionRev": "Cross the forecourt towards the main doors."
+    },
+    {
+      "id": "e-g-fore-g-gate",
+      "from": "g-fore",
+      "to": "g-gate",
+      "mode": [
+        "foot"
+      ],
+      "len": 26,
+      "instruction": "Walk down to the Main Gate.",
+      "instructionRev": "Come in from the Main Gate and walk up to the forecourt."
+    },
+    {
+      "id": "e-gc-eyp-a-door",
+      "from": "gc-eyp",
+      "to": "a-door",
+      "mode": [
+        "foot"
+      ],
+      "len": 20,
+      "instruction": "Go through the doors into the Atelier wing.",
+      "instructionRev": "Come out of the Atelier wing into the main corridor."
+    },
+    {
+      "id": "e-a-door-eyp",
+      "from": "a-door",
+      "to": "eyp",
+      "mode": [
+        "foot"
+      ],
+      "len": 5,
       "instruction": null
     },
     {
-      "id": "e-field-e-cs",
-      "from": "field-e",
-      "to": "cs",
+      "id": "e-eyp-aw-3",
+      "from": "eyp",
+      "to": "aw-3",
       "mode": [
         "foot"
       ],
-      "len": 41,
-      "instruction": "Take the path from the corner of the Football Field up to the Cafeteria Stairs.",
-      "instructionRev": "Come down the path from the Cafeteria Stairs to the Football Field."
+      "len": 52,
+      "instruction": "Follow the corridor along the bottom of the courtyard.",
+      "instructionRev": "Follow the corridor back towards the Atelier doors."
+    },
+    {
+      "id": "e-aw-3-aw-2",
+      "from": "aw-3",
+      "to": "aw-2",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-2-aw-1",
+      "from": "aw-2",
+      "to": "aw-1",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-1-aw-0",
+      "from": "aw-1",
+      "to": "aw-0",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-0-cls-a1",
+      "from": "aw-0",
+      "to": "cls-a1",
+      "mode": [
+        "foot"
+      ],
+      "len": 12,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-1-cls-a2",
+      "from": "aw-1",
+      "to": "cls-a2",
+      "mode": [
+        "foot"
+      ],
+      "len": 12,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-2-cls-a3",
+      "from": "aw-2",
+      "to": "cls-a3",
+      "mode": [
+        "foot"
+      ],
+      "len": 12,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-3-cls-a4",
+      "from": "aw-3",
+      "to": "cls-a4",
+      "mode": [
+        "foot"
+      ],
+      "len": 12,
+      "instruction": null
+    },
+    {
+      "id": "e-aw-0-a-n",
+      "from": "aw-0",
+      "to": "a-n",
+      "mode": [
+        "foot"
+      ],
+      "len": 5,
+      "instruction": "Go round the top of the courtyard.",
+      "instructionRev": "Go round the top of the courtyard."
+    },
+    {
+      "id": "e-a-n-ad-0",
+      "from": "a-n",
+      "to": "ad-0",
+      "mode": [
+        "foot"
+      ],
+      "len": 18,
+      "instruction": null
+    },
+    {
+      "id": "e-ad-0-ad-1",
+      "from": "ad-0",
+      "to": "ad-1",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-ad-1-ad-2",
+      "from": "ad-1",
+      "to": "ad-2",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-ad-2-ad-3",
+      "from": "ad-2",
+      "to": "ad-3",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-eyp-ad-3",
+      "from": "eyp",
+      "to": "ad-3",
+      "mode": [
+        "foot"
+      ],
+      "len": 8,
+      "instruction": "Follow the corridor up the far side of the courtyard.",
+      "instructionRev": "Follow the corridor back down towards the Atelier doors."
+    },
+    {
+      "id": "e-ad-0-cls-a5",
+      "from": "ad-0",
+      "to": "cls-a5",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": null
+    },
+    {
+      "id": "e-ad-1-cls-a6",
+      "from": "ad-1",
+      "to": "cls-a6",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": null
+    },
+    {
+      "id": "e-ad-2-cls-a7",
+      "from": "ad-2",
+      "to": "cls-a7",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": null
+    },
+    {
+      "id": "e-ad-3-cls-a8",
+      "from": "ad-3",
+      "to": "cls-a8",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": null
+    },
+    {
+      "id": "e-eyp-girls-a",
+      "from": "eyp",
+      "to": "girls-a",
+      "mode": [
+        "foot"
+      ],
+      "len": 11,
+      "instruction": null
+    },
+    {
+      "id": "e-eyp-boys-a",
+      "from": "eyp",
+      "to": "boys-a",
+      "mode": [
+        "foot"
+      ],
+      "len": 12,
+      "instruction": null
     },
     {
       "id": "e-ffs-stairs-s",
@@ -2133,7 +2695,18 @@ const MAP = {
       ],
       "len": 8,
       "instruction": "Climb the Cafeteria Stairs to the first floor. You come out in the lobby behind Reception 2.",
-      "instructionRev": "Take the Cafeteria Stairs down to the ground floor. You come out beside the Football Field."
+      "instructionRev": "Take the Cafeteria Stairs down to the ground floor. You come out at the Infirmary end of the corridor."
+    },
+    {
+      "id": "e-lift-j-lobby",
+      "from": "lift",
+      "to": "j-lobby",
+      "mode": [
+        "foot"
+      ],
+      "len": 10,
+      "instruction": "Take the lift up to the first floor. You come out in the corridor by Reception 2.",
+      "instructionRev": "Take the lift down to the ground floor. You come out beside Reception."
     }
   ]
 };

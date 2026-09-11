@@ -85,6 +85,10 @@ var SCANPOINTS = (function () {
       label: "First Floor Stairs",
       mount: "At the foot of the stairs.", rev: 1 },
 
+    { id: "LF", node: "lift", level: "G", audience: "foot",
+      label: "Lift",
+      mount: "Beside the lift door, in the corridor.", rev: 1 },
+
     { id: "CS", node: "cs", level: "G", audience: "foot",
       label: "Cafeteria Stairs (ground)",
       mount: "At the foot of the stairs.", rev: 1 }

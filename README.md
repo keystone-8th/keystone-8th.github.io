@@ -1,9 +1,10 @@
 # School wayfinding
 
 A phone web app that gives walking directions between rooms of the school,
-drawn from two hand sketches: the ground floor (gate, Reception, Infirmary,
-Football Field, EYP Atelier) and the first floor (classrooms, studios, the
-Library, Reception 2, the Cafeteria). Routes change floor by the stairs.
+drawn from three hand sketches: the ground floor (gate, Reception, Infirmary,
+Football Field, EYP Atelier), the Atelier's own classrooms, and the first floor
+(classrooms, studios, the Library, Reception 2, the Cafeteria). Routes change
+floor by the stairs or the lift.
 Scan a QR placard on a wall,
 type where you want to go, and the app walks you there one step at a time
 with a small map of each step.
@@ -43,10 +44,17 @@ it the Amphitheatre. The Cafeteria sits about 150 m along the corridor from
 Reception 2, further than the sketch suggests, with the Gallery Area (a rock
 garden) along the way. The doorway drawn beside Classroom 3 is not an entrance.
 
-The two floors are joined by two staircases: the First Floor Stairs (ground,
-by Reception) come out opposite Reception 2, and the Cafeteria Stairs (ground,
-by the Football Field) come out in the lobby behind Reception 2. The bus bay on
-the ground-floor sketch is left off on purpose.
+The ground floor is one long block with a corridor down the middle: the
+Infirmary at the west end, Reception and the Lift in the middle, a staircase at
+each end. The EYP Atelier is a wedge attached to the north side, with Atelier
+Classes 1 to 4 along its straight wall, Classes 5 to 8 and the washrooms along
+its angled wall, and a planted courtyard between them.
+
+The two floors are joined by two staircases and a lift: the First Floor Stairs
+(ground, beside Reception) come out opposite Reception 2, the Cafeteria Stairs
+(ground, at the Infirmary end) come out in the lobby behind Reception 2, and the
+Lift comes out in the corridor by Reception 2. The bus bay on the ground-floor
+sketch is left off on purpose.
 
 ## Put it on GitHub Pages
 
@@ -81,8 +89,9 @@ poster, `qr-png/all-placards.png`. Open the sheet in a browser, print at 100%, c
 cards and stick each one where its mount note says. Every card also says
 which room it is, so a visitor without a camera can still type it in.
 
-There are 22 placards. Ground floor: Main Gate, Reception, Infirmary,
-Football Field, EYP Atelier, First Floor Stairs, Cafeteria Stairs. First floor:
+There are 23 placards. Ground floor: Main Gate, Reception, Infirmary,
+Football Field, EYP Atelier, First Floor Stairs, Cafeteria Stairs, Lift.
+First floor:
 Reception 2, Cafeteria, Library Entrance, Amphitheatre, Gallery Area, PLC,
 Staffroom, Meeting Room, Kanvas Studio, Kukoos Studio, Maker's Hive-1,
 Conference Room, Teacher's Cubicle, the stairs opposite Reception 2 and the
