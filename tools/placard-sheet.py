@@ -15,7 +15,7 @@ os.chdir(ROOT)
 site = json.load(open("site.json", encoding="utf8"))["url"]
 host = re.sub(r"^https?://", "", site)
 sp = open("scanpoints.js", encoding="utf8").read()
-points = re.findall(r'id: "([A-Z]{2})".*?label: "([^"]+)"', sp, re.S)
+points = re.findall(r'id: "([A-Z0-9]{2})".*?label: "([^"]+)"', sp, re.S)
 
 cols, cell_w, cell_h, pad = 5, 360, 470, 30
 rows = (len(points) + cols - 1) // cols

@@ -1,11 +1,12 @@
 /* ============================================================
    School map builder.
 
-   ONE room list, drawn from the hand sketch (see
-   plans/school-map-transcription.md), produces four things that must
+   ONE room list per floor, drawn from the two hand sketches (see
+   plans/school-map-transcription.md), produces the things that must
    never disagree:
 
-     plans/school-ground.svg   the floor plan the app shows
+     plans/school-first.svg    the first-floor plan the app shows
+     plans/school-ground.svg   the ground-floor plan
      map.js                    the route graph the app walks
      maps/school-ground.json   the same map as an editor bundle
      scanpoints.js             the QR placards
@@ -85,7 +86,10 @@ function wingPt(t, s) { return [WING.A[0] + D[0]*t + N[0]*s, WING.A[1] + D[1]*t 
 
 /* ---------- walk graph ---------- */
 const NODES = [];
-function node(id, xy, extra) { NODES.push(Object.assign({ id, level: "G", xy: xy.map(v => Math.round(v)) }, extra || {})); }
+/* Which floor the nodes being declared belong to. The first sketch was the
+   FIRST floor (it has Reception 2 and the Cafeteria); the second is the ground. */
+let CUR = "F1";
+function node(id, xy, extra) { NODES.push(Object.assign({ id, level: CUR, xy: xy.map(v => Math.round(v)) }, extra || {})); }
 function centre(b) { return [b[0] + b[2]/2, b[1] + b[3]/2]; }
 
 /* corridor spine, y = 420 */
@@ -122,6 +126,40 @@ node("amph",     [283, 290],  { dest: true, cat: "common", name: "Amphitheatre",
 node("lib",      [930, 250],  { dest: true, cat: "common", name: "Library" });
 node("gallery",  [GAL.x + GAL.w / 2, GAL.y + GAL.h / 2 + 10], { dest: true, cat: "common", name: "Gallery Area", sub: "Rock garden on the way to the Cafeteria" });
 NODES.find(n => n.id === "recep").anchor = true;
+
+/* ============================================================
+   GROUND FLOOR - the second sketch. Mostly outdoors: the gate, the walkway
+   to Reception, the Infirmary, the Football Field, the EYP Atelier and the
+   two staircases up to the first floor. The bus bay on the sketch is left
+   out on purpose.
+   ============================================================ */
+const GW = 2300, GH = 1700;
+const GF = {
+  field: { x: 320,  y: 150,  w: 320, h: 630 },
+  cs:    { x: 1000, y: 250,  w: 110, h: 80 },     // Cafeteria Stairs, going up
+  eyp:   { x: 1150, y: 160,  w: 980, h: 530 },
+  recep: { x: 735,  y: 900,  w: 170, h: 160 },
+  gate:  { x: 1400, y: 1240, w: 220, h: 185 },
+  inf:   { x: 80,   y: 920,  w: 210, h: 230 },
+  ffs:   { x: 600,  y: 1300, w: 90,  h: 130 },    // First Floor Stairs, going up
+  pathY: 1045, westY: 980, gateX: 1510, fieldX: 505, stairsX: 680
+};
+CUR = "G";
+node("g-gate",    [GF.gateX, GF.gate.y + 90], { dest: true, cat: "entry", name: "Main Gate", anchor: true, gate: true });
+node("g-jpath",   [GF.gateX, GF.pathY]);
+node("g-jeyp",    [GF.gateX, GF.eyp.y + GF.eyp.h + 14]);
+node("eyp",       [GF.eyp.x + GF.eyp.w / 2, GF.eyp.y + GF.eyp.h / 2], { dest: true, cat: "studio", name: "EYP Atelier", sub: "Early years studio" });
+node("g-jrecep",  [GF.recep.x + GF.recep.w + 25, GF.pathY]);
+node("g-recep",   [GF.recep.x + GF.recep.w / 2, GF.recep.y + GF.recep.h / 2], { dest: true, cat: "entry", name: "Reception", anchor: true });
+node("g-jstairs", [GF.stairsX, GF.westY]);
+node("g-jfield",  [GF.fieldX, GF.westY]);
+node("infirmary", [GF.inf.x + GF.inf.w / 2, GF.inf.y + GF.inf.h / 2], { dest: true, cat: "office", name: "Infirmary", sub: "First aid and the nurse" });
+node("field-s",   [GF.fieldX, GF.field.y + GF.field.h + 14]);
+node("field",     [GF.field.x + GF.field.w / 2, GF.field.y + GF.field.h / 2], { dest: true, cat: "sport", name: "Football Field" });
+node("field-e",   [GF.field.x + GF.field.w + 16, 400]);
+node("cs",        [GF.cs.x + GF.cs.w / 2, GF.cs.y + GF.cs.h / 2], { dest: true, cat: "stairs", name: "Cafeteria Stairs (ground floor)", sub: "Up to the first floor" });
+node("ffs",       [GF.ffs.x + GF.ffs.w / 2, GF.ffs.y + GF.ffs.h / 2], { dest: true, cat: "stairs", name: "First Floor Stairs", sub: "Up to the first floor, by Reception" });
+CUR = "F1";
 
 const BY = {}; NODES.forEach(n => BY[n.id] = n);
 
@@ -184,14 +222,39 @@ edge("l-gap", "lib-door", "Go through the Library Entrance, beside the Teacher's
 edge("lib-door", "lib");
 edge("j-gal", "gallery");
 
+/* ground floor */
+edge("g-gate", "g-jpath", "Come in through the Main Gate and walk up to the main walkway.", "Walk down the path to the Main Gate.");
+edge("g-jpath", "g-jrecep", "Follow the walkway towards Reception.", "Follow the walkway away from Reception, towards the gate path.");
+edge("g-jrecep", "g-recep");
+edge("g-jpath", "g-jeyp", "Cross the walkway and carry on up the path to the EYP Atelier.", "Come down the path from the EYP Atelier to the main walkway.");
+edge("g-jeyp", "eyp");
+edge("g-recep", "g-jstairs", "From Reception, take the path that runs past the First Floor Stairs.", "Follow the path back to Reception.");
+edge("g-jstairs", "ffs");
+edge("g-jstairs", "g-jfield");
+edge("g-jfield", "infirmary", "Carry on along the path to the Infirmary at the end.", "Walk back along the path from the Infirmary.");
+edge("g-jfield", "field-s", "Take the side path up to the Football Field.", "Come down the side path from the Football Field.");
+edge("field-s", "field");
+edge("field", "field-e");
+edge("field-e", "cs", "Take the path from the corner of the Football Field up to the Cafeteria Stairs.",
+                      "Come down the path from the Cafeteria Stairs to the Football Field.");
+
+/* the staircases that join the two floors. Their length is a flight of
+   stairs, not the distance between two drawings. */
+edge("ffs", "stairs-s", "Climb the First Floor Stairs. You come out on the first floor opposite Reception 2.",
+                         "Take the stairs down to the ground floor. You come out beside Reception.", { len: 8 });
+edge("cs", "stairs-ne", "Climb the Cafeteria Stairs to the first floor. You come out in the lobby behind Reception 2.",
+                         "Take the Cafeteria Stairs down to the ground floor. You come out beside the Football Field.", { len: 8 });
+
 const MAP = {
   community: "School",
   view: { w: W, h: H },
-  levels: [{ id: "G", name: "Ground Floor", underground: false,
-             image: "plans/school-ground.svg", imageBox: [0, 0, W, H] }],
+  levels: [
+    { id: "G",  name: "Ground Floor", underground: false, image: "plans/school-ground.svg", imageBox: [0, 0, GW, GH] },
+    { id: "F1", name: "First Floor",  underground: false, image: "plans/school-first.svg",  imageBox: [0, 0, W, H] }
+  ],
   blocks: [], slotRuns: [], allotments: [], slots: [],
   areas: ROOMS.filter(r => r.cat !== "none").map(r => ({
-    id: "a-" + r.id, level: "G", node: r.id, name: r.name,
+    id: "a-" + r.id, level: "F1", node: r.id, name: r.name,
     points: [[r.box[0], r.box[1]], [r.box[0]+r.box[2], r.box[1]], [r.box[0]+r.box[2], r.box[1]+r.box[3]], [r.box[0], r.box[1]+r.box[3]]]
   })),
   nodes: NODES,
@@ -216,8 +279,16 @@ const SCANPOINTS = [
   { id: "TC", node: "teach",    label: "Teacher's Cubicle", mount: "On the cubicle partition." },
   { id: "SS", node: "stairs-s", label: "Stairs opposite Reception", mount: "At the foot of the stairs." },
   { id: "SN", node: "stairs-ne",label: "Cafeteria Stairs", mount: "At the foot of the stairs, in the lobby behind Reception 2." },
-  { id: "GA", node: "gallery",  label: "Gallery Area",      mount: "On the wall at the corridor end of the rock garden." }
-].map(p => Object.assign({ level: "G", audience: "foot", rev: 1 }, p));
+  { id: "GA", node: "gallery",  label: "Gallery Area",      mount: "On the wall at the corridor end of the rock garden." },
+  // ground floor
+  { id: "MG", node: "g-gate",   level: "G", label: "Main Gate",         mount: "On the gatepost, inside the gate." },
+  { id: "R1", node: "g-recep",  level: "G", label: "Reception",         mount: "On the reception counter." },
+  { id: "IN", node: "infirmary",level: "G", label: "Infirmary",         mount: "Beside the infirmary door." },
+  { id: "FF", node: "field",    level: "G", label: "Football Field",    mount: "On the post at the field entrance." },
+  { id: "EY", node: "eyp",      level: "G", label: "EYP Atelier",       mount: "Beside the atelier door." },
+  { id: "FS", node: "ffs",      level: "G", label: "First Floor Stairs",mount: "At the foot of the stairs." },
+  { id: "CS", node: "cs",       level: "G", label: "Cafeteria Stairs (ground)", mount: "At the foot of the stairs." }
+].map(p => Object.assign({ level: "F1", audience: "foot", rev: 1 }, p));
 
 /* ============================================================
    SVG plan. Walls, doors, furniture and greenery, so the drawing reads as
@@ -228,7 +299,7 @@ const C = {
   wood: "#c9a97a", woodDark: "#a98756", table: "#e6d9bf", chair: "#8d8a83",
   tree: "#8fb26e", treeDark: "#5f8a44", text: "#2b2a27"
 };
-const svg = [];
+let svg = [];
 function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 function attrs(a) { return Object.keys(a).map(k => ' ' + k + '="' + a[k] + '"').join(""); }
 function r1(v) { return Math.round(v * 10) / 10; }
@@ -509,11 +580,140 @@ label(283, 295, "Amphitheatre", { size: 13, weight: 700, rot: -35, halo: "#e2d9c
 label(1258, 300, "Lobby", { size: 12, halo: C.corridor });
 label(980, 240, "Reading\ngarden", { size: 8, halo: "#cfdcb4" });
 // title and scale bar
-svg.push('<text x="16" y="26" font-size="16" font-weight="700" fill="' + C.text + '">School - Ground Floor</text>');
+svg.push('<text x="16" y="26" font-size="16" font-weight="700" fill="' + C.text + '">School - First Floor</text>');
 line(16, 44, 116, 44, { stroke: C.text, "stroke-width": 2 }); line(16, 40, 16, 48, { stroke: C.text, "stroke-width": 2 }); line(116, 40, 116, 48, { stroke: C.text, "stroke-width": 2 });
 svg.push('<text x="66" y="58" font-size="10" text-anchor="middle" fill="' + C.text + '">10 m</text>');
 svg.push('</svg>');
 
+fs.writeFileSync(path.join(ROOT, "plans", "school-first.svg"), svg.join("\n") + "\n");
+
+/* ============================================================
+   GROUND FLOOR PLAN
+   ============================================================ */
+svg = [];
+svg.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + GW + ' ' + GH + '" width="' + GW + '" height="' + GH + '" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">');
+svg.push('<defs>' +
+  '<pattern id="lawn" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="' + C.grass + '"/><circle cx="4" cy="5" r="1" fill="#c8d6ae"/><circle cx="10" cy="11" r="1" fill="#c8d6ae"/></pattern>' +
+  '<pattern id="tiles" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="' + C.corridor + '"/><path d="M24 0 V24 M0 24 H24" stroke="#e0d6c0" stroke-width="1"/></pattern>' +
+  '<pattern id="pitch" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#7fb06a"/><rect width="40" height="80" fill="#88b972"/></pattern>' +
+  '<pattern id="road" width="60" height="30" patternUnits="userSpaceOnUse"><rect width="60" height="30" fill="#8d8b88"/><rect x="10" y="14" width="26" height="2" fill="#e8e3d8"/></pattern>' +
+  '</defs>');
+rect(0, 0, GW, GH, { fill: "url(#lawn)" });
+
+// the road outside the gate, and the gate itself
+rect(0, GF.gate.y + GF.gate.h + 30, GW, 110, { fill: "url(#road)" });
+rect(GF.gate.x - 40, GF.gate.y + GF.gate.h, GF.gate.w + 80, 30, { fill: C.walk });
+
+// paved walkways
+function walk(x, y, w, h) { rect(x, y, w, h, { fill: C.walk, stroke: "#cfc7b6", "stroke-width": 1 }); }
+walk(GF.recep.x + GF.recep.w, GF.pathY - 22, 1750 - GF.recep.x - GF.recep.w, 44);          // main walkway
+walk(GF.gateX - 18, GF.pathY, 36, GF.gate.y - GF.pathY);                                    // gate to walkway
+walk(GF.gateX - 18, GF.eyp.y + GF.eyp.h, 36, GF.pathY - GF.eyp.y - GF.eyp.h);                // walkway to the atelier
+walk(GF.inf.x + GF.inf.w, GF.westY - 18, GF.recep.x - GF.inf.x - GF.inf.w, 36);              // Reception to the Infirmary
+walk(GF.fieldX - 15, GF.field.y + GF.field.h, 30, GF.westY - GF.field.y - GF.field.h);        // up to the field
+walk(GF.stairsX - 15, GF.westY, 30, GF.ffs.y - GF.westY);                                    // down to the stairs
+line(GF.field.x + GF.field.w + 16, 400, GF.cs.x + GF.cs.w / 2, GF.cs.y + GF.cs.h, { stroke: C.walk, "stroke-width": 30, "stroke-linecap": "round" });
+line(GF.field.x + GF.field.w + 16, 400, GF.cs.x + GF.cs.w / 2, GF.cs.y + GF.cs.h, { stroke: "#cfc7b6", "stroke-width": 32, "stroke-linecap": "round", opacity: 0.35 });
+
+// the football field: a running track around a pitch
+(function () {
+  const f = GF.field, r = f.w / 2;
+  rect(f.x, f.y, f.w, f.h, { rx: r, fill: "#c98a62", stroke: "#8f5a3a", "stroke-width": 2 });
+  [12, 24].forEach(k => rect(f.x + k, f.y + k, f.w - 2 * k, f.h - 2 * k, { rx: r - k, fill: "none", stroke: "#f1e3d6", "stroke-width": 1 }));
+  const p = { x: f.x + 46, y: f.y + 80, w: f.w - 92, h: f.h - 160 };
+  rect(p.x, p.y, p.w, p.h, { fill: "url(#pitch)", stroke: "#ffffff", "stroke-width": 2.5 });
+  line(p.x, p.y + p.h / 2, p.x + p.w, p.y + p.h / 2, { stroke: "#fff", "stroke-width": 2 });
+  circle(p.x + p.w / 2, p.y + p.h / 2, 34, { fill: "none", stroke: "#fff", "stroke-width": 2 });
+  circle(p.x + p.w / 2, p.y + p.h / 2, 3, { fill: "#fff" });
+  [p.y, p.y + p.h - 70].forEach(y => rect(p.x + p.w / 2 - 70, y, 140, 70, { fill: "none", stroke: "#fff", "stroke-width": 2 }));
+  [p.y, p.y + p.h - 28].forEach(y => rect(p.x + p.w / 2 - 34, y, 68, 28, { fill: "none", stroke: "#fff", "stroke-width": 2 }));
+  rect(p.x + p.w / 2 - 24, p.y - 10, 48, 10, { fill: "#fff", stroke: "#888", "stroke-width": 1 });
+  rect(p.x + p.w / 2 - 24, p.y + p.h, 48, 10, { fill: "#fff", stroke: "#888", "stroke-width": 1 });
+  // gaps in the track kerb where the paths come in
+  rect(GF.fieldX - 16, f.y + f.h - 6, 32, 12, { fill: "#c98a62" });
+  rect(f.x + f.w - 6, 384, 12, 32, { fill: "#c98a62" });
+})();
+
+// EYP Atelier: one big early-years studio with low tables, a reading corner and a sink wall
+(function () {
+  const e = GF.eyp;
+  rect(e.x, e.y, e.w, e.h, { fill: C.floor, stroke: C.wall, "stroke-width": 3 });
+  rect(e.x + 10, e.y + 10, e.w - 20, 6, { fill: "#b9c4c9" });
+  const cols = 7, rows = 3;
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const cx = e.x + 120 + c * 125, cy = e.y + 110 + r * 140;
+    circle(cx, cy, 30, { fill: C.table, stroke: C.woodDark, "stroke-width": 1 });
+    for (let k = 0; k < 6; k++) circle(cx + Math.cos(k * Math.PI / 3) * 44, cy + Math.sin(k * Math.PI / 3) * 44, 5, { fill: C.chair });
+  }
+  shelves(e.x + e.w - 130, e.y + 30, 110, 200, false);
+  rect(e.x + e.w - 150, e.y + 250, 130, 130, { rx: 20, fill: "#d9e4f0", stroke: "#9db3cc", "stroke-width": 1 });   // reading rug
+  for (let i = 0; i < 4; i++) rect(e.x + 40, e.y + e.h - 60, 60, 30, { rx: 4, fill: "#e5dbc4", stroke: C.woodDark, "stroke-width": 1 });
+  door(e.x, e.y, e.w, e.h, "s", (GF.gateX - e.x) / e.w);
+})();
+
+// Reception: desk facing the walkway, a couple of waiting chairs
+(function () {
+  const r = GF.recep;
+  rect(r.x, r.y, r.w, r.h, { fill: C.floor, stroke: C.wall, "stroke-width": 3 });
+  rect(r.x + r.w - 60, r.y + 40, 30, 80, { rx: 6, fill: "#cfd7dc", stroke: "#8e9aa3", "stroke-width": 1 });
+  circle(r.x + r.w - 75, r.y + 80, 6, { fill: C.chair });
+  [30, 60, 90].forEach(y => circle(r.x + 30, r.y + y + 15, 6, { fill: C.chair }));
+  plant(r.x + 20, r.y + r.h - 20);
+  door(r.x, r.y, r.w, r.h, "e", 0.75);
+})();
+
+// Infirmary: two beds with pillows, a cabinet, the cross on the door
+(function () {
+  const f = GF.inf;
+  rect(f.x, f.y, f.w, f.h, { fill: C.floor, stroke: C.wall, "stroke-width": 3 });
+  [30, 120].forEach(y => {
+    rect(f.x + 25, f.y + y, 110, 60, { rx: 6, fill: "#eef2f5", stroke: "#8e9aa3", "stroke-width": 1 });
+    rect(f.x + 30, f.y + y + 8, 24, 44, { rx: 6, fill: "#fff", stroke: "#b8c2ca", "stroke-width": 1 });
+  });
+  rect(f.x + f.w - 50, f.y + 30, 30, 150, { fill: "#cfd7dc", stroke: "#8e9aa3", "stroke-width": 1 });
+  rect(f.x + f.w - 24, f.y + 8, 16, 16, { fill: "#fff", stroke: "#c0392b", "stroke-width": 1 });
+  rect(f.x + f.w - 19, f.y + 13, 6, 6, { fill: "#c0392b" }); rect(f.x + f.w - 21, f.y + 15, 10, 2, { fill: "#c0392b" }); rect(f.x + f.w - 17, f.y + 11, 2, 10, { fill: "#c0392b" });
+  door(f.x, f.y, f.w, f.h, "e", 0.3);
+})();
+
+// the gate: two posts, a swing gate, a small guard box
+(function () {
+  const g = GF.gate;
+  rect(g.x, g.y + g.h - 40, 50, 40, { fill: C.floor, stroke: C.wall, "stroke-width": 2 });
+  circle(g.x + 60, g.y + g.h, 6, { fill: C.wall }); circle(g.x + g.w - 60, g.y + g.h, 6, { fill: C.wall });
+  line(g.x + 60, g.y + g.h, g.x + g.w / 2 - 6, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
+  line(g.x + g.w - 60, g.y + g.h, g.x + g.w / 2 + 6, g.y + g.h, { stroke: C.wall, "stroke-width": 3 });
+  pathd("M" + r1(g.x + 60) + " " + r1(g.y + g.h) + " a" + r1(g.w / 2 - 66) + " " + r1(g.w / 2 - 66) + " 0 0 1 " + r1(g.w / 2 - 66) + " -" + r1(g.w / 2 - 66), { fill: "none", stroke: C.wall, "stroke-width": 1 });
+  line(g.x - 40, g.y + g.h, g.x + 60, g.y + g.h, { stroke: C.wall, "stroke-width": 4 });
+  line(g.x + g.w - 60, g.y + g.h, g.x + g.w + 40, g.y + g.h, { stroke: C.wall, "stroke-width": 4 });
+})();
+
+// the two staircases up to the first floor
+[GF.cs, GF.ffs].forEach(b => {
+  rect(b.x, b.y, b.w, b.h, { fill: C.floor, stroke: C.wall, "stroke-width": 2.5 });
+  stairs(b.x, b.y, b.w, b.h, b.h > b.w ? "v" : "h");
+});
+
+// benches, plants and trees around the grounds
+bench(1000, GF.pathY - 40, 40); bench(1200, GF.pathY + 28, 40); bench(1650, GF.pathY - 40, 40);
+bench(400, GF.westY - 36, 40); plant(950, GF.pathY - 34); plant(1560, GF.pathY + 30); plant(GF.gateX + 30, GF.gate.y - 30);
+[[150, 200], [220, 500], [160, 760], [800, 120], [900, 620], [1000, 800], [1250, 900], [1800, 850], [2000, 900], [2200, 1100],
+ [1000, 1250], [1200, 1400], [300, 1300], [400, 1550], [900, 1500], [1800, 1400], [2100, 1500], [2200, 300], [2220, 700]]
+  .forEach(p => tree(p[0], p[1], 14));
+
+// labels
+label(GF.field.x + GF.field.w / 2, GF.field.y + GF.field.h / 2 + 60, "Football Field", { size: 16, weight: 700, halo: "#7fb06a" });
+label(GF.eyp.x + GF.eyp.w / 2, GF.eyp.y + GF.eyp.h - 40, "EYP Atelier", { size: 18, weight: 700 });
+label(GF.recep.x + GF.recep.w / 2, GF.recep.y + GF.recep.h - 20, "Reception", { size: 13, weight: 700 });
+label(GF.inf.x + GF.inf.w / 2, GF.inf.y + GF.inf.h - 18, "Infirmary", { size: 13, weight: 700 });
+label(GF.gate.x + GF.gate.w / 2, GF.gate.y + GF.gate.h + 50, "Main Gate", { size: 14, weight: 700, halo: C.walk });
+label(GF.cs.x + GF.cs.w / 2, GF.cs.y - 14, "Cafeteria Stairs", { size: 11, weight: 700, halo: C.grass });
+label(GF.cs.x + GF.cs.w / 2, GF.cs.y + GF.cs.h + 14, "up to the Cafeteria", { size: 9, halo: C.grass });
+label(GF.ffs.x + GF.ffs.w / 2, GF.ffs.y + GF.ffs.h + 16, "First Floor Stairs", { size: 11, weight: 700, halo: C.grass });
+svg.push('<text x="16" y="26" font-size="16" font-weight="700" fill="' + C.text + '">School - Ground Floor</text>');
+line(16, 44, 116, 44, { stroke: C.text, "stroke-width": 2 }); line(16, 40, 16, 48, { stroke: C.text, "stroke-width": 2 }); line(116, 40, 116, 48, { stroke: C.text, "stroke-width": 2 });
+svg.push('<text x="66" y="58" font-size="10" text-anchor="middle" fill="' + C.text + '">10 m</text>');
+svg.push('</svg>');
 fs.writeFileSync(path.join(ROOT, "plans", "school-ground.svg"), svg.join("\n") + "\n");
 
 const banner = "/* GENERATED by tools/build-school-map.js from the hand sketch. Do not hand-edit - re-run the builder. */\n";
@@ -543,6 +743,7 @@ SCANPOINTS.forEach(p => {
   ids.add(p.id);
   if (!BY[p.node]) { console.error("placard " + p.id + " points at missing node " + p.node); process.exit(1); }
 });
+MAP.levels.forEach(l => console.log(l.name + ": " + NODES.filter(n => n.level === l.id && n.dest).length + " destinations, " + SCANPOINTS.filter(p => p.level === l.id).length + " placards"));
 console.log("nodes " + NODES.length + ", edges " + EDGES.length + ", destinations " + NODES.filter(n => n.dest).length + ", placards " + SCANPOINTS.length);
 if (issues.some(i => i.sev === "err")) process.exit(1);
 

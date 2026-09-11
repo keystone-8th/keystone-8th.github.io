@@ -14,6 +14,18 @@
         "imageBox": [
           0,
           0,
+          2300,
+          1700
+        ]
+      },
+      {
+        "id": "F1",
+        "name": "First Floor",
+        "underground": false,
+        "image": "plans/school-first.svg",
+        "imageBox": [
+          0,
+          0,
           2850,
           650
         ]
@@ -26,7 +38,7 @@
     "areas": [
       {
         "id": "a-kanvas",
-        "level": "G",
+        "level": "F1",
         "node": "kanvas",
         "name": "Kanvas Studio",
         "points": [
@@ -50,7 +62,7 @@
       },
       {
         "id": "a-kukoos",
-        "level": "G",
+        "level": "F1",
         "node": "kukoos",
         "name": "Kukoos Studio",
         "points": [
@@ -74,7 +86,7 @@
       },
       {
         "id": "a-plc",
-        "level": "G",
+        "level": "F1",
         "node": "plc",
         "name": "PLC",
         "points": [
@@ -98,7 +110,7 @@
       },
       {
         "id": "a-cls1",
-        "level": "G",
+        "level": "F1",
         "node": "cls1",
         "name": "Classroom 1",
         "points": [
@@ -122,7 +134,7 @@
       },
       {
         "id": "a-conf",
-        "level": "G",
+        "level": "F1",
         "node": "conf",
         "name": "Conference Room",
         "points": [
@@ -146,7 +158,7 @@
       },
       {
         "id": "a-staff",
-        "level": "G",
+        "level": "F1",
         "node": "staff",
         "name": "Staffroom",
         "points": [
@@ -170,7 +182,7 @@
       },
       {
         "id": "a-boys-s",
-        "level": "G",
+        "level": "F1",
         "node": "boys-s",
         "name": "Boys Washroom (south)",
         "points": [
@@ -194,7 +206,7 @@
       },
       {
         "id": "a-girls-s",
-        "level": "G",
+        "level": "F1",
         "node": "girls-s",
         "name": "Girls Washroom (south)",
         "points": [
@@ -218,7 +230,7 @@
       },
       {
         "id": "a-cls2",
-        "level": "G",
+        "level": "F1",
         "node": "cls2",
         "name": "Classroom 2",
         "points": [
@@ -242,7 +254,7 @@
       },
       {
         "id": "a-cls3",
-        "level": "G",
+        "level": "F1",
         "node": "cls3",
         "name": "Classroom 3",
         "points": [
@@ -266,7 +278,7 @@
       },
       {
         "id": "a-cls4",
-        "level": "G",
+        "level": "F1",
         "node": "cls4",
         "name": "Classroom 4",
         "points": [
@@ -290,7 +302,7 @@
       },
       {
         "id": "a-stairs-s",
-        "level": "G",
+        "level": "F1",
         "node": "stairs-s",
         "name": "Stairs (opposite Reception)",
         "points": [
@@ -314,7 +326,7 @@
       },
       {
         "id": "a-stairs-se",
-        "level": "G",
+        "level": "F1",
         "node": "stairs-se",
         "name": "Stairs (cafeteria corner)",
         "points": [
@@ -338,7 +350,7 @@
       },
       {
         "id": "a-meet",
-        "level": "G",
+        "level": "F1",
         "node": "meet",
         "name": "Meeting Room",
         "points": [
@@ -362,7 +374,7 @@
       },
       {
         "id": "a-stairs-m",
-        "level": "G",
+        "level": "F1",
         "node": "stairs-m",
         "name": "Stairs (by Meeting Room)",
         "points": [
@@ -386,7 +398,7 @@
       },
       {
         "id": "a-cls5",
-        "level": "G",
+        "level": "F1",
         "node": "cls5",
         "name": "Classroom 5",
         "points": [
@@ -410,7 +422,7 @@
       },
       {
         "id": "a-cls6",
-        "level": "G",
+        "level": "F1",
         "node": "cls6",
         "name": "Classroom 6",
         "points": [
@@ -434,7 +446,7 @@
       },
       {
         "id": "a-lr",
-        "level": "G",
+        "level": "F1",
         "node": "lr",
         "name": "LR",
         "points": [
@@ -458,7 +470,7 @@
       },
       {
         "id": "a-stairs-n",
-        "level": "G",
+        "level": "F1",
         "node": "stairs-n",
         "name": "Stairs (by LR)",
         "points": [
@@ -482,7 +494,7 @@
       },
       {
         "id": "a-lib-door",
-        "level": "G",
+        "level": "F1",
         "node": "lib-door",
         "name": "Library Entrance",
         "points": [
@@ -506,7 +518,7 @@
       },
       {
         "id": "a-teach",
-        "level": "G",
+        "level": "F1",
         "node": "teach",
         "name": "Teacher's Cubicle",
         "points": [
@@ -530,7 +542,7 @@
       },
       {
         "id": "a-recep",
-        "level": "G",
+        "level": "F1",
         "node": "recep",
         "name": "Reception 2",
         "points": [
@@ -554,7 +566,7 @@
       },
       {
         "id": "a-stairs-ne",
-        "level": "G",
+        "level": "F1",
         "node": "stairs-ne",
         "name": "Cafeteria Stairs",
         "points": [
@@ -578,7 +590,7 @@
       },
       {
         "id": "a-caf",
-        "level": "G",
+        "level": "F1",
         "node": "caf",
         "name": "Cafeteria",
         "points": [
@@ -604,7 +616,7 @@
     "nodes": [
       {
         "id": "j-w",
-        "level": "G",
+        "level": "F1",
         "xy": [
           128,
           420
@@ -612,7 +624,7 @@
       },
       {
         "id": "j-plc",
-        "level": "G",
+        "level": "F1",
         "xy": [
           161,
           420
@@ -620,7 +632,7 @@
       },
       {
         "id": "j-cls1",
-        "level": "G",
+        "level": "F1",
         "xy": [
           265,
           420
@@ -628,7 +640,7 @@
       },
       {
         "id": "j-conf",
-        "level": "G",
+        "level": "F1",
         "xy": [
           344,
           420
@@ -636,7 +648,7 @@
       },
       {
         "id": "j-staff",
-        "level": "G",
+        "level": "F1",
         "xy": [
           411,
           420
@@ -644,7 +656,7 @@
       },
       {
         "id": "j-mid",
-        "level": "G",
+        "level": "F1",
         "xy": [
           466,
           420
@@ -652,7 +664,7 @@
       },
       {
         "id": "j-stm",
-        "level": "G",
+        "level": "F1",
         "xy": [
           519,
           420
@@ -660,7 +672,7 @@
       },
       {
         "id": "j-cls2",
-        "level": "G",
+        "level": "F1",
         "xy": [
           615,
           420
@@ -668,7 +680,7 @@
       },
       {
         "id": "j-cls3",
-        "level": "G",
+        "level": "F1",
         "xy": [
           760,
           420
@@ -676,7 +688,7 @@
       },
       {
         "id": "j-cls4",
-        "level": "G",
+        "level": "F1",
         "xy": [
           957,
           420
@@ -684,7 +696,7 @@
       },
       {
         "id": "j-teach",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1090,
           420
@@ -692,7 +704,7 @@
       },
       {
         "id": "j-lobby",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1150,
           420
@@ -700,7 +712,7 @@
       },
       {
         "id": "j-e1",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1700,
           420
@@ -708,7 +720,7 @@
       },
       {
         "id": "j-gal",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2025,
           420
@@ -716,7 +728,7 @@
       },
       {
         "id": "j-e2",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2250,
           420
@@ -724,7 +736,7 @@
       },
       {
         "id": "j-caf",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2728,
           420
@@ -732,7 +744,7 @@
       },
       {
         "id": "j-se",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2792,
           420
@@ -740,7 +752,7 @@
       },
       {
         "id": "j-kuk",
-        "level": "G",
+        "level": "F1",
         "xy": [
           128,
           348
@@ -748,7 +760,7 @@
       },
       {
         "id": "j-wing",
-        "level": "G",
+        "level": "F1",
         "xy": [
           122,
           285
@@ -756,7 +768,7 @@
       },
       {
         "id": "p-hive1",
-        "level": "G",
+        "level": "F1",
         "xy": [
           154,
           210
@@ -764,7 +776,7 @@
       },
       {
         "id": "p-boys",
-        "level": "G",
+        "level": "F1",
         "xy": [
           182,
           169
@@ -772,7 +784,7 @@
       },
       {
         "id": "p-wash",
-        "level": "G",
+        "level": "F1",
         "xy": [
           204,
           136
@@ -780,7 +792,7 @@
       },
       {
         "id": "p-girls",
-        "level": "G",
+        "level": "F1",
         "xy": [
           228,
           101
@@ -788,7 +800,7 @@
       },
       {
         "id": "p-north",
-        "level": "G",
+        "level": "F1",
         "xy": [
           245,
           125
@@ -796,7 +808,7 @@
       },
       {
         "id": "a-top",
-        "level": "G",
+        "level": "F1",
         "xy": [
           330,
           165
@@ -804,7 +816,7 @@
       },
       {
         "id": "a-door",
-        "level": "G",
+        "level": "F1",
         "xy": [
           405,
           225
@@ -812,7 +824,7 @@
       },
       {
         "id": "a-side",
-        "level": "G",
+        "level": "F1",
         "xy": [
           412,
           380
@@ -820,7 +832,7 @@
       },
       {
         "id": "l-gap",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1145,
           372
@@ -828,7 +840,7 @@
       },
       {
         "id": "lobby",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1290,
           290
@@ -837,7 +849,7 @@
       },
       {
         "id": "kanvas",
-        "level": "G",
+        "level": "F1",
         "xy": [
           66,
           453
@@ -848,7 +860,7 @@
       },
       {
         "id": "kukoos",
-        "level": "G",
+        "level": "F1",
         "xy": [
           66,
           348
@@ -859,7 +871,7 @@
       },
       {
         "id": "plc",
-        "level": "G",
+        "level": "F1",
         "xy": [
           163,
           495
@@ -870,7 +882,7 @@
       },
       {
         "id": "cls1",
-        "level": "G",
+        "level": "F1",
         "xy": [
           268,
           495
@@ -882,7 +894,7 @@
       },
       {
         "id": "conf",
-        "level": "G",
+        "level": "F1",
         "xy": [
           348,
           495
@@ -893,7 +905,7 @@
       },
       {
         "id": "staff",
-        "level": "G",
+        "level": "F1",
         "xy": [
           425,
           495
@@ -904,7 +916,7 @@
       },
       {
         "id": "boys-s",
-        "level": "G",
+        "level": "F1",
         "xy": [
           458,
           495
@@ -915,7 +927,7 @@
       },
       {
         "id": "girls-s",
-        "level": "G",
+        "level": "F1",
         "xy": [
           548,
           495
@@ -926,7 +938,7 @@
       },
       {
         "id": "cls2",
-        "level": "G",
+        "level": "F1",
         "xy": [
           633,
           495
@@ -938,7 +950,7 @@
       },
       {
         "id": "cls3",
-        "level": "G",
+        "level": "F1",
         "xy": [
           778,
           495
@@ -950,7 +962,7 @@
       },
       {
         "id": "cls4",
-        "level": "G",
+        "level": "F1",
         "xy": [
           958,
           495
@@ -961,7 +973,7 @@
       },
       {
         "id": "stairs-s",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1186,
           475
@@ -972,7 +984,7 @@
       },
       {
         "id": "stairs-se",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2792,
           498
@@ -983,7 +995,7 @@
       },
       {
         "id": "meet",
-        "level": "G",
+        "level": "F1",
         "xy": [
           466,
           305
@@ -994,7 +1006,7 @@
       },
       {
         "id": "stairs-m",
-        "level": "G",
+        "level": "F1",
         "xy": [
           519,
           305
@@ -1005,7 +1017,7 @@
       },
       {
         "id": "cls5",
-        "level": "G",
+        "level": "F1",
         "xy": [
           620,
           305
@@ -1017,7 +1029,7 @@
       },
       {
         "id": "cls6",
-        "level": "G",
+        "level": "F1",
         "xy": [
           761,
           305
@@ -1029,7 +1041,7 @@
       },
       {
         "id": "lr",
-        "level": "G",
+        "level": "F1",
         "xy": [
           282,
           115
@@ -1040,7 +1052,7 @@
       },
       {
         "id": "stairs-n",
-        "level": "G",
+        "level": "F1",
         "xy": [
           282,
           150
@@ -1051,7 +1063,7 @@
       },
       {
         "id": "lib-door",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1111,
           335
@@ -1062,7 +1074,7 @@
       },
       {
         "id": "teach",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1091,
           368
@@ -1073,7 +1085,7 @@
       },
       {
         "id": "recep",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1188,
           333
@@ -1085,7 +1097,7 @@
       },
       {
         "id": "stairs-ne",
-        "level": "G",
+        "level": "F1",
         "xy": [
           1349,
           158
@@ -1096,7 +1108,7 @@
       },
       {
         "id": "caf",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2729,
           296
@@ -1107,7 +1119,7 @@
       },
       {
         "id": "hive2",
-        "level": "G",
+        "level": "F1",
         "xy": [
           74,
           240
@@ -1118,7 +1130,7 @@
       },
       {
         "id": "hive1",
-        "level": "G",
+        "level": "F1",
         "xy": [
           113,
           182
@@ -1129,7 +1141,7 @@
       },
       {
         "id": "boys-n",
-        "level": "G",
+        "level": "F1",
         "xy": [
           141,
           141
@@ -1140,7 +1152,7 @@
       },
       {
         "id": "girls-n",
-        "level": "G",
+        "level": "F1",
         "xy": [
           187,
           72
@@ -1151,7 +1163,7 @@
       },
       {
         "id": "prints",
-        "level": "G",
+        "level": "F1",
         "xy": [
           262,
           186
@@ -1162,7 +1174,7 @@
       },
       {
         "id": "amph",
-        "level": "G",
+        "level": "F1",
         "xy": [
           283,
           290
@@ -1174,7 +1186,7 @@
       },
       {
         "id": "lib",
-        "level": "G",
+        "level": "F1",
         "xy": [
           930,
           250
@@ -1185,7 +1197,7 @@
       },
       {
         "id": "gallery",
-        "level": "G",
+        "level": "F1",
         "xy": [
           2025,
           555
@@ -1194,6 +1206,146 @@
         "cat": "common",
         "name": "Gallery Area",
         "sub": "Rock garden on the way to the Cafeteria"
+      },
+      {
+        "id": "g-gate",
+        "level": "G",
+        "xy": [
+          1510,
+          1330
+        ],
+        "dest": true,
+        "cat": "entry",
+        "name": "Main Gate",
+        "anchor": true,
+        "gate": true
+      },
+      {
+        "id": "g-jpath",
+        "level": "G",
+        "xy": [
+          1510,
+          1045
+        ]
+      },
+      {
+        "id": "g-jeyp",
+        "level": "G",
+        "xy": [
+          1510,
+          704
+        ]
+      },
+      {
+        "id": "eyp",
+        "level": "G",
+        "xy": [
+          1640,
+          425
+        ],
+        "dest": true,
+        "cat": "studio",
+        "name": "EYP Atelier",
+        "sub": "Early years studio"
+      },
+      {
+        "id": "g-jrecep",
+        "level": "G",
+        "xy": [
+          930,
+          1045
+        ]
+      },
+      {
+        "id": "g-recep",
+        "level": "G",
+        "xy": [
+          820,
+          980
+        ],
+        "dest": true,
+        "cat": "entry",
+        "name": "Reception",
+        "anchor": true
+      },
+      {
+        "id": "g-jstairs",
+        "level": "G",
+        "xy": [
+          680,
+          980
+        ]
+      },
+      {
+        "id": "g-jfield",
+        "level": "G",
+        "xy": [
+          505,
+          980
+        ]
+      },
+      {
+        "id": "infirmary",
+        "level": "G",
+        "xy": [
+          185,
+          1035
+        ],
+        "dest": true,
+        "cat": "office",
+        "name": "Infirmary",
+        "sub": "First aid and the nurse"
+      },
+      {
+        "id": "field-s",
+        "level": "G",
+        "xy": [
+          505,
+          794
+        ]
+      },
+      {
+        "id": "field",
+        "level": "G",
+        "xy": [
+          480,
+          465
+        ],
+        "dest": true,
+        "cat": "sport",
+        "name": "Football Field"
+      },
+      {
+        "id": "field-e",
+        "level": "G",
+        "xy": [
+          656,
+          400
+        ]
+      },
+      {
+        "id": "cs",
+        "level": "G",
+        "xy": [
+          1055,
+          290
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "Cafeteria Stairs (ground floor)",
+        "sub": "Up to the first floor"
+      },
+      {
+        "id": "ffs",
+        "level": "G",
+        "xy": [
+          645,
+          1365
+        ],
+        "dest": true,
+        "cat": "stairs",
+        "name": "First Floor Stairs",
+        "sub": "Up to the first floor, by Reception"
       }
     ],
     "edges": [
@@ -1823,12 +1975,171 @@
         ],
         "len": 14,
         "instruction": null
+      },
+      {
+        "id": "e-g-gate-g-jpath",
+        "from": "g-gate",
+        "to": "g-jpath",
+        "mode": [
+          "foot"
+        ],
+        "len": 29,
+        "instruction": "Come in through the Main Gate and walk up to the main walkway.",
+        "instructionRev": "Walk down the path to the Main Gate."
+      },
+      {
+        "id": "e-g-jpath-g-jrecep",
+        "from": "g-jpath",
+        "to": "g-jrecep",
+        "mode": [
+          "foot"
+        ],
+        "len": 58,
+        "instruction": "Follow the walkway towards Reception.",
+        "instructionRev": "Follow the walkway away from Reception, towards the gate path."
+      },
+      {
+        "id": "e-g-jrecep-g-recep",
+        "from": "g-jrecep",
+        "to": "g-recep",
+        "mode": [
+          "foot"
+        ],
+        "len": 13,
+        "instruction": null
+      },
+      {
+        "id": "e-g-jpath-g-jeyp",
+        "from": "g-jpath",
+        "to": "g-jeyp",
+        "mode": [
+          "foot"
+        ],
+        "len": 34,
+        "instruction": "Cross the walkway and carry on up the path to the EYP Atelier.",
+        "instructionRev": "Come down the path from the EYP Atelier to the main walkway."
+      },
+      {
+        "id": "e-g-jeyp-eyp",
+        "from": "g-jeyp",
+        "to": "eyp",
+        "mode": [
+          "foot"
+        ],
+        "len": 31,
+        "instruction": null
+      },
+      {
+        "id": "e-g-recep-g-jstairs",
+        "from": "g-recep",
+        "to": "g-jstairs",
+        "mode": [
+          "foot"
+        ],
+        "len": 14,
+        "instruction": "From Reception, take the path that runs past the First Floor Stairs.",
+        "instructionRev": "Follow the path back to Reception."
+      },
+      {
+        "id": "e-g-jstairs-ffs",
+        "from": "g-jstairs",
+        "to": "ffs",
+        "mode": [
+          "foot"
+        ],
+        "len": 39,
+        "instruction": null
+      },
+      {
+        "id": "e-g-jstairs-g-jfield",
+        "from": "g-jstairs",
+        "to": "g-jfield",
+        "mode": [
+          "foot"
+        ],
+        "len": 18,
+        "instruction": null
+      },
+      {
+        "id": "e-g-jfield-infirmary",
+        "from": "g-jfield",
+        "to": "infirmary",
+        "mode": [
+          "foot"
+        ],
+        "len": 32,
+        "instruction": "Carry on along the path to the Infirmary at the end.",
+        "instructionRev": "Walk back along the path from the Infirmary."
+      },
+      {
+        "id": "e-g-jfield-field-s",
+        "from": "g-jfield",
+        "to": "field-s",
+        "mode": [
+          "foot"
+        ],
+        "len": 19,
+        "instruction": "Take the side path up to the Football Field.",
+        "instructionRev": "Come down the side path from the Football Field."
+      },
+      {
+        "id": "e-field-s-field",
+        "from": "field-s",
+        "to": "field",
+        "mode": [
+          "foot"
+        ],
+        "len": 33,
+        "instruction": null
+      },
+      {
+        "id": "e-field-field-e",
+        "from": "field",
+        "to": "field-e",
+        "mode": [
+          "foot"
+        ],
+        "len": 19,
+        "instruction": null
+      },
+      {
+        "id": "e-field-e-cs",
+        "from": "field-e",
+        "to": "cs",
+        "mode": [
+          "foot"
+        ],
+        "len": 41,
+        "instruction": "Take the path from the corner of the Football Field up to the Cafeteria Stairs.",
+        "instructionRev": "Come down the path from the Cafeteria Stairs to the Football Field."
+      },
+      {
+        "id": "e-ffs-stairs-s",
+        "from": "ffs",
+        "to": "stairs-s",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": "Climb the First Floor Stairs. You come out on the first floor opposite Reception 2.",
+        "instructionRev": "Take the stairs down to the ground floor. You come out beside Reception."
+      },
+      {
+        "id": "e-cs-stairs-ne",
+        "from": "cs",
+        "to": "stairs-ne",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": "Climb the Cafeteria Stairs to the first floor. You come out in the lobby behind Reception 2.",
+        "instructionRev": "Take the Cafeteria Stairs down to the ground floor. You come out beside the Football Field."
       }
     ]
   },
   "scanPoints": [
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "RC",
@@ -1837,7 +2148,7 @@
       "mount": "On the reception counter."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "CF",
@@ -1846,7 +2157,7 @@
       "mount": "Beside the cafeteria door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "LB",
@@ -1855,7 +2166,7 @@
       "mount": "On the library door frame."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "AM",
@@ -1864,7 +2175,7 @@
       "mount": "On the post at the top of the steps."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "PL",
@@ -1873,7 +2184,7 @@
       "mount": "Beside the PLC door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "SR",
@@ -1882,7 +2193,7 @@
       "mount": "Beside the staffroom door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "MR",
@@ -1891,7 +2202,7 @@
       "mount": "Beside the meeting room door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "KV",
@@ -1900,7 +2211,7 @@
       "mount": "Beside the studio door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "KK",
@@ -1909,7 +2220,7 @@
       "mount": "Beside the studio door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "MH",
@@ -1918,7 +2229,7 @@
       "mount": "Beside the Maker's Hive-1 door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "CR",
@@ -1927,7 +2238,7 @@
       "mount": "Beside the conference room door."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "TC",
@@ -1936,7 +2247,7 @@
       "mount": "On the cubicle partition."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "SS",
@@ -1945,7 +2256,7 @@
       "mount": "At the foot of the stairs."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "SN",
@@ -1954,13 +2265,76 @@
       "mount": "At the foot of the stairs, in the lobby behind Reception 2."
     },
     {
-      "level": "G",
+      "level": "F1",
       "audience": "foot",
       "rev": 1,
       "id": "GA",
       "node": "gallery",
       "label": "Gallery Area",
       "mount": "On the wall at the corridor end of the rock garden."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "MG",
+      "node": "g-gate",
+      "label": "Main Gate",
+      "mount": "On the gatepost, inside the gate."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "R1",
+      "node": "g-recep",
+      "label": "Reception",
+      "mount": "On the reception counter."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "IN",
+      "node": "infirmary",
+      "label": "Infirmary",
+      "mount": "Beside the infirmary door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "FF",
+      "node": "field",
+      "label": "Football Field",
+      "mount": "On the post at the field entrance."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "EY",
+      "node": "eyp",
+      "label": "EYP Atelier",
+      "mount": "Beside the atelier door."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "FS",
+      "node": "ffs",
+      "label": "First Floor Stairs",
+      "mount": "At the foot of the stairs."
+    },
+    {
+      "level": "G",
+      "audience": "foot",
+      "rev": 1,
+      "id": "CS",
+      "node": "cs",
+      "label": "Cafeteria Stairs (ground)",
+      "mount": "At the foot of the stairs."
     }
   ]
 }

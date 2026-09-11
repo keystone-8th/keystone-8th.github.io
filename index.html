@@ -309,6 +309,8 @@
     font:inherit;font-size:13px;font-weight:700;border-radius:9px;padding:8px 11px;
     min-height:40px;cursor:pointer;white-space:nowrap}
   .mapbar button[hidden]{display:none}
+  .lvls{display:flex;gap:4px}
+  .lvls button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
   .mapbox{flex:1 1 auto;min-height:0;background:#d9e4c4;position:relative;overflow:hidden}
   .mapbox svg{width:100%;height:100%;display:block;touch-action:none;cursor:grab;
     user-select:none;-webkit-user-select:none}
@@ -414,6 +416,7 @@
     <div class="mapbar">
       <button id="m-back">‹ Back</button>
       <div class="t" id="m-title">Ground Floor</div>
+      <div class="lvls" id="lvls" role="group" aria-label="Floor"></div>
       <button id="m-zoom" hidden="">Whole floor</button>
     </div>
     <div class="mapbox" id="mapbox">
@@ -474,8 +477,9 @@
                 browse:null,
                 // A QR scan is evidence. Anything else is the visitor's guess.
                 guessedStart:false, atLabel:null,
-                // floor plan: zoomed to the route or showing the whole floor
-                mapZoom:"route" };
+                // floor plan: zoomed to the route or showing the whole floor,
+                // and which floor is on screen (null = work it out)
+                mapZoom:"route", mapLevel:null };
   try { state.themePref = localStorage.getItem("sw_theme") || "auto"; } catch (e) {}
 
   function esc(t){ return String(t).replace(/[&<>"]/g, function(c){
@@ -484,7 +488,9 @@
   var ENG = createEngine(MAP);
   var G = ENG.G, route = ENG.route, validate = ENG.validate,
       resolveDest = ENG.resolveDest, nodeLabel = ENG.nodeLabel;
-  var LEVEL = MAP.levels[0];
+  var LEVELS = MAP.levels;
+  var LEVEL = LEVELS[0];
+  function levelOf(id){ return LEVELS.filter(function(l){ return l.id === id; })[0] || LEVEL; }
 
   (function seedPosition(){
     var anchor = MAP.nodes.filter(function(n){ return n.anchor; })[0];
@@ -504,10 +510,11 @@
     { id:"class",  label:"Classrooms",                   icon:"🏫" },
     { id:"common", label:"Library, PLC & shared spaces", icon:"📚" },
     { id:"studio", label:"Studios & Maker's Hives",      icon:"🎨" },
-    { id:"office", label:"Staff & meeting rooms",        icon:"🗂️" },
+    { id:"office", label:"Staff, offices & infirmary",   icon:"🗂️" },
     { id:"food",   label:"Cafeteria",                    icon:"🍽️" },
     { id:"wash",   label:"Washrooms",                    icon:"🚻" },
-    { id:"stairs", label:"Stairs",                       icon:"🪜" }
+    { id:"stairs", label:"Stairs",                       icon:"🪜" },
+    { id:"sport",  label:"Sports & outdoors",            icon:"⚽" }
   ];
   var OTHER = { id:"other", label:"Other places", icon:"📍" };
   var CAT = {}; CATS.forEach(function(c){ CAT[c.id] = c; });
@@ -517,7 +524,7 @@
   function row(n){
     var c = catOf(n);
     return { id:n.id, node:n.id, icon:c.icon, t1:n.name || n.id,
-             t2:(n.sub ? n.sub + " · " : "") + c.label, cat:c.id };
+             t2:levelName(n.level) + " · " + (n.sub || c.label), cat:c.id };
   }
   var DESTS = MAP.nodes.filter(function(n){ return n.dest; }).map(row);
   DESTS.sort(function(a, b){
@@ -806,14 +813,14 @@
     w.innerHTML =
       '<div class="sg" aria-hidden="true">' + s.glyph + "</div>" +
       '<div class="st">' + esc(s.text) + "</div>" +
-      (s.len ? '<div class="sm">' + Math.round(s.len) + " m</div>" : "") +
+      '<div class="sm">' + (s.len ? Math.round(s.len) + " m · " : "") + esc(levelName(s.level)) + "</div>" +
       '<svg class="mini" id="mini" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of this step"></svg>' +
       (s.photo ? '<img class="shot" src="photos/' + s.photo + '.jpg" alt="" onerror="this.remove()">' : "");
 
     // The mini-map shows exactly the bit of corridor this step walks.
     var from = s.edgeFrom == null ? r.path.edges.length - 1 : s.edgeFrom;
     var to   = s.edgeTo == null ? r.path.edges.length - 1 : s.edgeTo;
-    drawPlan($("mini"), { route: r, hi: [from, to], fit: "hi", pad: 70, minW: 260 });
+    drawPlan($("mini"), { route: r, hi: [from, to], fit: "hi", pad: 70, minW: 260, level: s.level });
 
     $("s-prev").disabled = i === 0;
     $("s-next").disabled = i >= n - 1;
@@ -849,7 +856,11 @@
     try { await navigator.clipboard.writeText(url); flash("Link copied"); }
     catch (e) { window.prompt("Copy this link and send it:", url); }
   };
-  $("r-map").onclick = function(){ state.mapZoom = "route"; location.hash = "#/map"; };
+  $("r-map").onclick = function(){
+    state.mapZoom = "route";
+    state.mapLevel = lastRoute && lastRoute.steps[state.stepIx] ? lastRoute.steps[state.stepIx].level : null;
+    location.hash = "#/map";
+  };
 
   $("s-prev").onclick = function(){ stepBy(-1); };
   $("s-next").onclick = function(){ stepBy(1); };
@@ -974,35 +985,63 @@
     var cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;
     return [cx - w / 2, cy - h / 2, w, h];
   }
-  /* Draws the plan, the route and the markers into any svg. Returns the
-     viewBox it chose, so the map view can carry on panning from there. */
+  function onLevel(id, lvl){ var n = G.nodes[id]; return !!n && n.level === lvl; }
+  function levelIx(id){ for (var i = 0; i < LEVELS.length; i++) if (LEVELS[i].id === id) return i; return 0; }
+  /* Draws ONE floor of the plan, with the parts of the route that are on
+     it, into any svg. Returns the viewBox it chose, so the map view can
+     carry on panning from there. */
   function drawPlan(svg, o){
     while (svg.firstChild) svg.removeChild(svg.firstChild);
-    var box = LEVEL.imageBox || [0, 0, MAP.view.w, MAP.view.h];
-    var img = el("image", { x: box[0], y: box[1], width: box[2], height: box[3], href: LEVEL.image });
-    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", LEVEL.image);
+    var L = levelOf(o.level);
+    var box = L.imageBox || [0, 0, MAP.view.w, MAP.view.h];
+    var img = el("image", { x: box[0], y: box[1], width: box[2], height: box[3], href: L.image });
+    img.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", L.image);
     svg.appendChild(img);
 
     var r = o.route, all = [], hi = [];
+    // The stretches of the route that lie on this floor: consecutive edges
+    // with both ends here. A staircase edge breaks a run.
+    function runs(i0, i1){
+      var out = [], cur = [];
+      for (var i = i0; i <= i1; i++) {
+        var e = r.path.edges[i];
+        if (onLevel(e.a, L.id) && onLevel(e.b, L.id)) {
+          if (!cur.length) cur.push(G.nodes[e.a].xy);
+          cur.push(G.nodes[e.b].xy);
+        } else if (cur.length) { out.push(cur); cur = []; }
+      }
+      if (cur.length) out.push(cur);
+      return out;
+    }
     if (r && r.path) {
-      all = pts(r, 0, r.path.edges.length - 1);
-      poly(svg, all, "#7fa4e6", 4, "10 8");
-      if (o.hi) { hi = pts(r, o.hi[0], o.hi[1]); poly(svg, hi, "#1f5fd0", 6); }
+      runs(0, r.path.edges.length - 1).forEach(function(p){ poly(svg, p, "#7fa4e6", 4, "10 8"); all = all.concat(p); });
+      if (o.hi) runs(o.hi[0], o.hi[1]).forEach(function(p){ poly(svg, p, "#1f5fd0", 6); hi = hi.concat(p); });
     }
     var here = state.startChosen ? G.nodes[state.at] : null;
+    if (here && here.level !== L.id) here = null;
     var dest = state.dest ? resolveDest(state.dest) : null;
+    var dn = dest && dest.node && dest.node.level === L.id ? dest.node : null;
     if (hi.length) marker(svg, hi[0], "#1f5fd0", o.hi[0] === 0 ? "You" : "", false);
     else if (here) marker(svg, here.xy, "#1f5fd0", "You", true);
-    if (dest && dest.node) marker(svg, dest.node.xy, "#b3261e", nodeLabel(dest.node), o.fit !== "hi");
-    if (hi.length && o.hi[1] === r.path.edges.length - 1 && dest && dest.node) { /* final leg: the flag says it */ }
-    else if (hi.length) marker(svg, hi[hi.length - 1], "#1f5fd0", "", false);
+    if (dn) marker(svg, dn.xy, "#b3261e", nodeLabel(dn), o.fit !== "hi");
+    if (hi.length && !(dn && o.hi[1] === r.path.edges.length - 1)) marker(svg, hi[hi.length - 1], "#1f5fd0", "", false);
 
+    // Where the route changes floor, mark the staircase on both drawings.
     var focus = o.fit === "hi" && hi.length ? hi : all.slice();
-    if (o.fit !== "hi") { if (here) focus.push(here.xy); if (dest && dest.node) focus.push(dest.node.xy); }
+    if (r && r.path) r.path.edges.forEach(function(e, i){
+      var a = G.nodes[e.a], b = G.nodes[e.b];
+      if (a.level === b.level) return;
+      var n = a.level === L.id ? a : b.level === L.id ? b : null;
+      if (!n) return;
+      var leaving = a.level === L.id;
+      var text = leaving ? "Stairs " + (levelIx(b.level) > levelIx(a.level) ? "up" : "down") : "Arrive here";
+      marker(svg, n.xy, "#6b4fbb", text, false);
+      if (o.fit === "hi" && o.hi && i >= o.hi[0] && i <= o.hi[1]) focus.push(n.xy);
+    });
+    if (o.fit !== "hi") { if (here) focus.push(here.xy); if (dn) focus.push(dn.xy); }
     var vb;
-    if (o.fit === "whole" || !focus.length) {
-      vb = fitTo(svg, [0, 0, MAP.view.w, MAP.view.h], 10, 300);
-    } else vb = fitTo(svg, bbox(focus), o.pad || 70, o.minW || 360);
+    if (o.fit === "whole" || !focus.length) vb = fitTo(svg, [box[0], box[1], box[0] + box[2], box[1] + box[3]], 10, 300);
+    else vb = fitTo(svg, bbox(focus), o.pad || 70, o.minW || 360);
     svg.setAttribute("viewBox", vb.map(function(v){ return Math.round(v * 10) / 10; }).join(" "));
     return vb;
   }
@@ -1010,7 +1049,8 @@
   /* ================= 3. floor plan view ================= */
   var view = null;     // current viewBox [x, y, w, h]
   function setView(vb){
-    var W = MAP.view.w, H = MAP.view.h;
+    var B = levelOf(state.mapLevel).imageBox || [0, 0, MAP.view.w, MAP.view.h];
+    var W = B[2], H = B[3];
     vb[2] = Math.max(120, Math.min(vb[2], W * 1.2));
     vb[3] = Math.max(60, Math.min(vb[3], H * 1.6));
     vb[0] = Math.max(-W * 0.1, Math.min(vb[0], W - vb[2] * 0.5));
@@ -1018,13 +1058,32 @@
     view = vb;
     $("mapsvg").setAttribute("viewBox", vb.map(function(v){ return Math.round(v * 10) / 10; }).join(" "));
   }
+  function defaultLevel(){
+    if (lastRoute && lastRoute.steps && lastRoute.steps[state.stepIx]) return lastRoute.steps[state.stepIx].level;
+    if (state.startChosen && G.nodes[state.at]) return G.nodes[state.at].level;
+    return LEVELS[0].id;
+  }
+  function renderLevelButtons(){
+    var box = $("lvls");
+    box.innerHTML = "";
+    if (LEVELS.length < 2) return;
+    LEVELS.forEach(function(l){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = l.name;
+      b.setAttribute("aria-pressed", l.id === state.mapLevel);
+      b.onclick = function(){ state.mapLevel = l.id; renderMap(); };
+      box.appendChild(b);
+    });
+  }
   function renderMap(){
     var svg = $("mapsvg");
+    if (!state.mapLevel) state.mapLevel = defaultLevel();
     var hasRoute = !!(lastRoute && lastRoute.path);
-    var vb = drawPlan(svg, { route: lastRoute, fit: state.mapZoom === "route" ? "route" : "whole", pad: 70, minW: 360 });
+    var vb = drawPlan(svg, { route: lastRoute, fit: state.mapZoom === "route" ? "route" : "whole", pad: 70, minW: 360, level: state.mapLevel });
     setView(vb);
     // Tap a room on the plan to make it the destination.
-    MAP.nodes.filter(function(n){ return n.dest; }).forEach(function(n){
+    MAP.nodes.filter(function(n){ return n.dest && n.level === state.mapLevel; }).forEach(function(n){
       var hit = el("circle", { cx: n.xy[0], cy: n.xy[1], r: 22, fill: "transparent", "pointer-events": "all" });
       hit.style.cursor = "pointer";
       hit.setAttribute("data-id", n.id);
@@ -1036,7 +1095,8 @@
     $("m-zoom").textContent = state.mapZoom === "route" ? "Whole floor" : "Zoom in";
     $("m-title").textContent = hasRoute
       ? (hereLabel() || "Start") + " → " + destLabel()
-      : levelName(LEVEL.id) + (dest && dest.node ? " · " + nodeLabel(dest.node) : "");
+      : levelName(state.mapLevel) + (dest && dest.node ? " · " + nodeLabel(dest.node) : "");
+    renderLevelButtons();
   }
   $("m-zoom").onclick = function(){
     state.mapZoom = state.mapZoom === "route" ? "whole" : "route";
@@ -1046,7 +1106,7 @@
     if (state.dest && state.startChosen) location.hash = "#/r/" + encodeURIComponent(state.dest);
     else location.hash = "#/";
   };
-  $("pr-map").onclick = function(){ state.mapZoom = "whole"; location.hash = "#/map"; };
+  $("pr-map").onclick = function(){ state.mapZoom = "whole"; state.mapLevel = null; location.hash = "#/map"; };
   function zoomBy(f, cx, cy){
     if (!view) return;
     var v = view.slice();
@@ -1103,7 +1163,7 @@
         last = null; pinch = null; svg.classList.remove("drag");
         if (moved < 8 && downId && DEST_BY[downId]) {
           state.dest = downId; lastRoute = null;
-          if (state.startChosen) { computeRoute(); state.mapZoom = "route"; }
+          if (state.startChosen) { computeRoute(); state.mapZoom = "route"; state.mapLevel = null; }
           header(); renderMap();
         }
         downId = null;
@@ -1222,7 +1282,7 @@
       $("edit-lbl").textContent = "Start over";
     } else if (state.view === "map") {
       $("loc-k").textContent = "Floor plan";
-      $("youare").textContent = levelName(LEVEL.id);
+      $("youare").textContent = levelName(state.mapLevel || LEVEL.id);
       $("edit-lbl").textContent = "Close";
     } else {
       $("loc-k").textContent = "You are at";

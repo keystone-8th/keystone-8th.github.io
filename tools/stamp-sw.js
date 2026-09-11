@@ -13,7 +13,8 @@ const path = require("path");
 const crypto = require("crypto");
 
 const ROOT = path.resolve(__dirname, "..");
-const FILES = ["index.html", "engine.js", "map.js", "scanpoints.js", "manifest.webmanifest", "plans/school-ground.svg"];
+const FILES = ["index.html", "engine.js", "map.js", "scanpoints.js", "manifest.webmanifest"]
+  .concat(fs.readdirSync(path.join(ROOT, "plans")).filter(f => f.endsWith(".svg")).map(f => "plans/" + f));
 
 const h = crypto.createHash("sha1");
 FILES.forEach(f => { try { h.update(fs.readFileSync(path.join(ROOT, f))); } catch (e) {} });

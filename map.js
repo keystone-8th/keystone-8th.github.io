@@ -14,6 +14,18 @@ const MAP = {
       "imageBox": [
         0,
         0,
+        2300,
+        1700
+      ]
+    },
+    {
+      "id": "F1",
+      "name": "First Floor",
+      "underground": false,
+      "image": "plans/school-first.svg",
+      "imageBox": [
+        0,
+        0,
         2850,
         650
       ]
@@ -26,7 +38,7 @@ const MAP = {
   "areas": [
     {
       "id": "a-kanvas",
-      "level": "G",
+      "level": "F1",
       "node": "kanvas",
       "name": "Kanvas Studio",
       "points": [
@@ -50,7 +62,7 @@ const MAP = {
     },
     {
       "id": "a-kukoos",
-      "level": "G",
+      "level": "F1",
       "node": "kukoos",
       "name": "Kukoos Studio",
       "points": [
@@ -74,7 +86,7 @@ const MAP = {
     },
     {
       "id": "a-plc",
-      "level": "G",
+      "level": "F1",
       "node": "plc",
       "name": "PLC",
       "points": [
@@ -98,7 +110,7 @@ const MAP = {
     },
     {
       "id": "a-cls1",
-      "level": "G",
+      "level": "F1",
       "node": "cls1",
       "name": "Classroom 1",
       "points": [
@@ -122,7 +134,7 @@ const MAP = {
     },
     {
       "id": "a-conf",
-      "level": "G",
+      "level": "F1",
       "node": "conf",
       "name": "Conference Room",
       "points": [
@@ -146,7 +158,7 @@ const MAP = {
     },
     {
       "id": "a-staff",
-      "level": "G",
+      "level": "F1",
       "node": "staff",
       "name": "Staffroom",
       "points": [
@@ -170,7 +182,7 @@ const MAP = {
     },
     {
       "id": "a-boys-s",
-      "level": "G",
+      "level": "F1",
       "node": "boys-s",
       "name": "Boys Washroom (south)",
       "points": [
@@ -194,7 +206,7 @@ const MAP = {
     },
     {
       "id": "a-girls-s",
-      "level": "G",
+      "level": "F1",
       "node": "girls-s",
       "name": "Girls Washroom (south)",
       "points": [
@@ -218,7 +230,7 @@ const MAP = {
     },
     {
       "id": "a-cls2",
-      "level": "G",
+      "level": "F1",
       "node": "cls2",
       "name": "Classroom 2",
       "points": [
@@ -242,7 +254,7 @@ const MAP = {
     },
     {
       "id": "a-cls3",
-      "level": "G",
+      "level": "F1",
       "node": "cls3",
       "name": "Classroom 3",
       "points": [
@@ -266,7 +278,7 @@ const MAP = {
     },
     {
       "id": "a-cls4",
-      "level": "G",
+      "level": "F1",
       "node": "cls4",
       "name": "Classroom 4",
       "points": [
@@ -290,7 +302,7 @@ const MAP = {
     },
     {
       "id": "a-stairs-s",
-      "level": "G",
+      "level": "F1",
       "node": "stairs-s",
       "name": "Stairs (opposite Reception)",
       "points": [
@@ -314,7 +326,7 @@ const MAP = {
     },
     {
       "id": "a-stairs-se",
-      "level": "G",
+      "level": "F1",
       "node": "stairs-se",
       "name": "Stairs (cafeteria corner)",
       "points": [
@@ -338,7 +350,7 @@ const MAP = {
     },
     {
       "id": "a-meet",
-      "level": "G",
+      "level": "F1",
       "node": "meet",
       "name": "Meeting Room",
       "points": [
@@ -362,7 +374,7 @@ const MAP = {
     },
     {
       "id": "a-stairs-m",
-      "level": "G",
+      "level": "F1",
       "node": "stairs-m",
       "name": "Stairs (by Meeting Room)",
       "points": [
@@ -386,7 +398,7 @@ const MAP = {
     },
     {
       "id": "a-cls5",
-      "level": "G",
+      "level": "F1",
       "node": "cls5",
       "name": "Classroom 5",
       "points": [
@@ -410,7 +422,7 @@ const MAP = {
     },
     {
       "id": "a-cls6",
-      "level": "G",
+      "level": "F1",
       "node": "cls6",
       "name": "Classroom 6",
       "points": [
@@ -434,7 +446,7 @@ const MAP = {
     },
     {
       "id": "a-lr",
-      "level": "G",
+      "level": "F1",
       "node": "lr",
       "name": "LR",
       "points": [
@@ -458,7 +470,7 @@ const MAP = {
     },
     {
       "id": "a-stairs-n",
-      "level": "G",
+      "level": "F1",
       "node": "stairs-n",
       "name": "Stairs (by LR)",
       "points": [
@@ -482,7 +494,7 @@ const MAP = {
     },
     {
       "id": "a-lib-door",
-      "level": "G",
+      "level": "F1",
       "node": "lib-door",
       "name": "Library Entrance",
       "points": [
@@ -506,7 +518,7 @@ const MAP = {
     },
     {
       "id": "a-teach",
-      "level": "G",
+      "level": "F1",
       "node": "teach",
       "name": "Teacher's Cubicle",
       "points": [
@@ -530,7 +542,7 @@ const MAP = {
     },
     {
       "id": "a-recep",
-      "level": "G",
+      "level": "F1",
       "node": "recep",
       "name": "Reception 2",
       "points": [
@@ -554,7 +566,7 @@ const MAP = {
     },
     {
       "id": "a-stairs-ne",
-      "level": "G",
+      "level": "F1",
       "node": "stairs-ne",
       "name": "Cafeteria Stairs",
       "points": [
@@ -578,7 +590,7 @@ const MAP = {
     },
     {
       "id": "a-caf",
-      "level": "G",
+      "level": "F1",
       "node": "caf",
       "name": "Cafeteria",
       "points": [
@@ -604,7 +616,7 @@ const MAP = {
   "nodes": [
     {
       "id": "j-w",
-      "level": "G",
+      "level": "F1",
       "xy": [
         128,
         420
@@ -612,7 +624,7 @@ const MAP = {
     },
     {
       "id": "j-plc",
-      "level": "G",
+      "level": "F1",
       "xy": [
         161,
         420
@@ -620,7 +632,7 @@ const MAP = {
     },
     {
       "id": "j-cls1",
-      "level": "G",
+      "level": "F1",
       "xy": [
         265,
         420
@@ -628,7 +640,7 @@ const MAP = {
     },
     {
       "id": "j-conf",
-      "level": "G",
+      "level": "F1",
       "xy": [
         344,
         420
@@ -636,7 +648,7 @@ const MAP = {
     },
     {
       "id": "j-staff",
-      "level": "G",
+      "level": "F1",
       "xy": [
         411,
         420
@@ -644,7 +656,7 @@ const MAP = {
     },
     {
       "id": "j-mid",
-      "level": "G",
+      "level": "F1",
       "xy": [
         466,
         420
@@ -652,7 +664,7 @@ const MAP = {
     },
     {
       "id": "j-stm",
-      "level": "G",
+      "level": "F1",
       "xy": [
         519,
         420
@@ -660,7 +672,7 @@ const MAP = {
     },
     {
       "id": "j-cls2",
-      "level": "G",
+      "level": "F1",
       "xy": [
         615,
         420
@@ -668,7 +680,7 @@ const MAP = {
     },
     {
       "id": "j-cls3",
-      "level": "G",
+      "level": "F1",
       "xy": [
         760,
         420
@@ -676,7 +688,7 @@ const MAP = {
     },
     {
       "id": "j-cls4",
-      "level": "G",
+      "level": "F1",
       "xy": [
         957,
         420
@@ -684,7 +696,7 @@ const MAP = {
     },
     {
       "id": "j-teach",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1090,
         420
@@ -692,7 +704,7 @@ const MAP = {
     },
     {
       "id": "j-lobby",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1150,
         420
@@ -700,7 +712,7 @@ const MAP = {
     },
     {
       "id": "j-e1",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1700,
         420
@@ -708,7 +720,7 @@ const MAP = {
     },
     {
       "id": "j-gal",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2025,
         420
@@ -716,7 +728,7 @@ const MAP = {
     },
     {
       "id": "j-e2",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2250,
         420
@@ -724,7 +736,7 @@ const MAP = {
     },
     {
       "id": "j-caf",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2728,
         420
@@ -732,7 +744,7 @@ const MAP = {
     },
     {
       "id": "j-se",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2792,
         420
@@ -740,7 +752,7 @@ const MAP = {
     },
     {
       "id": "j-kuk",
-      "level": "G",
+      "level": "F1",
       "xy": [
         128,
         348
@@ -748,7 +760,7 @@ const MAP = {
     },
     {
       "id": "j-wing",
-      "level": "G",
+      "level": "F1",
       "xy": [
         122,
         285
@@ -756,7 +768,7 @@ const MAP = {
     },
     {
       "id": "p-hive1",
-      "level": "G",
+      "level": "F1",
       "xy": [
         154,
         210
@@ -764,7 +776,7 @@ const MAP = {
     },
     {
       "id": "p-boys",
-      "level": "G",
+      "level": "F1",
       "xy": [
         182,
         169
@@ -772,7 +784,7 @@ const MAP = {
     },
     {
       "id": "p-wash",
-      "level": "G",
+      "level": "F1",
       "xy": [
         204,
         136
@@ -780,7 +792,7 @@ const MAP = {
     },
     {
       "id": "p-girls",
-      "level": "G",
+      "level": "F1",
       "xy": [
         228,
         101
@@ -788,7 +800,7 @@ const MAP = {
     },
     {
       "id": "p-north",
-      "level": "G",
+      "level": "F1",
       "xy": [
         245,
         125
@@ -796,7 +808,7 @@ const MAP = {
     },
     {
       "id": "a-top",
-      "level": "G",
+      "level": "F1",
       "xy": [
         330,
         165
@@ -804,7 +816,7 @@ const MAP = {
     },
     {
       "id": "a-door",
-      "level": "G",
+      "level": "F1",
       "xy": [
         405,
         225
@@ -812,7 +824,7 @@ const MAP = {
     },
     {
       "id": "a-side",
-      "level": "G",
+      "level": "F1",
       "xy": [
         412,
         380
@@ -820,7 +832,7 @@ const MAP = {
     },
     {
       "id": "l-gap",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1145,
         372
@@ -828,7 +840,7 @@ const MAP = {
     },
     {
       "id": "lobby",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1290,
         290
@@ -837,7 +849,7 @@ const MAP = {
     },
     {
       "id": "kanvas",
-      "level": "G",
+      "level": "F1",
       "xy": [
         66,
         453
@@ -848,7 +860,7 @@ const MAP = {
     },
     {
       "id": "kukoos",
-      "level": "G",
+      "level": "F1",
       "xy": [
         66,
         348
@@ -859,7 +871,7 @@ const MAP = {
     },
     {
       "id": "plc",
-      "level": "G",
+      "level": "F1",
       "xy": [
         163,
         495
@@ -870,7 +882,7 @@ const MAP = {
     },
     {
       "id": "cls1",
-      "level": "G",
+      "level": "F1",
       "xy": [
         268,
         495
@@ -882,7 +894,7 @@ const MAP = {
     },
     {
       "id": "conf",
-      "level": "G",
+      "level": "F1",
       "xy": [
         348,
         495
@@ -893,7 +905,7 @@ const MAP = {
     },
     {
       "id": "staff",
-      "level": "G",
+      "level": "F1",
       "xy": [
         425,
         495
@@ -904,7 +916,7 @@ const MAP = {
     },
     {
       "id": "boys-s",
-      "level": "G",
+      "level": "F1",
       "xy": [
         458,
         495
@@ -915,7 +927,7 @@ const MAP = {
     },
     {
       "id": "girls-s",
-      "level": "G",
+      "level": "F1",
       "xy": [
         548,
         495
@@ -926,7 +938,7 @@ const MAP = {
     },
     {
       "id": "cls2",
-      "level": "G",
+      "level": "F1",
       "xy": [
         633,
         495
@@ -938,7 +950,7 @@ const MAP = {
     },
     {
       "id": "cls3",
-      "level": "G",
+      "level": "F1",
       "xy": [
         778,
         495
@@ -950,7 +962,7 @@ const MAP = {
     },
     {
       "id": "cls4",
-      "level": "G",
+      "level": "F1",
       "xy": [
         958,
         495
@@ -961,7 +973,7 @@ const MAP = {
     },
     {
       "id": "stairs-s",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1186,
         475
@@ -972,7 +984,7 @@ const MAP = {
     },
     {
       "id": "stairs-se",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2792,
         498
@@ -983,7 +995,7 @@ const MAP = {
     },
     {
       "id": "meet",
-      "level": "G",
+      "level": "F1",
       "xy": [
         466,
         305
@@ -994,7 +1006,7 @@ const MAP = {
     },
     {
       "id": "stairs-m",
-      "level": "G",
+      "level": "F1",
       "xy": [
         519,
         305
@@ -1005,7 +1017,7 @@ const MAP = {
     },
     {
       "id": "cls5",
-      "level": "G",
+      "level": "F1",
       "xy": [
         620,
         305
@@ -1017,7 +1029,7 @@ const MAP = {
     },
     {
       "id": "cls6",
-      "level": "G",
+      "level": "F1",
       "xy": [
         761,
         305
@@ -1029,7 +1041,7 @@ const MAP = {
     },
     {
       "id": "lr",
-      "level": "G",
+      "level": "F1",
       "xy": [
         282,
         115
@@ -1040,7 +1052,7 @@ const MAP = {
     },
     {
       "id": "stairs-n",
-      "level": "G",
+      "level": "F1",
       "xy": [
         282,
         150
@@ -1051,7 +1063,7 @@ const MAP = {
     },
     {
       "id": "lib-door",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1111,
         335
@@ -1062,7 +1074,7 @@ const MAP = {
     },
     {
       "id": "teach",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1091,
         368
@@ -1073,7 +1085,7 @@ const MAP = {
     },
     {
       "id": "recep",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1188,
         333
@@ -1085,7 +1097,7 @@ const MAP = {
     },
     {
       "id": "stairs-ne",
-      "level": "G",
+      "level": "F1",
       "xy": [
         1349,
         158
@@ -1096,7 +1108,7 @@ const MAP = {
     },
     {
       "id": "caf",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2729,
         296
@@ -1107,7 +1119,7 @@ const MAP = {
     },
     {
       "id": "hive2",
-      "level": "G",
+      "level": "F1",
       "xy": [
         74,
         240
@@ -1118,7 +1130,7 @@ const MAP = {
     },
     {
       "id": "hive1",
-      "level": "G",
+      "level": "F1",
       "xy": [
         113,
         182
@@ -1129,7 +1141,7 @@ const MAP = {
     },
     {
       "id": "boys-n",
-      "level": "G",
+      "level": "F1",
       "xy": [
         141,
         141
@@ -1140,7 +1152,7 @@ const MAP = {
     },
     {
       "id": "girls-n",
-      "level": "G",
+      "level": "F1",
       "xy": [
         187,
         72
@@ -1151,7 +1163,7 @@ const MAP = {
     },
     {
       "id": "prints",
-      "level": "G",
+      "level": "F1",
       "xy": [
         262,
         186
@@ -1162,7 +1174,7 @@ const MAP = {
     },
     {
       "id": "amph",
-      "level": "G",
+      "level": "F1",
       "xy": [
         283,
         290
@@ -1174,7 +1186,7 @@ const MAP = {
     },
     {
       "id": "lib",
-      "level": "G",
+      "level": "F1",
       "xy": [
         930,
         250
@@ -1185,7 +1197,7 @@ const MAP = {
     },
     {
       "id": "gallery",
-      "level": "G",
+      "level": "F1",
       "xy": [
         2025,
         555
@@ -1194,6 +1206,146 @@ const MAP = {
       "cat": "common",
       "name": "Gallery Area",
       "sub": "Rock garden on the way to the Cafeteria"
+    },
+    {
+      "id": "g-gate",
+      "level": "G",
+      "xy": [
+        1510,
+        1330
+      ],
+      "dest": true,
+      "cat": "entry",
+      "name": "Main Gate",
+      "anchor": true,
+      "gate": true
+    },
+    {
+      "id": "g-jpath",
+      "level": "G",
+      "xy": [
+        1510,
+        1045
+      ]
+    },
+    {
+      "id": "g-jeyp",
+      "level": "G",
+      "xy": [
+        1510,
+        704
+      ]
+    },
+    {
+      "id": "eyp",
+      "level": "G",
+      "xy": [
+        1640,
+        425
+      ],
+      "dest": true,
+      "cat": "studio",
+      "name": "EYP Atelier",
+      "sub": "Early years studio"
+    },
+    {
+      "id": "g-jrecep",
+      "level": "G",
+      "xy": [
+        930,
+        1045
+      ]
+    },
+    {
+      "id": "g-recep",
+      "level": "G",
+      "xy": [
+        820,
+        980
+      ],
+      "dest": true,
+      "cat": "entry",
+      "name": "Reception",
+      "anchor": true
+    },
+    {
+      "id": "g-jstairs",
+      "level": "G",
+      "xy": [
+        680,
+        980
+      ]
+    },
+    {
+      "id": "g-jfield",
+      "level": "G",
+      "xy": [
+        505,
+        980
+      ]
+    },
+    {
+      "id": "infirmary",
+      "level": "G",
+      "xy": [
+        185,
+        1035
+      ],
+      "dest": true,
+      "cat": "office",
+      "name": "Infirmary",
+      "sub": "First aid and the nurse"
+    },
+    {
+      "id": "field-s",
+      "level": "G",
+      "xy": [
+        505,
+        794
+      ]
+    },
+    {
+      "id": "field",
+      "level": "G",
+      "xy": [
+        480,
+        465
+      ],
+      "dest": true,
+      "cat": "sport",
+      "name": "Football Field"
+    },
+    {
+      "id": "field-e",
+      "level": "G",
+      "xy": [
+        656,
+        400
+      ]
+    },
+    {
+      "id": "cs",
+      "level": "G",
+      "xy": [
+        1055,
+        290
+      ],
+      "dest": true,
+      "cat": "stairs",
+      "name": "Cafeteria Stairs (ground floor)",
+      "sub": "Up to the first floor"
+    },
+    {
+      "id": "ffs",
+      "level": "G",
+      "xy": [
+        645,
+        1365
+      ],
+      "dest": true,
+      "cat": "stairs",
+      "name": "First Floor Stairs",
+      "sub": "Up to the first floor, by Reception"
     }
   ],
   "edges": [
@@ -1823,6 +1975,165 @@ const MAP = {
       ],
       "len": 14,
       "instruction": null
+    },
+    {
+      "id": "e-g-gate-g-jpath",
+      "from": "g-gate",
+      "to": "g-jpath",
+      "mode": [
+        "foot"
+      ],
+      "len": 29,
+      "instruction": "Come in through the Main Gate and walk up to the main walkway.",
+      "instructionRev": "Walk down the path to the Main Gate."
+    },
+    {
+      "id": "e-g-jpath-g-jrecep",
+      "from": "g-jpath",
+      "to": "g-jrecep",
+      "mode": [
+        "foot"
+      ],
+      "len": 58,
+      "instruction": "Follow the walkway towards Reception.",
+      "instructionRev": "Follow the walkway away from Reception, towards the gate path."
+    },
+    {
+      "id": "e-g-jrecep-g-recep",
+      "from": "g-jrecep",
+      "to": "g-recep",
+      "mode": [
+        "foot"
+      ],
+      "len": 13,
+      "instruction": null
+    },
+    {
+      "id": "e-g-jpath-g-jeyp",
+      "from": "g-jpath",
+      "to": "g-jeyp",
+      "mode": [
+        "foot"
+      ],
+      "len": 34,
+      "instruction": "Cross the walkway and carry on up the path to the EYP Atelier.",
+      "instructionRev": "Come down the path from the EYP Atelier to the main walkway."
+    },
+    {
+      "id": "e-g-jeyp-eyp",
+      "from": "g-jeyp",
+      "to": "eyp",
+      "mode": [
+        "foot"
+      ],
+      "len": 31,
+      "instruction": null
+    },
+    {
+      "id": "e-g-recep-g-jstairs",
+      "from": "g-recep",
+      "to": "g-jstairs",
+      "mode": [
+        "foot"
+      ],
+      "len": 14,
+      "instruction": "From Reception, take the path that runs past the First Floor Stairs.",
+      "instructionRev": "Follow the path back to Reception."
+    },
+    {
+      "id": "e-g-jstairs-ffs",
+      "from": "g-jstairs",
+      "to": "ffs",
+      "mode": [
+        "foot"
+      ],
+      "len": 39,
+      "instruction": null
+    },
+    {
+      "id": "e-g-jstairs-g-jfield",
+      "from": "g-jstairs",
+      "to": "g-jfield",
+      "mode": [
+        "foot"
+      ],
+      "len": 18,
+      "instruction": null
+    },
+    {
+      "id": "e-g-jfield-infirmary",
+      "from": "g-jfield",
+      "to": "infirmary",
+      "mode": [
+        "foot"
+      ],
+      "len": 32,
+      "instruction": "Carry on along the path to the Infirmary at the end.",
+      "instructionRev": "Walk back along the path from the Infirmary."
+    },
+    {
+      "id": "e-g-jfield-field-s",
+      "from": "g-jfield",
+      "to": "field-s",
+      "mode": [
+        "foot"
+      ],
+      "len": 19,
+      "instruction": "Take the side path up to the Football Field.",
+      "instructionRev": "Come down the side path from the Football Field."
+    },
+    {
+      "id": "e-field-s-field",
+      "from": "field-s",
+      "to": "field",
+      "mode": [
+        "foot"
+      ],
+      "len": 33,
+      "instruction": null
+    },
+    {
+      "id": "e-field-field-e",
+      "from": "field",
+      "to": "field-e",
+      "mode": [
+        "foot"
+      ],
+      "len": 19,
+      "instruction": null
+    },
+    {
+      "id": "e-field-e-cs",
+      "from": "field-e",
+      "to": "cs",
+      "mode": [
+        "foot"
+      ],
+      "len": 41,
+      "instruction": "Take the path from the corner of the Football Field up to the Cafeteria Stairs.",
+      "instructionRev": "Come down the path from the Cafeteria Stairs to the Football Field."
+    },
+    {
+      "id": "e-ffs-stairs-s",
+      "from": "ffs",
+      "to": "stairs-s",
+      "mode": [
+        "foot"
+      ],
+      "len": 8,
+      "instruction": "Climb the First Floor Stairs. You come out on the first floor opposite Reception 2.",
+      "instructionRev": "Take the stairs down to the ground floor. You come out beside Reception."
+    },
+    {
+      "id": "e-cs-stairs-ne",
+      "from": "cs",
+      "to": "stairs-ne",
+      "mode": [
+        "foot"
+      ],
+      "len": 8,
+      "instruction": "Climb the Cafeteria Stairs to the first floor. You come out in the lobby behind Reception 2.",
+      "instructionRev": "Take the Cafeteria Stairs down to the ground floor. You come out beside the Football Field."
     }
   ]
 };

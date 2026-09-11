@@ -18,7 +18,7 @@
          network genuinely is not there.
    ============================================================ */
 
-const VERSION    = "school-95d6a8a983";
+const VERSION    = "school-16cdfd61d9";
 const DATA_FILES = ["map.js", "scanpoints.js"];
 const NET_TIMEOUT = 2500;
 
