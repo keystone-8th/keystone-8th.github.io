@@ -24,7 +24,8 @@ with a small map of each step.
 | `tools/make-placards.js` | Generates the QR codes (`qr-png/`) and a print sheet (`placards.html`) |
 | `tools/placard-sheet.py` | Puts every QR code on one labelled poster, `qr-png/all-placards.png` |
 | `tools/stamp-sw.js` | Gives the offline copy a new version stamp so phones pick up changes |
-| `plans/school-map-transcription.md` | Both sketches, read into text |
+| `plans/ground-trace.json` | The ground floor traced off the photos: every wall, room, door and circle in photo pixels |
+| `plans/school-map-transcription.md` | The sketches, read into text |
 
 ## Change the map
 
@@ -44,19 +45,29 @@ it the Amphitheatre. The Cafeteria sits about 150 m along the corridor from
 Reception 2, further than the sketch suggests, with the Gallery Area (a rock
 garden) along the way. The doorway drawn beside Classroom 3 is not an entrance.
 
-The ground floor is one long block with a corridor down the middle: the
-Infirmary at the west end, Reception and the Lift in the middle, a staircase at
-each end. Its corridor ends at the First Floor Stairs, under Reception 2 on
-the floor above; the first floor carries on east from there to the Gallery Area
-and the Cafeteria. The EYP Atelier is a wedge attached to the north side, with Atelier
-Classes 1 to 4 along its straight wall, Classes 5 to 8 and the washrooms along
-its angled wall, and a planted courtyard between them.
+The ground floor is traced, not estimated. `plans/ground-trace.json` holds the
+position of every wall, room, door and circle, measured by detecting the pencil
+lines in the photo of the sketch. The Atelier's rooms come from the second
+photo, mapped into the Atelier outline by its four corners. The builder turns
+the page a quarter-turn so the Atelier sits above the hall, as the Atelier
+sketch draws it. To move something on the ground floor, change its numbers in
+that file and rebuild.
 
-The two floors are joined by two staircases and a lift: the First Floor Stairs
-(ground, beside Reception) come out opposite Reception 2, the Cafeteria Stairs
-(ground, at the Infirmary end) come out in the lobby behind Reception 2, and the
-Lift comes out in the corridor by Reception 2. The bus bay on the ground-floor
-sketch is left off on purpose.
+Laid out that way: the Infirmary is at the end of the building, a narrow
+corridor with double doors at each end runs from it to Reception, and the
+Cafeteria Stairs sit beside that corridor. The Lift is inside Reception, next to
+the main entrance. Past Reception is a hall with three round planters and the
+First Floor Stairs, and two sets of doors from the hall into the EYP Atelier.
+The Atelier has Classes 1 to 4 along its straight wall, Classes 5 to 8 and the
+washrooms along its angled wall, and a planted courtyard between them. The
+large space beside the corridor is unlabelled on the sketch and left empty.
+
+The floors are joined by the Cafeteria Stairs and the Lift. **The stairs that
+come out opposite Reception 2 are never used**: they are drawn on both plans,
+marked "not in use", but there is no link between the floors through them, so
+no route can go up or down them. The lift counts as a longer walk than it is,
+so the stairs stay the default and the lift is only taken where it saves a long
+detour. The bus bay on the sketch is left off on purpose.
 
 ## Put it on GitHub Pages
 

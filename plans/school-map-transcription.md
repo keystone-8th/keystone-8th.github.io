@@ -56,41 +56,35 @@ east wall) | stairs (bottom-right corner) | stairs (on the south wall, mid-way)
 
 # Ground floor (second and third sketches)
 
-The first ground-floor sketch (yellow paper) was replaced by a clearer one.
-Turned the right way up, the newer sketch shows:
+The ground floor is traced from the photographs rather than read by eye. The
+measured positions are in `plans/ground-trace.json`. What the sketch shows, with
+the page turned so the Atelier sits above the hall:
 
-* One long block with a corridor down the middle. **Infirmary** at the west
-  end, **Reception** in the middle with a **Lift** beside it, and a staircase
-  towards each end. The labelled **stairs** by Reception carry an arrow
-  pointing left, so that flight is climbed right to left.
-* Double doors along the block, out to the forecourt on the south side and to
-  the field on the north.
-* **Football field** out to the north-west, drawn as an oval inside an oval.
-* **Atlier** (the EYP Atelier) attached on the north side at the east end. Its
-  west wall is straight and its east wall runs at an angle, so the wing is a
-  wedge.
-* **Main Gate** to the south-east, on the road, with a **Bus Bay** beyond it.
-  The bus bay is left off the map at the school's request.
-* Three round planters in a row on the forecourt.
-* The block ends at the stairs by Reception. On the floor above, that is where
-  Reception 2 stands, and the first floor carries on east past it to the
-  Gallery Area and the Cafeteria.
+* **Infirmary** at the end of the building.
+* A **narrow corridor** from the Infirmary to Reception, with **double doors**
+  at each end, and a **staircase** beside it (the app calls these the Cafeteria
+  Stairs).
+* **Reception**, with the **Lift** in its corner and the **main entrance**
+  double doors on the front wall beside the lift.
+* A **hall** past Reception with **three round planters** and the labelled
+  **stairs**, whose arrow shows them climbed right to left.
+* Two sets of **double doors** from the hall into the **Atlier** (EYP Atelier),
+  a wedge with a straight wall and an angled wall.
+* A large **unlabelled space** beside the corridor, left empty on the map.
+* **Football field** off to the side, running off the edge of the page.
+* **Main Gate** in front of the hall. **Bus Bay** beyond it, left off the map.
 
 ## Inside the Atelier (third sketch)
 
-* **Cls 1** to **Cls 4** in a column down the straight west wall.
-* **Cls 5**, **Cls 6**, **Cls 7**, **Cls 8** in a row along the angled east
-  wall, then **Girls** washroom and **Boys** washroom at the end of that row.
-  The app calls these Atelier Class 1 to 8, to keep them apart from the
-  first-floor classrooms.
-* An open courtyard in the middle with a large round planter holding a flower,
-  two smaller planters and three trees.
-* Doors along the bottom wall into the main block.
+* **Cls 1** to **Cls 4** down the straight wall.
+* **Cls 5** to **Cls 8**, then **Girls** and **Boys** washrooms, along the angled
+  wall. The app calls them Atelier Class 1 to 8.
+* A courtyard in the middle with a large round planter holding a flower and two
+  smaller planters.
 
 ## How the floors are joined in the app
 
-* First Floor Stairs (ground, beside Reception) come out opposite Reception 2.
-* Cafeteria Stairs (ground, at the Infirmary end) come out in the lobby behind
-  Reception 2, which the first-floor map also calls the Cafeteria Stairs.
-* The Lift comes out in the first-floor corridor by Reception 2. The first-floor
-  sketch shows no lift, so only the ground-floor end of it is drawn.
+* The Cafeteria Stairs come out in the lobby behind Reception 2.
+* The Lift comes out in the first-floor corridor by Reception 2.
+* The stairs in the hall come out opposite Reception 2. They are **never used**:
+  the school asked for no route ever to take them, up or down.

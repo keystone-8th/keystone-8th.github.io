@@ -14,8 +14,8 @@
         "imageBox": [
           0,
           0,
-          2500,
-          1500
+          1440,
+          1260
         ]
       },
       {
@@ -978,9 +978,10 @@
           1186,
           475
         ],
-        "dest": true,
+        "dest": false,
         "cat": "stairs",
-        "name": "Stairs (opposite Reception)"
+        "name": "Stairs (opposite Reception)",
+        "sub": "Not in use"
       },
       {
         "id": "stairs-se",
@@ -1208,83 +1209,11 @@
         "sub": "Rock garden on the way to the Cafeteria"
       },
       {
-        "id": "gc-w",
-        "level": "G",
-        "xy": [
-          300,
-          815
-        ]
-      },
-      {
-        "id": "gc-inf",
-        "level": "G",
-        "xy": [
-          365,
-          815
-        ]
-      },
-      {
-        "id": "gc-fld",
-        "level": "G",
-        "xy": [
-          465,
-          815
-        ]
-      },
-      {
-        "id": "gc-cs",
-        "level": "G",
-        "xy": [
-          710,
-          815
-        ]
-      },
-      {
-        "id": "gc-rec",
-        "level": "G",
-        "xy": [
-          1095,
-          815
-        ]
-      },
-      {
-        "id": "gc-door",
-        "level": "G",
-        "xy": [
-          1200,
-          815
-        ]
-      },
-      {
-        "id": "gc-lift",
-        "level": "G",
-        "xy": [
-          1340,
-          815
-        ]
-      },
-      {
-        "id": "gc-ffs",
-        "level": "G",
-        "xy": [
-          1525,
-          815
-        ]
-      },
-      {
-        "id": "gc-eyp",
-        "level": "G",
-        "xy": [
-          1650,
-          815
-        ]
-      },
-      {
         "id": "infirmary",
         "level": "G",
         "xy": [
-          365,
-          915
+          204,
+          723
         ],
         "dest": true,
         "cat": "office",
@@ -1292,35 +1221,35 @@
         "sub": "First aid and the nurse"
       },
       {
-        "id": "g-recep",
+        "id": "gc-0",
         "level": "G",
         "xy": [
-          1095,
-          915
-        ],
-        "dest": true,
-        "cat": "entry",
-        "name": "Reception",
-        "anchor": true
+          340,
+          713
+        ]
       },
       {
-        "id": "ffs",
+        "id": "gc-cs",
         "level": "G",
         "xy": [
-          1525,
-          915
-        ],
-        "dest": true,
-        "cat": "stairs",
-        "name": "First Floor Stairs",
-        "sub": "Up to the first floor, beside Reception"
+          473,
+          713
+        ]
+      },
+      {
+        "id": "gc-1",
+        "level": "G",
+        "xy": [
+          616,
+          713
+        ]
       },
       {
         "id": "cs",
         "level": "G",
         "xy": [
-          710,
-          703
+          473,
+          785
         ],
         "dest": true,
         "cat": "stairs",
@@ -1328,66 +1257,94 @@
         "sub": "Up to the first floor"
       },
       {
+        "id": "g-recep",
+        "level": "G",
+        "xy": [
+          745,
+          710
+        ],
+        "dest": true,
+        "cat": "entry",
+        "name": "Reception",
+        "anchor": true
+      },
+      {
         "id": "lift",
         "level": "G",
         "xy": [
-          1340,
-          710
+          850,
+          751
         ],
         "dest": true,
         "cat": "stairs",
         "name": "Lift",
-        "sub": "Step-free way up to the first floor"
+        "sub": "Inside Reception - step-free way up"
       },
       {
-        "id": "g-fld-door",
+        "id": "g-ent-in",
         "level": "G",
         "xy": [
-          465,
-          620
+          830,
+          802
         ]
       },
       {
-        "id": "field-s",
+        "id": "g-ent-out",
         "level": "G",
         "xy": [
-          465,
-          500
+          830,
+          866
         ]
       },
       {
-        "id": "field",
+        "id": "h-0",
         "level": "G",
         "xy": [
-          465,
-          320
+          892,
+          642
+        ]
+      },
+      {
+        "id": "h-d1",
+        "level": "G",
+        "xy": [
+          1012,
+          642
+        ]
+      },
+      {
+        "id": "h-d2",
+        "level": "G",
+        "xy": [
+          1264,
+          642
+        ]
+      },
+      {
+        "id": "ffs",
+        "level": "G",
+        "xy": [
+          1220,
+          713
         ],
-        "dest": true,
-        "cat": "sport",
-        "name": "Football Field"
+        "cat": "stairs",
+        "name": "First Floor Stairs",
+        "sub": "Not in use"
       },
       {
-        "id": "g-out",
+        "id": "g-f1",
         "level": "G",
         "xy": [
-          1200,
-          1060
-        ]
-      },
-      {
-        "id": "g-fore",
-        "level": "G",
-        "xy": [
-          2180,
-          1060
+          1248,
+          866
         ]
       },
       {
         "id": "g-gate",
         "level": "G",
         "xy": [
-          2180,
-          1320
+          1248,
+          1113
         ],
         "dest": true,
         "cat": "entry",
@@ -1396,19 +1353,46 @@
         "gate": true
       },
       {
-        "id": "a-door",
+        "id": "g-w1",
         "level": "G",
         "xy": [
-          1650,
-          620
+          72,
+          866
         ]
+      },
+      {
+        "id": "g-w2",
+        "level": "G",
+        "xy": [
+          72,
+          386
+        ]
+      },
+      {
+        "id": "field-s",
+        "level": "G",
+        "xy": [
+          278,
+          386
+        ]
+      },
+      {
+        "id": "field",
+        "level": "G",
+        "xy": [
+          278,
+          228
+        ],
+        "dest": true,
+        "cat": "sport",
+        "name": "Football Field"
       },
       {
         "id": "eyp",
         "level": "G",
         "xy": [
-          1650,
-          580
+          1012,
+          576
         ],
         "dest": true,
         "cat": "studio",
@@ -1416,19 +1400,35 @@
         "sub": "Early years wing"
       },
       {
-        "id": "aw-0",
+        "id": "a-in2",
         "level": "G",
         "xy": [
-          1385,
-          213
+          1236,
+          584
+        ]
+      },
+      {
+        "id": "a-tc",
+        "level": "G",
+        "xy": [
+          1018,
+          200
+        ]
+      },
+      {
+        "id": "af-cls-a1",
+        "level": "G",
+        "xy": [
+          994,
+          209
         ]
       },
       {
         "id": "cls-a1",
         "level": "G",
         "xy": [
-          1263,
-          213
+          953,
+          209
         ],
         "dest": true,
         "cat": "class",
@@ -1436,19 +1436,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "aw-1",
+        "id": "af-cls-a2",
         "level": "G",
         "xy": [
-          1385,
-          323
+          995,
+          289
         ]
       },
       {
         "id": "cls-a2",
         "level": "G",
         "xy": [
-          1263,
-          323
+          954,
+          288
         ],
         "dest": true,
         "cat": "class",
@@ -1456,19 +1456,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "aw-2",
+        "id": "af-cls-a3",
         "level": "G",
         "xy": [
-          1385,
-          433
+          997,
+          416
         ]
       },
       {
         "id": "cls-a3",
         "level": "G",
         "xy": [
-          1263,
-          433
+          954,
+          411
         ],
         "dest": true,
         "cat": "class",
@@ -1476,19 +1476,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "aw-3",
+        "id": "af-cls-a4",
         "level": "G",
         "xy": [
-          1385,
-          543
+          999,
+          554
         ]
       },
       {
         "id": "cls-a4",
         "level": "G",
         "xy": [
-          1263,
-          543
+          955,
+          546
         ],
         "dest": true,
         "cat": "class",
@@ -1496,27 +1496,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "a-n",
+        "id": "af-cls-a5",
         "level": "G",
         "xy": [
-          1425,
-          240
-        ]
-      },
-      {
-        "id": "ad-0",
-        "level": "G",
-        "xy": [
-          1590,
-          314
+          1054,
+          271
         ]
       },
       {
         "id": "cls-a5",
         "level": "G",
         "xy": [
-          1658,
-          234
+          1087,
+          244
         ],
         "dest": true,
         "cat": "class",
@@ -1524,19 +1516,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "ad-1",
+        "id": "af-cls-a6",
         "level": "G",
         "xy": [
-          1673,
-          386
+          1098,
+          354
         ]
       },
       {
         "id": "cls-a6",
         "level": "G",
         "xy": [
-          1741,
-          306
+          1131,
+          327
         ],
         "dest": true,
         "cat": "class",
@@ -1544,19 +1536,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "ad-2",
+        "id": "af-cls-a7",
         "level": "G",
         "xy": [
-          1757,
-          457
+          1134,
+          423
         ]
       },
       {
         "id": "cls-a7",
         "level": "G",
         "xy": [
-          1825,
-          378
+          1169,
+          396
         ],
         "dest": true,
         "cat": "class",
@@ -1564,19 +1556,19 @@
         "sub": "EYP Atelier"
       },
       {
-        "id": "ad-3",
+        "id": "af-cls-a8",
         "level": "G",
         "xy": [
-          1840,
-          529
+          1165,
+          481
         ]
       },
       {
         "id": "cls-a8",
         "level": "G",
         "xy": [
-          1908,
-          449
+          1201,
+          454
         ],
         "dest": true,
         "cat": "class",
@@ -1584,11 +1576,19 @@
         "sub": "EYP Atelier"
       },
       {
+        "id": "af-girls-a",
+        "level": "G",
+        "xy": [
+          1195,
+          540
+        ]
+      },
+      {
         "id": "girls-a",
         "level": "G",
         "xy": [
-          1970,
-          502
+          1232,
+          513
         ],
         "dest": true,
         "cat": "wash",
@@ -1599,8 +1599,8 @@
         "id": "boys-a",
         "level": "G",
         "xy": [
-          2009,
-          536
+          1268,
+          579
         ],
         "dest": true,
         "cat": "wash",
@@ -2120,7 +2120,7 @@
         "mode": [
           "foot"
         ],
-        "len": 140,
+        "len": 10,
         "instruction": null
       },
       {
@@ -2130,7 +2130,7 @@
         "mode": [
           "foot"
         ],
-        "len": 141,
+        "len": 14,
         "instruction": "Go down the steps into the amphitheatre.",
         "instructionRev": "Climb the steps out of the amphitheatre."
       },
@@ -2141,7 +2141,7 @@
         "mode": [
           "foot"
         ],
-        "len": 126,
+        "len": 16,
         "instruction": null
       },
       {
@@ -2237,80 +2237,20 @@
         "instruction": null
       },
       {
-        "id": "e-gc-w-gc-inf",
-        "from": "gc-w",
-        "to": "gc-inf",
-        "mode": [
-          "foot"
-        ],
-        "len": 7,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-inf-gc-fld",
-        "from": "gc-inf",
-        "to": "gc-fld",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-fld-gc-cs",
-        "from": "gc-fld",
-        "to": "gc-cs",
-        "mode": [
-          "foot"
-        ],
-        "len": 25,
-        "instruction": "Follow the corridor towards Reception.",
-        "instructionRev": "Follow the corridor towards the Infirmary end."
-      },
-      {
-        "id": "e-gc-cs-gc-rec",
-        "from": "gc-cs",
-        "to": "gc-rec",
-        "mode": [
-          "foot"
-        ],
-        "len": 39,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-rec-gc-door",
-        "from": "gc-rec",
-        "to": "gc-door",
-        "mode": [
-          "foot"
-        ],
-        "len": 11,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-door-gc-lift",
-        "from": "gc-door",
-        "to": "gc-lift",
+        "id": "e-infirmary-gc-0",
+        "from": "infirmary",
+        "to": "gc-0",
         "mode": [
           "foot"
         ],
         "len": 14,
-        "instruction": null
+        "instruction": "Go out through the double doors into the corridor.",
+        "instructionRev": "The Infirmary is through the double doors at the end of the corridor."
       },
       {
-        "id": "e-gc-lift-gc-ffs",
-        "from": "gc-lift",
-        "to": "gc-ffs",
-        "mode": [
-          "foot"
-        ],
-        "len": 19,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-ffs-gc-eyp",
-        "from": "gc-ffs",
-        "to": "gc-eyp",
+        "id": "e-gc-0-gc-cs",
+        "from": "gc-0",
+        "to": "gc-cs",
         "mode": [
           "foot"
         ],
@@ -2318,34 +2258,13 @@
         "instruction": null
       },
       {
-        "id": "e-gc-inf-infirmary",
-        "from": "gc-inf",
-        "to": "infirmary",
+        "id": "e-gc-cs-gc-1",
+        "from": "gc-cs",
+        "to": "gc-1",
         "mode": [
           "foot"
         ],
-        "len": 10,
-        "instruction": "The Infirmary is at the end of the corridor.",
-        "instructionRev": "Come out of the Infirmary into the corridor."
-      },
-      {
-        "id": "e-gc-rec-g-recep",
-        "from": "gc-rec",
-        "to": "g-recep",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-ffs-ffs",
-        "from": "gc-ffs",
-        "to": "ffs",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
+        "len": 14,
         "instruction": null
       },
       {
@@ -2355,40 +2274,146 @@
         "mode": [
           "foot"
         ],
-        "len": 11,
+        "len": 7,
         "instruction": null
       },
       {
-        "id": "e-gc-lift-lift",
-        "from": "gc-lift",
+        "id": "e-gc-1-g-recep",
+        "from": "gc-1",
+        "to": "g-recep",
+        "mode": [
+          "foot"
+        ],
+        "len": 13,
+        "instruction": "Go through the double doors into Reception.",
+        "instructionRev": "Leave Reception through the double doors into the corridor."
+      },
+      {
+        "id": "e-g-recep-g-ent-in",
+        "from": "g-recep",
+        "to": "g-ent-in",
+        "mode": [
+          "foot"
+        ],
+        "len": 13,
+        "instruction": null
+      },
+      {
+        "id": "e-g-ent-in-lift",
+        "from": "g-ent-in",
         "to": "lift",
         "mode": [
           "foot"
         ],
-        "len": 11,
+        "len": 5,
         "instruction": null
       },
       {
-        "id": "e-gc-fld-g-fld-door",
-        "from": "gc-fld",
-        "to": "g-fld-door",
+        "id": "e-g-ent-in-g-ent-out",
+        "from": "g-ent-in",
+        "to": "g-ent-out",
         "mode": [
           "foot"
         ],
-        "len": 20,
-        "instruction": "Go out through the north door.",
-        "instructionRev": "Go in through the north door of the main block."
+        "len": 6,
+        "instruction": "Go out through the main entrance, beside the lift.",
+        "instructionRev": "Come in through the main entrance into Reception."
       },
       {
-        "id": "e-g-fld-door-field-s",
-        "from": "g-fld-door",
-        "to": "field-s",
+        "id": "e-g-recep-h-0",
+        "from": "g-recep",
+        "to": "h-0",
+        "mode": [
+          "foot"
+        ],
+        "len": 16,
+        "instruction": "Go through into the hall.",
+        "instructionRev": "Go through into Reception."
+      },
+      {
+        "id": "e-h-0-h-d1",
+        "from": "h-0",
+        "to": "h-d1",
         "mode": [
           "foot"
         ],
         "len": 12,
-        "instruction": "Take the path across to the Football Field.",
-        "instructionRev": "Take the path back to the main block."
+        "instruction": null
+      },
+      {
+        "id": "e-h-d1-h-d2",
+        "from": "h-d1",
+        "to": "h-d2",
+        "mode": [
+          "foot"
+        ],
+        "len": 25,
+        "instruction": null
+      },
+      {
+        "id": "e-h-d2-ffs",
+        "from": "h-d2",
+        "to": "ffs",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-g-ent-out-g-f1",
+        "from": "g-ent-out",
+        "to": "g-f1",
+        "mode": [
+          "foot"
+        ],
+        "len": 42,
+        "instruction": "Walk along the front of the building.",
+        "instructionRev": "Walk along the front of the building to the main entrance."
+      },
+      {
+        "id": "e-g-f1-g-gate",
+        "from": "g-f1",
+        "to": "g-gate",
+        "mode": [
+          "foot"
+        ],
+        "len": 25,
+        "instruction": "Go down to the Main Gate.",
+        "instructionRev": "Come in through the Main Gate and walk up to the building."
+      },
+      {
+        "id": "e-g-ent-out-g-w1",
+        "from": "g-ent-out",
+        "to": "g-w1",
+        "mode": [
+          "foot"
+        ],
+        "len": 76,
+        "instruction": "Walk along the front of the building, away from the gate.",
+        "instructionRev": "Walk along the front of the building to the main entrance."
+      },
+      {
+        "id": "e-g-w1-g-w2",
+        "from": "g-w1",
+        "to": "g-w2",
+        "mode": [
+          "foot"
+        ],
+        "len": 48,
+        "instruction": "Follow the path round the end of the building.",
+        "instructionRev": "Follow the path back round the end of the building."
+      },
+      {
+        "id": "e-g-w2-field-s",
+        "from": "g-w2",
+        "to": "field-s",
+        "mode": [
+          "foot"
+        ],
+        "len": 21,
+        "instruction": "Walk across to the Football Field.",
+        "instructionRev": "Walk back to the path round the building."
       },
       {
         "id": "e-field-s-field",
@@ -2397,250 +2422,56 @@
         "mode": [
           "foot"
         ],
-        "len": 18,
+        "len": 16,
         "instruction": null
       },
       {
-        "id": "e-gc-door-g-out",
-        "from": "gc-door",
-        "to": "g-out",
-        "mode": [
-          "foot"
-        ],
-        "len": 25,
-        "instruction": "Go out through the main doors onto the forecourt.",
-        "instructionRev": "Go in through the main doors of the block."
-      },
-      {
-        "id": "e-g-out-g-fore",
-        "from": "g-out",
-        "to": "g-fore",
-        "mode": [
-          "foot"
-        ],
-        "len": 98,
-        "instruction": "Cross the forecourt, past the planters.",
-        "instructionRev": "Cross the forecourt towards the main doors."
-      },
-      {
-        "id": "e-g-fore-g-gate",
-        "from": "g-fore",
-        "to": "g-gate",
-        "mode": [
-          "foot"
-        ],
-        "len": 26,
-        "instruction": "Walk down to the Main Gate.",
-        "instructionRev": "Come in from the Main Gate and walk up to the forecourt."
-      },
-      {
-        "id": "e-gc-eyp-a-door",
-        "from": "gc-eyp",
-        "to": "a-door",
-        "mode": [
-          "foot"
-        ],
-        "len": 20,
-        "instruction": "Go through the doors into the Atelier wing.",
-        "instructionRev": "Come out of the Atelier wing into the main corridor."
-      },
-      {
-        "id": "e-a-door-eyp",
-        "from": "a-door",
+        "id": "e-h-d1-eyp",
+        "from": "h-d1",
         "to": "eyp",
         "mode": [
           "foot"
         ],
-        "len": 4,
-        "instruction": null
+        "len": 7,
+        "instruction": "Go through the Atelier doors nearest Reception.",
+        "instructionRev": "Leave the Atelier through the doors into the hall."
       },
       {
-        "id": "e-eyp-aw-3",
+        "id": "e-h-d2-a-in2",
+        "from": "h-d2",
+        "to": "a-in2",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": "Go through the Atelier doors just past the stairs.",
+        "instructionRev": "Leave the Atelier through the doors into the hall."
+      },
+      {
+        "id": "e-eyp-af-cls-a4",
         "from": "eyp",
-        "to": "aw-3",
+        "to": "af-cls-a4",
         "mode": [
           "foot"
         ],
-        "len": 27,
-        "instruction": "Follow the corridor along the bottom of the courtyard.",
-        "instructionRev": "Follow the corridor back towards the Atelier doors."
+        "len": 3,
+        "instruction": "Follow the classrooms along the straight wall.",
+        "instructionRev": "Follow the corridor back to the Atelier doors."
       },
       {
-        "id": "e-aw-3-aw-2",
-        "from": "aw-3",
-        "to": "aw-2",
+        "id": "e-af-cls-a4-af-cls-a3",
+        "from": "af-cls-a4",
+        "to": "af-cls-a3",
         "mode": [
           "foot"
         ],
-        "len": 11,
+        "len": 14,
         "instruction": null
       },
       {
-        "id": "e-aw-2-aw-1",
-        "from": "aw-2",
-        "to": "aw-1",
-        "mode": [
-          "foot"
-        ],
-        "len": 11,
-        "instruction": null
-      },
-      {
-        "id": "e-aw-1-aw-0",
-        "from": "aw-1",
-        "to": "aw-0",
-        "mode": [
-          "foot"
-        ],
-        "len": 11,
-        "instruction": null
-      },
-      {
-        "id": "e-aw-0-cls-a1",
-        "from": "aw-0",
-        "to": "cls-a1",
-        "mode": [
-          "foot"
-        ],
-        "len": 12,
-        "instruction": null
-      },
-      {
-        "id": "e-aw-1-cls-a2",
-        "from": "aw-1",
-        "to": "cls-a2",
-        "mode": [
-          "foot"
-        ],
-        "len": 12,
-        "instruction": null
-      },
-      {
-        "id": "e-aw-2-cls-a3",
-        "from": "aw-2",
-        "to": "cls-a3",
-        "mode": [
-          "foot"
-        ],
-        "len": 12,
-        "instruction": null
-      },
-      {
-        "id": "e-aw-3-cls-a4",
-        "from": "aw-3",
-        "to": "cls-a4",
-        "mode": [
-          "foot"
-        ],
-        "len": 12,
-        "instruction": null
-      },
-      {
-        "id": "e-aw-0-a-n",
-        "from": "aw-0",
-        "to": "a-n",
-        "mode": [
-          "foot"
-        ],
-        "len": 5,
-        "instruction": "Go round the top of the courtyard.",
-        "instructionRev": "Go round the top of the courtyard."
-      },
-      {
-        "id": "e-a-n-ad-0",
-        "from": "a-n",
-        "to": "ad-0",
-        "mode": [
-          "foot"
-        ],
-        "len": 18,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-0-ad-1",
-        "from": "ad-0",
-        "to": "ad-1",
-        "mode": [
-          "foot"
-        ],
-        "len": 11,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-1-ad-2",
-        "from": "ad-1",
-        "to": "ad-2",
-        "mode": [
-          "foot"
-        ],
-        "len": 11,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-2-ad-3",
-        "from": "ad-2",
-        "to": "ad-3",
-        "mode": [
-          "foot"
-        ],
-        "len": 11,
-        "instruction": null
-      },
-      {
-        "id": "e-eyp-ad-3",
-        "from": "eyp",
-        "to": "ad-3",
-        "mode": [
-          "foot"
-        ],
-        "len": 20,
-        "instruction": "Follow the corridor up the far side of the courtyard, past the washrooms.",
-        "instructionRev": "Follow the corridor back down towards the Atelier doors."
-      },
-      {
-        "id": "e-ad-0-cls-a5",
-        "from": "ad-0",
-        "to": "cls-a5",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-1-cls-a6",
-        "from": "ad-1",
-        "to": "cls-a6",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-2-cls-a7",
-        "from": "ad-2",
-        "to": "cls-a7",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-3-cls-a8",
-        "from": "ad-3",
-        "to": "cls-a8",
-        "mode": [
-          "foot"
-        ],
-        "len": 10,
-        "instruction": null
-      },
-      {
-        "id": "e-ad-3-girls-a",
-        "from": "ad-3",
-        "to": "girls-a",
+        "id": "e-af-cls-a3-af-cls-a2",
+        "from": "af-cls-a3",
+        "to": "af-cls-a2",
         "mode": [
           "foot"
         ],
@@ -2648,25 +2479,187 @@
         "instruction": null
       },
       {
-        "id": "e-ad-3-boys-a",
-        "from": "ad-3",
-        "to": "boys-a",
-        "mode": [
-          "foot"
-        ],
-        "len": 17,
-        "instruction": null
-      },
-      {
-        "id": "e-ffs-stairs-s",
-        "from": "ffs",
-        "to": "stairs-s",
+        "id": "e-af-cls-a2-af-cls-a1",
+        "from": "af-cls-a2",
+        "to": "af-cls-a1",
         "mode": [
           "foot"
         ],
         "len": 8,
-        "instruction": "Climb the First Floor Stairs. You come out on the first floor opposite Reception 2.",
-        "instructionRev": "Take the stairs down to the ground floor. You come out beside Reception."
+        "instruction": null
+      },
+      {
+        "id": "e-a-in2-af-girls-a",
+        "from": "a-in2",
+        "to": "af-girls-a",
+        "mode": [
+          "foot"
+        ],
+        "len": 6,
+        "instruction": "Follow the rooms along the angled wall.",
+        "instructionRev": "Follow the corridor back to the Atelier doors."
+      },
+      {
+        "id": "e-af-girls-a-af-cls-a8",
+        "from": "af-girls-a",
+        "to": "af-cls-a8",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a8-af-cls-a7",
+        "from": "af-cls-a8",
+        "to": "af-cls-a7",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a7-af-cls-a6",
+        "from": "af-cls-a7",
+        "to": "af-cls-a6",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a6-af-cls-a5",
+        "from": "af-cls-a6",
+        "to": "af-cls-a5",
+        "mode": [
+          "foot"
+        ],
+        "len": 9,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a1-a-tc",
+        "from": "af-cls-a1",
+        "to": "a-tc",
+        "mode": [
+          "foot"
+        ],
+        "len": 3,
+        "instruction": "Go round the top of the courtyard.",
+        "instructionRev": "Follow the classrooms down the straight wall."
+      },
+      {
+        "id": "e-a-tc-af-cls-a5",
+        "from": "a-tc",
+        "to": "af-cls-a5",
+        "mode": [
+          "foot"
+        ],
+        "len": 8,
+        "instruction": "Follow the rooms down the angled wall.",
+        "instructionRev": "Go round the top of the courtyard."
+      },
+      {
+        "id": "e-af-cls-a1-cls-a1",
+        "from": "af-cls-a1",
+        "to": "cls-a1",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a2-cls-a2",
+        "from": "af-cls-a2",
+        "to": "cls-a2",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a3-cls-a3",
+        "from": "af-cls-a3",
+        "to": "cls-a3",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a4-cls-a4",
+        "from": "af-cls-a4",
+        "to": "cls-a4",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a5-cls-a5",
+        "from": "af-cls-a5",
+        "to": "cls-a5",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a6-cls-a6",
+        "from": "af-cls-a6",
+        "to": "cls-a6",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a7-cls-a7",
+        "from": "af-cls-a7",
+        "to": "cls-a7",
+        "mode": [
+          "foot"
+        ],
+        "len": 4,
+        "instruction": null
+      },
+      {
+        "id": "e-af-cls-a8-cls-a8",
+        "from": "af-cls-a8",
+        "to": "cls-a8",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-af-girls-a-girls-a",
+        "from": "af-girls-a",
+        "to": "girls-a",
+        "mode": [
+          "foot"
+        ],
+        "len": 5,
+        "instruction": null
+      },
+      {
+        "id": "e-a-in2-boys-a",
+        "from": "a-in2",
+        "to": "boys-a",
+        "mode": [
+          "foot"
+        ],
+        "len": 3,
+        "instruction": null
       },
       {
         "id": "e-cs-stairs-ne",
@@ -2677,7 +2670,7 @@
         ],
         "len": 8,
         "instruction": "Climb the Cafeteria Stairs to the first floor. You come out in the lobby behind Reception 2.",
-        "instructionRev": "Take the Cafeteria Stairs down to the ground floor. You come out at the Infirmary end of the corridor."
+        "instructionRev": "Take the Cafeteria Stairs down to the ground floor. You come out beside the corridor to the Infirmary."
       },
       {
         "id": "e-lift-j-lobby",
@@ -2686,9 +2679,9 @@
         "mode": [
           "foot"
         ],
-        "len": 60,
+        "len": 160,
         "instruction": "Take the lift up to the first floor. You come out in the corridor by Reception 2.",
-        "instructionRev": "Take the lift down to the ground floor. You come out beside Reception."
+        "instructionRev": "Take the lift down to the ground floor. You come out in Reception."
       }
     ]
   },
@@ -2880,7 +2873,7 @@
       "id": "FS",
       "node": "ffs",
       "label": "First Floor Stairs",
-      "mount": "At the foot of the stairs."
+      "mount": "At the foot of the stairs in the hall. These stairs are not in use."
     },
     {
       "level": "G",
@@ -2889,7 +2882,7 @@
       "id": "LF",
       "node": "lift",
       "label": "Lift",
-      "mount": "Beside the lift door, in the corridor."
+      "mount": "Beside the lift door, inside Reception."
     },
     {
       "level": "G",

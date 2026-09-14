@@ -370,6 +370,9 @@
 <line x1="1192.7" y1="464" x2="1192.7" y2="486" stroke="#3d3934" stroke-width="1"/>
 <line x1="1199.3" y1="464" x2="1199.3" y2="486" stroke="#3d3934" stroke-width="1"/>
 <path d="M1171 475 H1199 m-4 -3 l4 3 l-4 3" fill="none" stroke="#7a5a2a" stroke-width="1.4"/>
+<rect x="1166" y="462" width="40" height="26" fill="#c0392b" opacity="0.14"/>
+<circle cx="1186" cy="475" r="9" fill="#c0392b" stroke="#fff" stroke-width="1.5"/>
+<rect x="1180.5" y="473.4" width="11" height="3.2" fill="#fff"/>
 <rect x="2700" y="462" width="107" height="32" fill="#f4efe3" stroke="#3d3934" stroke-width="2.5"/>
 <line x1="2717.8" y1="464" x2="2717.8" y2="492" stroke="#3d3934" stroke-width="1"/>
 <line x1="2735.7" y1="464" x2="2735.7" y2="492" stroke="#3d3934" stroke-width="1"/>
@@ -1026,6 +1029,7 @@
 <text x="1188" y="326.7" font-size="10.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="1188">Reception</tspan><tspan x="1188" dy="12.075">2</tspan></text>
 <text x="1348.5" y="158" font-size="10.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="1348.5">stairs</tspan></text>
 <text x="2728.5" y="295.5" font-size="12.5" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="2728.5">Cafeteria</tspan></text>
+<text x="1186" y="500" font-size="9" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#c0392b" paint-order="stroke" stroke="#ece4d2" stroke-width="3" stroke-linejoin="round"><tspan x="1186">not in use</tspan></text>
 <text x="930" y="270" font-size="14" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#f4efe3" stroke-width="3" stroke-linejoin="round"><tspan x="930">Library</tspan></text>
 <text x="283" y="295" font-size="13" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" transform="rotate(-35 283 295)" paint-order="stroke" stroke="#e2d9c3" stroke-width="3" stroke-linejoin="round"><tspan x="283">Amphitheatre</tspan></text>
 <text x="1258" y="300" font-size="12" font-weight="600" text-anchor="middle" dominant-baseline="middle" fill="#2b2a27" paint-order="stroke" stroke="#ece4d2" stroke-width="3" stroke-linejoin="round"><tspan x="1258">Lobby</tspan></text>
