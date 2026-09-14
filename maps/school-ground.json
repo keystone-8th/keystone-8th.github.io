@@ -15,7 +15,7 @@
           0,
           0,
           2560,
-          1600
+          3114
         ]
       },
       {
@@ -1214,7 +1214,7 @@
         "level": "G",
         "xy": [
           180,
-          929
+          2412
         ],
         "dest": true,
         "cat": "office",
@@ -1226,7 +1226,7 @@
         "level": "G",
         "xy": [
           324,
-          861
+          2344
         ]
       },
       {
@@ -1234,7 +1234,7 @@
         "level": "G",
         "xy": [
           375,
-          861
+          2344
         ]
       },
       {
@@ -1242,7 +1242,7 @@
         "level": "G",
         "xy": [
           525,
-          861
+          2344
         ]
       },
       {
@@ -1250,7 +1250,7 @@
         "level": "G",
         "xy": [
           675,
-          861
+          2344
         ]
       },
       {
@@ -1258,7 +1258,7 @@
         "level": "G",
         "xy": [
           825,
-          861
+          2344
         ]
       },
       {
@@ -1266,7 +1266,7 @@
         "level": "G",
         "xy": [
           956,
-          861
+          2344
         ]
       },
       {
@@ -1274,15 +1274,15 @@
         "level": "G",
         "xy": [
           1161,
-          861
+          2344
         ]
       },
       {
         "id": "gc-fld",
         "level": "G",
         "xy": [
-          1295,
-          861
+          999,
+          2344
         ]
       },
       {
@@ -1290,7 +1290,7 @@
         "level": "G",
         "xy": [
           1380,
-          861
+          2344
         ]
       },
       {
@@ -1298,7 +1298,7 @@
         "level": "G",
         "xy": [
           1161,
-          969
+          2452
         ],
         "dest": true,
         "cat": "stairs",
@@ -1309,16 +1309,36 @@
         "id": "fld-door",
         "level": "G",
         "xy": [
-          1295,
-          796
+          999,
+          2283
         ]
+      },
+      {
+        "id": "fld-gate",
+        "level": "G",
+        "xy": [
+          999,
+          2080
+        ]
+      },
+      {
+        "id": "track",
+        "level": "G",
+        "xy": [
+          999,
+          1980
+        ],
+        "dest": true,
+        "cat": "sport",
+        "name": "Running Track",
+        "sub": "Round the football field"
       },
       {
         "id": "field",
         "level": "G",
         "xy": [
-          847,
-          445
+          999,
+          1070
         ],
         "dest": true,
         "cat": "sport",
@@ -1330,7 +1350,7 @@
         "level": "G",
         "xy": [
           1569,
-          872
+          2355
         ],
         "dest": true,
         "cat": "entry",
@@ -1342,7 +1362,7 @@
         "level": "G",
         "xy": [
           1727,
-          919
+          2402
         ],
         "dest": true,
         "cat": "stairs",
@@ -1354,7 +1374,7 @@
         "level": "G",
         "xy": [
           1697,
-          996
+          2479
         ]
       },
       {
@@ -1362,7 +1382,7 @@
         "level": "G",
         "xy": [
           1697,
-          1074
+          2557
         ]
       },
       {
@@ -1370,7 +1390,7 @@
         "level": "G",
         "xy": [
           1789,
-          777
+          2260
         ]
       },
       {
@@ -1378,7 +1398,7 @@
         "level": "G",
         "xy": [
           1970,
-          777
+          2260
         ]
       },
       {
@@ -1386,7 +1406,7 @@
         "level": "G",
         "xy": [
           2348,
-          777
+          2260
         ]
       },
       {
@@ -1394,7 +1414,7 @@
         "level": "G",
         "xy": [
           2282,
-          862
+          2345
         ],
         "dest": true,
         "cat": "stairs",
@@ -1406,7 +1426,7 @@
         "level": "G",
         "xy": [
           2324,
-          1074
+          2557
         ]
       },
       {
@@ -1414,7 +1434,7 @@
         "level": "G",
         "xy": [
           2324,
-          1461
+          2944
         ],
         "dest": true,
         "cat": "entry",
@@ -1427,7 +1447,7 @@
         "level": "G",
         "xy": [
           1970,
-          656
+          2139
         ],
         "dest": true,
         "cat": "studio",
@@ -1439,7 +1459,7 @@
         "level": "G",
         "xy": [
           2306,
-          668
+          2151
         ]
       },
       {
@@ -1447,7 +1467,7 @@
         "level": "G",
         "xy": [
           1978,
-          92
+          1575
         ]
       },
       {
@@ -1455,7 +1475,7 @@
         "level": "G",
         "xy": [
           1943,
-          105
+          1588
         ]
       },
       {
@@ -1463,7 +1483,7 @@
         "level": "G",
         "xy": [
           1882,
-          105
+          1588
         ],
         "dest": true,
         "cat": "class",
@@ -1475,7 +1495,7 @@
         "level": "G",
         "xy": [
           1944,
-          226
+          1709
         ]
       },
       {
@@ -1483,7 +1503,7 @@
         "level": "G",
         "xy": [
           1882,
-          223
+          1706
         ],
         "dest": true,
         "cat": "class",
@@ -1495,7 +1515,7 @@
         "level": "G",
         "xy": [
           1947,
-          416
+          1899
         ]
       },
       {
@@ -1503,7 +1523,7 @@
         "level": "G",
         "xy": [
           1883,
-          409
+          1892
         ],
         "dest": true,
         "cat": "class",
@@ -1515,7 +1535,7 @@
         "level": "G",
         "xy": [
           1950,
-          623
+          2106
         ]
       },
       {
@@ -1523,7 +1543,7 @@
         "level": "G",
         "xy": [
           1885,
-          611
+          2094
         ],
         "dest": true,
         "cat": "class",
@@ -1535,7 +1555,7 @@
         "level": "G",
         "xy": [
           2034,
-          198
+          1681
         ]
       },
       {
@@ -1543,7 +1563,7 @@
         "level": "G",
         "xy": [
           2082,
-          158
+          1641
         ],
         "dest": true,
         "cat": "class",
@@ -1555,7 +1575,7 @@
         "level": "G",
         "xy": [
           2098,
-          322
+          1805
         ]
       },
       {
@@ -1563,7 +1583,7 @@
         "level": "G",
         "xy": [
           2149,
-          282
+          1765
         ],
         "dest": true,
         "cat": "class",
@@ -1575,7 +1595,7 @@
         "level": "G",
         "xy": [
           2153,
-          427
+          1910
         ]
       },
       {
@@ -1583,7 +1603,7 @@
         "level": "G",
         "xy": [
           2206,
-          386
+          1869
         ],
         "dest": true,
         "cat": "class",
@@ -1595,7 +1615,7 @@
         "level": "G",
         "xy": [
           2199,
-          514
+          1997
         ]
       },
       {
@@ -1603,7 +1623,7 @@
         "level": "G",
         "xy": [
           2253,
-          473
+          1956
         ],
         "dest": true,
         "cat": "class",
@@ -1615,7 +1635,7 @@
         "level": "G",
         "xy": [
           2245,
-          602
+          2085
         ]
       },
       {
@@ -1623,7 +1643,7 @@
         "level": "G",
         "xy": [
           2300,
-          561
+          2044
         ],
         "dest": true,
         "cat": "wash",
@@ -1635,7 +1655,7 @@
         "level": "G",
         "xy": [
           2354,
-          660
+          2143
         ],
         "dest": true,
         "cat": "wash",
@@ -2334,33 +2354,33 @@
         "instructionRev": "Go through the double doors and carry on along the corridor, past the rooms."
       },
       {
-        "id": "e-gc-0-gc-cs",
+        "id": "e-gc-0-gc-fld",
         "from": "gc-0",
-        "to": "gc-cs",
-        "mode": [
-          "foot"
-        ],
-        "len": 14,
-        "instruction": null
-      },
-      {
-        "id": "e-gc-cs-gc-fld",
-        "from": "gc-cs",
         "to": "gc-fld",
         "mode": [
           "foot"
         ],
-        "len": 9,
+        "len": 3,
         "instruction": null
       },
       {
-        "id": "e-gc-fld-gc-1",
+        "id": "e-gc-fld-gc-cs",
         "from": "gc-fld",
+        "to": "gc-cs",
+        "mode": [
+          "foot"
+        ],
+        "len": 11,
+        "instruction": null
+      },
+      {
+        "id": "e-gc-cs-gc-1",
+        "from": "gc-cs",
         "to": "gc-1",
         "mode": [
           "foot"
         ],
-        "len": 6,
+        "len": 15,
         "instruction": null
       },
       {
@@ -2392,18 +2412,41 @@
           "foot"
         ],
         "len": 4,
-        "instruction": "Go out through the door onto the football field.",
+        "instruction": "Go out through the door towards the football field.",
         "instructionRev": "Go in through the door into the reception corridor."
       },
       {
-        "id": "e-fld-door-field",
+        "id": "e-fld-door-fld-gate",
         "from": "fld-door",
+        "to": "fld-gate",
+        "mode": [
+          "foot"
+        ],
+        "len": 14,
+        "instruction": "Walk up the path to the gate in the field fence.",
+        "instructionRev": "Walk down the path to the reception corridor."
+      },
+      {
+        "id": "e-fld-gate-track",
+        "from": "fld-gate",
+        "to": "track",
+        "mode": [
+          "foot"
+        ],
+        "len": 7,
+        "instruction": "Go through the gate onto the running track.",
+        "instructionRev": "Go out through the gate in the fence."
+      },
+      {
+        "id": "e-track-field",
+        "from": "track",
         "to": "field",
         "mode": [
           "foot"
         ],
-        "len": 38,
-        "instruction": null
+        "len": 61,
+        "instruction": "Cross the track onto the football field.",
+        "instructionRev": "Walk back across to the running track."
       },
       {
         "id": "e-g-recep-g-ent-in",
@@ -2940,7 +2983,7 @@
       "id": "FF",
       "node": "field",
       "label": "Football Field",
-      "mount": "On the field door, in the reception corridor."
+      "mount": "On the gate in the field fence, at the end of the path from the reception corridor."
     },
     {
       "level": "G",

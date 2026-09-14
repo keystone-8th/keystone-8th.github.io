@@ -75,8 +75,9 @@ Atelier sits above the hall:
 * There are **more rooms past the reception corridor**, and the **Infirmary is
   at the very end**. The map draws four rooms there; their names are still to
   come.
-* The **football field** is right beside the reception corridor, and the only
-  way to it is through that corridor.
+* The **football field** is near the reception corridor, and the only way to it
+  is through that corridor. It runs **north-south** with a **running track**
+  round it, and keeps a clear gap from the building's windows.
 * The **Cafeteria Stairs** by the reception corridor lead up to the **Gallery
   Area**, which is where the first-floor Cafeteria Stairs are.
 * The **First Floor Stairs** in the hall lead up to the stairs **in front of the

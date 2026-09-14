@@ -75,7 +75,7 @@ var SCANPOINTS = (function () {
 
     { id: "FF", node: "field", level: "G", audience: "foot",
       label: "Football Field",
-      mount: "On the field door, in the reception corridor.", rev: 1 },
+      mount: "On the gate in the field fence, at the end of the path from the reception corridor.", rev: 1 },
 
     { id: "EY", node: "eyp", level: "G", audience: "foot",
       label: "EYP Atelier",

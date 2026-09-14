@@ -62,8 +62,11 @@ along its straight wall, Classes 5 to 8 and the washrooms along its angled
 wall, and a planted courtyard between them. The four rooms past the reception
 corridor are not named yet, so they are drawn but not searchable.
 
-The football field is a fenced, marked pitch right against the corridor wall.
-**The only way to it is the door in the reception corridor.**
+The football field runs north-south inside a six-lane running track, with a
+long-jump pit and a throwing circle at the ends, all fenced. The fence keeps a
+clear gap from the building so the field is not up against the office windows.
+**The only way to it is the door in the reception corridor**, then a path to the
+gate in the fence. The Running Track is searchable too.
 
 The floors are joined by two staircases and a lift:
 

@@ -144,16 +144,27 @@ const TR = JSON.parse(fs.readFileSync(path.join(ROOT, "plans", "ground-trace.jso
 const TS = 0.6;                          // plan px per photo px - drawn larger than the first trace
 const PX_PER_M = 25 * TS;                // the sketch is about 25 photo px to the metre
 const GM_PER_PX = 1 / PX_PER_M;          // so ground-floor walking distances stay in true metres
+const mm = v => v * PX_PER_M;            // metres to plan px
+/* The football field runs north-south inside a six-lane running track, all
+   inside a fence. The pitch is 64 m by 42 m; the track's bends are 25 m in
+   radius. */
+const TRK = { lanes: 6, lane: mm(1.22), r: mm(25), straight: mm(64), fenceM: mm(3), gap: mm(8) };
+TRK.width = TRK.lanes * TRK.lane;
+TRK.fenceW = 2 * (TRK.r + TRK.width) + 2 * TRK.fenceM;
+TRK.fenceH = TRK.straight + 2 * (TRK.r + TRK.width) + 2 * TRK.fenceM;
 const TOX = -463, TOY = 397, TM = 60;    // where the plan's origin falls on the photo, and a margin
+/* The plan starts far enough down that the field fence ends at least TRK.gap
+   north of the nearest part of the building (Reception's north wall), so the
+   field never sits against the office windows. */
+const TMY = Math.ceil(TM + TRK.fenceH + TRK.gap - (TR.photo.w - TR.reception.x2 - TOY) * TS);
 /* Photo to plan. The page is turned a quarter-turn anticlockwise, so the
    Atelier sits above the hall - the way the Atelier sketch itself is drawn. */
-function gp(x, y) { return [(y - TOX) * TS + TM, (TR.photo.w - x - TOY) * TS + TM]; }
+function gp(x, y) { return [(y - TOX) * TS + TM, (TR.photo.w - x - TOY) * TS + TMY]; }
 function gr(o) { const a = gp(o.x2, o.y), b = gp(o.x, o.y2); return { x: a[0], y: a[1], w: b[0] - a[0], h: b[1] - a[1] }; }
 const gpx = y => gp(0, y)[0];            // a photo y becomes a plan x
 const gpy = x => gp(x, 0)[1];            // a photo x becomes a plan y
-const mm = v => v * PX_PER_M;            // metres to plan px
 
-const GW = 2560, GH = 1600;
+const GW = 2560, GH = Math.ceil(gpy(TR.mainGate.x) + 170);
 const GF = {
   cor: gr(TR.corridor), cs: gr(TR.corrStairs), recep: gr(TR.reception), lift: gr(TR.lift),
   hall: gr(TR.hall), hs: gr(TR.hallStairs), gate: gr(TR.mainGate),
@@ -173,12 +184,13 @@ GF.rooms = [];
   const n = 4, x0 = GF.inf.x + GF.inf.w, len = (GF.cor.x - x0) / n;
   for (let i = 0; i < n; i++) GF.rooms.push({ x: x0 + i * len, y: GF.corS, w: len, h: GF.front - GF.corS });
 })();
-/* the football field, fenced, right up against the corridor wall */
-GF.fence = { x: GF.inf.x + GF.inf.w, y: 70, w: GF.recep.x - 20 - (GF.inf.x + GF.inf.w), h: GF.corN - 10 - 70 };
-GF.pitch = { w: mm(64), h: mm(42) };
-GF.pitch.x = GF.fence.x + (GF.fence.w - GF.pitch.w) / 2;
-GF.pitch.y = GF.fence.y + (GF.fence.h - GF.pitch.h) / 2;
-GF.fieldDoorX = GF.recep.x - mm(8);                     // the one way to the field: a door in the reception corridor
+/* the one way to the field: a door in the reception corridor, then a path to
+   the gate in the field's fence. The field is centred on that path. */
+GF.fieldDoorX = GF.corDoors[0] + mm(4.5);
+GF.fence = { x: GF.fieldDoorX - TRK.fenceW / 2, y: TM, w: TRK.fenceW, h: TRK.fenceH };
+GF.fcx = GF.fence.x + GF.fence.w / 2; GF.fcy = GF.fence.y + GF.fence.h / 2;
+GF.pitch = { w: mm(42), h: mm(64) };                    // north-south: goals at the north and south ends
+GF.pitch.x = GF.fcx - GF.pitch.w / 2; GF.pitch.y = GF.fcy - GF.pitch.h / 2;
 
 const AI = TR.atelierInterior;
 const q2p = q => q.map(p => gp(p[0], p[1]));
@@ -209,8 +221,10 @@ node("gc-1",   [GF.corDoors[1] + 10, GF.corY]);
 node("cs",     [GF.cs.x + GF.cs.w / 2, GF.cs.y + GF.cs.h / 2], { dest: true, cat: "stairs", name: "Cafeteria Stairs (ground floor)", sub: "Up to the Gallery Area" });
 
 /* the football field, through its door in the reception corridor */
-node("fld-door", [GF.fieldDoorX, GF.corN - 34]);
-node("field",    [GF.pitch.x + GF.pitch.w / 2, GF.pitch.y + GF.pitch.h / 2], { dest: true, cat: "sport", name: "Football Field", sub: "Through the door in the reception corridor" });
+node("fld-door", [GF.fieldDoorX, GF.corN - 30]);
+node("fld-gate", [GF.fieldDoorX, GF.fence.y + GF.fence.h]);
+node("track",    [GF.fcx, GF.fence.y + GF.fence.h - TRK.fenceM - TRK.width / 2], { dest: true, cat: "sport", name: "Running Track", sub: "Round the football field" });
+node("field",    [GF.fcx, GF.fcy], { dest: true, cat: "sport", name: "Football Field", sub: "Through the door in the reception corridor" });
 
 /* Reception, the Lift inside it, and the main entrance beside the lift */
 node("g-recep",  [GF.recep.x + GF.recep.w * 0.45, GF.recep.y + GF.recep.h * 0.5], { dest: true, cat: "entry", name: "Reception", anchor: true });
@@ -307,13 +321,15 @@ edge("gw-inf", "gw-0");
 for (let i = 0; i < GF.rooms.length - 1; i++) edge("gw-" + i, "gw-" + (i + 1));
 edge("gw-" + (GF.rooms.length - 1), "gc-0", "Go through the double doors into the reception corridor.",
      "Go through the double doors and carry on along the corridor, past the rooms.");
-edge("gc-0", "gc-cs");
-edge("gc-cs", "gc-fld");
-edge("gc-fld", "gc-1");
+edge("gc-0", "gc-fld");
+edge("gc-fld", "gc-cs");
+edge("gc-cs", "gc-1");
 edge("gc-cs", "cs");
 edge("gc-1", "g-recep", "Go through the double doors into Reception.", "Leave Reception through the double doors into the corridor.");
-edge("gc-fld", "fld-door", "Go out through the door onto the football field.", "Go in through the door into the reception corridor.");
-edge("fld-door", "field");
+edge("gc-fld", "fld-door", "Go out through the door towards the football field.", "Go in through the door into the reception corridor.");
+edge("fld-door", "fld-gate", "Walk up the path to the gate in the field fence.", "Walk down the path to the reception corridor.");
+edge("fld-gate", "track", "Go through the gate onto the running track.", "Go out through the gate in the fence.");
+edge("track", "field", "Cross the track onto the football field.", "Walk back across to the running track.");
 edge("g-recep", "g-ent-in");
 edge("g-ent-in", "lift");
 edge("g-ent-in", "g-ent-out", "Go out through the main entrance, beside the lift.", "Come in through the main entrance into Reception.");
@@ -387,7 +403,7 @@ const SCANPOINTS = [
   { id: "MG", node: "g-gate",   level: "G", label: "Main Gate",         mount: "On the gatepost, inside the gate." },
   { id: "R1", node: "g-recep",  level: "G", label: "Reception",         mount: "On the reception counter." },
   { id: "IN", node: "infirmary",level: "G", label: "Infirmary",         mount: "Beside the infirmary door." },
-  { id: "FF", node: "field",    level: "G", label: "Football Field",    mount: "On the field door, in the reception corridor." },
+  { id: "FF", node: "field",    level: "G", label: "Football Field",    mount: "On the gate in the field fence, at the end of the path from the reception corridor." },
   { id: "EY", node: "eyp",      level: "G", label: "EYP Atelier",       mount: "Beside the atelier door." },
   { id: "FS", node: "ffs",      level: "G", label: "First Floor Stairs",mount: "At the foot of the stairs in the hall." },
   { id: "LF", node: "lift",     level: "G", label: "Lift",               mount: "Beside the lift door, inside Reception." },
@@ -713,7 +729,7 @@ svg.push('<defs>' +
   '<pattern id="lawn" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="' + C.grass + '"/><circle cx="4" cy="5" r="1" fill="#c8d6ae"/><circle cx="10" cy="11" r="1" fill="#c8d6ae"/></pattern>' +
   '<pattern id="tiles" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" fill="' + C.corridor + '"/><path d="M30 0 V30 M0 30 H30" stroke="#e0d6c0" stroke-width="1"/></pattern>' +
   '<pattern id="paving" width="36" height="36" patternUnits="userSpaceOnUse"><rect width="36" height="36" fill="' + C.walk + '"/><path d="M36 0 V36 M0 36 H36" stroke="#d8d0be" stroke-width="1"/></pattern>' +
-  '<pattern id="turf" x="' + r1(GF.pitch.x) + '" width="' + r1(STRIPE * 2) + '" height="40" patternUnits="userSpaceOnUse"><rect width="' + r1(STRIPE * 2) + '" height="40" fill="#5f9e4a"/><rect width="' + r1(STRIPE) + '" height="40" fill="#6aab53"/></pattern>' +
+  '<pattern id="turf" y="' + r1(GF.pitch.y) + '" width="40" height="' + r1(STRIPE * 2) + '" patternUnits="userSpaceOnUse"><rect width="40" height="' + r1(STRIPE * 2) + '" fill="#5f9e4a"/><rect width="40" height="' + r1(STRIPE) + '" fill="#6aab53"/></pattern>' +
   '<pattern id="runoff" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#79b262"/><circle cx="3" cy="4" r="0.8" fill="#6ea358"/></pattern>' +
   '<pattern id="net" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#ffffff" opacity="0.55"/><path d="M0 0 L6 6 M6 0 L0 6" stroke="#9aa3a8" stroke-width="0.7"/></pattern>' +
   '<pattern id="road" width="60" height="30" patternUnits="userSpaceOnUse"><rect width="60" height="30" fill="#8d8b88"/><rect x="10" y="14" width="26" height="2" fill="#e8e3d8"/></pattern>' +
@@ -774,52 +790,92 @@ rect(0, GF.gate.y + GF.gate.h + 40, GW, GH, { fill: "url(#road)" });
 rect(GF.inf.x - 10, GF.front + 18, GF.gate.x + GF.gate.w - GF.inf.x + 10, 60, { fill: "url(#paving)" });           // along the front
 rect(GF.gate.x + GF.gate.w / 2 - 36, GF.front + 18, 72, GF.gate.y + GF.gate.h + 44 - GF.front - 18, { fill: C.walk }); // down to the gate
 
-/* ---- the football field: a fenced, marked pitch right against the corridor ---- */
+/* ---- the running track, and the football field inside it running north-south ---- */
 (function () {
-  const F = GF.fence, P = GF.pitch;
-  rect(F.x, F.y, F.w, F.h, { fill: "url(#runoff)" });
+  const F = GF.fence, cx = GF.fcx, cy = GF.fcy, S = TRK.straight, R = TRK.r, Wt = TRK.width, P = GF.pitch;
+  // a stadium shape: straights running north-south, a semicircular bend at each end
+  function stadium(rad) {
+    const y0 = cy - S / 2, y1 = cy + S / 2;
+    return "M" + r1(cx - rad) + " " + r1(y0) + " A" + r1(rad) + " " + r1(rad) + " 0 0 1 " + r1(cx + rad) + " " + r1(y0) +
+           " V" + r1(y1) + " A" + r1(rad) + " " + r1(rad) + " 0 0 1 " + r1(cx - rad) + " " + r1(y1) + " Z";
+  }
+  rect(F.x, F.y, F.w, F.h, { fill: "url(#runoff)" });                                   // grass inside the fence
+  pathd(stadium(R + Wt), { fill: "#c0674a", stroke: "#8f4a33", "stroke-width": 2.5 });  // the track
+  for (let k = 1; k < TRK.lanes; k++) pathd(stadium(R + k * TRK.lane), { fill: "none", stroke: "#f4e7df", "stroke-width": 1.5 });
+  pathd(stadium(R), { fill: "url(#runoff)", stroke: "#ffffff", "stroke-width": 3.5 });  // the infield, with its white kerb
+
+  // the finish line at the end of the east straight, with lane numbers
+  const fy = cy - S / 2 + mm(6);
+  line(cx + R, fy, cx + R + Wt, fy, { stroke: "#ffffff", "stroke-width": 4 });
+  for (let k = 0; k < TRK.lanes; k++) {
+    const lx = cx + R + (k + 0.5) * TRK.lane;
+    svg.push('<text x="' + r1(lx) + '" y="' + r1(fy + mm(2.4)) + '" font-size="13" font-weight="700" text-anchor="middle" fill="#ffffff">' + (k + 1) + '</text>');
+  }
+  // staggered starts on the west straight
+  for (let k = 0; k < TRK.lanes; k++) {
+    const sy = cy + S / 2 - mm(4) - k * mm(3.2);
+    line(cx - R - k * TRK.lane, sy, cx - R - (k + 1) * TRK.lane, sy, { stroke: "#ffffff", "stroke-width": 2.5 });
+  }
+
+  // long jump runway and sandpit in the north end, a throwing circle in the south end
+  const jx = cx - mm(9);
+  rect(jx - mm(0.6), cy - S / 2 - mm(13), mm(1.22), mm(11), { fill: "#c0674a" });
+  rect(jx - mm(1.5), cy - S / 2 - mm(21), mm(3), mm(8), { rx: 4, fill: "#e8d9a8", stroke: "#bda772", "stroke-width": 1.5 });
+  const tcx = cx + mm(9), tcy = cy + S / 2 + mm(13);
+  circle(tcx, tcy, mm(1.07), { fill: "#d6d2c8", stroke: "#ffffff", "stroke-width": 2 });
+  const sa = 17.46 * Math.PI / 180;
+  [-sa, sa].forEach(a => line(tcx, tcy, tcx + Math.sin(a) * mm(9), tcy + Math.cos(a) * mm(9), { stroke: "#ffffff", "stroke-width": 1.8 }));
+
+  // the pitch: goals at the north and south ends
   rect(P.x, P.y, P.w, P.h, { fill: "url(#turf)" });
   const L = { stroke: "#ffffff", "stroke-width": 3, fill: "none" };
-  const cx = P.x + P.w / 2, cy = P.y + P.h / 2;
   rect(P.x, P.y, P.w, P.h, L);                                           // touchlines and goal lines
-  line(cx, P.y, cx, P.y + P.h, L);                                       // halfway line
+  line(P.x, cy, P.x + P.w, cy, L);                                       // halfway line
   circle(cx, cy, mm(5.6), L);                                            // centre circle
   circle(cx, cy, 4, { fill: "#fff" });
   const boxD = mm(10), boxW = mm(24.6), sixD = mm(3.4), sixW = mm(11.2), spot = mm(6.7), arcR = mm(5.6);
-  [[P.x, 1], [P.x + P.w, -1]].forEach(function (g) {
-    const gx = g[0], dir = g[1];
-    const bx = dir > 0 ? gx : gx - boxD, sx = dir > 0 ? gx : gx - sixD;
-    rect(bx, cy - boxW / 2, boxD, boxW, L);                              // penalty area
-    rect(sx, cy - sixW / 2, sixD, sixW, L);                              // goal area
-    const px = gx + dir * spot;
-    circle(px, cy, 3.5, { fill: "#fff" });                               // penalty spot
-    // the arc outside the penalty area
-    const edge = gx + dir * boxD, dx = Math.abs(edge - px), half = Math.sqrt(Math.max(0, arcR * arcR - dx * dx));
-    pathd("M" + r1(edge) + " " + r1(cy - half) + " A" + r1(arcR) + " " + r1(arcR) + " 0 0 " + (dir > 0 ? 1 : 0) + " " + r1(edge) + " " + r1(cy + half), L);
-    // the goal: posts on the line, a net behind
-    const gw = mm(4.5), gd = mm(1.6), nx = dir > 0 ? gx - gd : gx;
-    rect(nx, cy - gw / 2, gd, gw, { fill: "url(#net)", stroke: "#dfe6ea", "stroke-width": 1.5 });
-    line(gx, cy - gw / 2, gx, cy + gw / 2, { stroke: "#ffffff", "stroke-width": 5 });
+  [[P.y, 1], [P.y + P.h, -1]].forEach(function (g) {
+    const gy = g[0], dir = g[1];
+    rect(cx - boxW / 2, dir > 0 ? gy : gy - boxD, boxW, boxD, L);        // penalty area
+    rect(cx - sixW / 2, dir > 0 ? gy : gy - sixD, sixW, sixD, L);        // goal area
+    const py = gy + dir * spot;
+    circle(cx, py, 3.5, { fill: "#fff" });                               // penalty spot
+    const edge = gy + dir * boxD, dy = Math.abs(edge - py), half = Math.sqrt(Math.max(0, arcR * arcR - dy * dy));
+    pathd("M" + r1(cx - half) + " " + r1(edge) + " A" + r1(arcR) + " " + r1(arcR) + " 0 0 " + (dir > 0 ? 0 : 1) + " " + r1(cx + half) + " " + r1(edge), L);
+    const gw = mm(4.5), gd = mm(1.6);
+    rect(cx - gw / 2, dir > 0 ? gy - gd : gy, gw, gd, { fill: "url(#net)", stroke: "#dfe6ea", "stroke-width": 1.5 });
+    line(cx - gw / 2, gy, cx + gw / 2, gy, { stroke: "#ffffff", "stroke-width": 5 });
   });
-  // corner arcs and flags
   [[P.x, P.y, 0], [P.x + P.w, P.y, 90], [P.x + P.w, P.y + P.h, 180], [P.x, P.y + P.h, 270]].forEach(function (c) {
     const r = mm(1), a0 = c[2] * Math.PI / 180, a1 = a0 + Math.PI / 2;
     pathd("M" + r1(c[0] + Math.cos(a0) * r) + " " + r1(c[1] + Math.sin(a0) * r) + " A" + r1(r) + " " + r1(r) + " 0 0 1 " + r1(c[0] + Math.cos(a1) * r) + " " + r1(c[1] + Math.sin(a1) * r), L);
     line(c[0], c[1], c[0], c[1] - 16, { stroke: "#555", "stroke-width": 1.5 });
     pathd("M" + r1(c[0]) + " " + r1(c[1] - 16) + " l10 4 l-10 4 z", { fill: "#f2c230" });
   });
-  // team benches under shelters on the corridor side, either side of halfway
-  [cx - mm(9), cx + mm(3)].forEach(function (bx) {
-    rect(bx, P.y + P.h + mm(1.2), mm(6), mm(1.6), { rx: 4, fill: "#8fb3cf", stroke: "#5f7f98", "stroke-width": 1.2, opacity: 0.9 });
-    for (let k = 0; k < 6; k++) circle(bx + mm(0.5) + k * mm(1), P.y + P.h + mm(2), 3, { fill: "#3f4a52" });
+  // team benches beside the west touchline, either side of halfway
+  [cy - mm(8), cy + mm(2)].forEach(function (by) {
+    rect(P.x - mm(2.6), by, mm(1.6), mm(6), { rx: 4, fill: "#8fb3cf", stroke: "#5f7f98", "stroke-width": 1.2 });
+    for (let k = 0; k < 6; k++) circle(P.x - mm(1.8), by + mm(0.5) + k * mm(1), 3, { fill: "#3f4a52" });
   });
-  // the fence all round, with its gate at the corridor door
+  // spectator benches outside the track on the east side
+  for (let k = -2; k <= 2; k++) rect(cx + R + Wt + mm(1), cy + k * mm(9) - mm(3), mm(1.1), mm(6), { fill: C.wood, stroke: C.woodDark, "stroke-width": 1 });
+
+  // the fence all round, with its gate at the south end facing the corridor door
   const fence = { fill: "none", stroke: "#4a4f52", "stroke-width": 2.5, "stroke-dasharray": "10 5" };
-  const gx0 = GF.fieldDoorX - mm(1.5), gx1 = GF.fieldDoorX + mm(1.5), fy = F.y + F.h;
-  pathd("M" + r1(gx0) + " " + r1(fy) + " H" + r1(F.x) + " V" + r1(F.y) + " H" + r1(F.x + F.w) + " V" + r1(fy) + " H" + r1(gx1), fence);
-  for (let x = F.x; x <= F.x + F.w; x += mm(5)) { circle(x, F.y, 2.5, { fill: "#4a4f52" }); if (x < gx0 || x > gx1) circle(x, fy, 2.5, { fill: "#4a4f52" }); }
-  rect(GF.fieldDoorX - mm(1.5), fy - 4, mm(3), 14, { fill: C.walk });
+  const gx0 = GF.fieldDoorX - mm(1.8), gx1 = GF.fieldDoorX + mm(1.8), fb = F.y + F.h;
+  pathd("M" + r1(gx0) + " " + r1(fb) + " H" + r1(F.x) + " V" + r1(F.y) + " H" + r1(F.x + F.w) + " V" + r1(fb) + " H" + r1(gx1), fence);
+  for (let x = F.x; x <= F.x + F.w + 1; x += mm(5)) { circle(x, F.y, 2.5, { fill: "#4a4f52" }); if (x < gx0 || x > gx1) circle(x, fb, 2.5, { fill: "#4a4f52" }); }
+  for (let y = F.y; y <= fb + 1; y += mm(5)) { circle(F.x, y, 2.5, { fill: "#4a4f52" }); circle(F.x + F.w, y, 2.5, { fill: "#4a4f52" }); }
+  circle(gx0, fb, 5, { fill: "#4a4f52" }); circle(gx1, fb, 5, { fill: "#4a4f52" });
+  pathd("M" + r1(gx0) + " " + r1(fb) + " a" + r1(gx1 - gx0) + " " + r1(gx1 - gx0) + " 0 0 1 " + r1(gx1 - gx0) + " -" + r1(gx1 - gx0), { fill: "none", stroke: "#4a4f52", "stroke-width": 1.2 });
+
+  label(cx, cy - mm(14), "Football Field", { size: 22, weight: 700, halo: "#6aab53" });
+  label(cx - R - Wt / 2, cy, "Running Track", { size: 16, weight: 700, fill: "#ffffff", halo: "#c0674a", rot: -90 });
 })();
+/* the path from the reception corridor's door to the field gate - the only way in */
+rect(GF.fieldDoorX - mm(1.5), GF.fence.y + GF.fence.h, mm(3), GF.corN - GF.fence.y - GF.fence.h, { fill: "url(#paving)" });
+line(GF.fieldDoorX - mm(1.5), GF.fence.y + GF.fence.h, GF.fieldDoorX - mm(1.5), GF.corN, { stroke: "#cfc7b6", "stroke-width": 1.5 });
+line(GF.fieldDoorX + mm(1.5), GF.fence.y + GF.fence.h, GF.fieldDoorX + mm(1.5), GF.corN, { stroke: "#cfc7b6", "stroke-width": 1.5 });
 
 /* ---- the Atelier ---- */
 polyP(GF.atelier, { fill: "url(#tiles)", stroke: C.wall, "stroke-width": 3.5 });
@@ -925,12 +981,15 @@ GF.atDoors.forEach(x => doubleDoorIn(x, GF.atelier[0][1] + (x - GF.atelier[0][0]
 
 /* ---- trees and benches outside ---- */
 bench(520, GF.front + 30, 56); bench(1000, GF.front + 30, 56); bench(1550, GF.front + 30, 56); bench(2000, GF.front + 30, 56);
-[[1520, 130], [1700, 90], [1480, 380], [1640, 560], [1540, 690], [2200, 830], [2480, 520], [2500, 900], [2470, 200],
- [30, 400], [30, 1200], [260, 1260], [640, 1230], [980, 1300], [1340, 1250], [1720, 1300], [2020, 1240], [2500, 1300], [1860, 1420]]
-  .forEach(p => tree(p[0], p[1], 20));
+(function () {
+  const ex = GF.fence.x + GF.fence.w, at = GF.atelier[1][1], sy = GF.front + 120;
+  [[ex + 150, 200], [ex + 420, 520], [ex + 200, 900], [ex + 600, 160], [ex + 520, 1250], [ex + 180, at - 140], [GW - 60, 700], [GW - 70, at + 300], [GW - 60, at + 760],
+   [GF.fence.x - 90, 320], [GF.fence.x - 60, 1000], [GF.fence.x - 110, 1700], [80, GF.corN - 160], [GF.fence.x + GF.fence.w + 120, GF.corN - 120],
+   [260, sy + 90], [640, sy + 40], [980, sy + 110], [1340, sy + 60], [1720, sy + 100], [2020, sy + 40], [40, sy + 200]]
+    .forEach(p => tree(p[0], p[1], 20));
+})();
 
 /* ---- labels ---- */
-label(GF.pitch.x + GF.pitch.w / 2, GF.pitch.y - 20, "Football Field", { size: 22, weight: 700, halo: "#79b262" });
 label(GF.inf.x + GF.inf.w / 2, GF.front - 22, "Infirmary", { size: 17, weight: 700 });
 label(GF.cs.x + GF.cs.w / 2, GF.cs.y + GF.cs.h + 18, "Cafeteria Stairs", { size: 14, weight: 700, halo: C.corridor });
 label((GF.inf.x + GF.inf.w + GF.recep.x) / 2, GF.corY, "Corridor", { size: 13, halo: C.corridor });
