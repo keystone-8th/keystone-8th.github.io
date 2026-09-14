@@ -45,29 +45,37 @@ it the Amphitheatre. The Cafeteria sits about 150 m along the corridor from
 Reception 2, further than the sketch suggests, with the Gallery Area (a rock
 garden) along the way. The doorway drawn beside Classroom 3 is not an entrance.
 
-The ground floor is traced, not estimated. `plans/ground-trace.json` holds the
-position of every wall, room, door and circle, measured by detecting the pencil
-lines in the photo of the sketch. The Atelier's rooms come from the second
-photo, mapped into the Atelier outline by its four corners. The builder turns
-the page a quarter-turn so the Atelier sits above the hall, as the Atelier
-sketch draws it. To move something on the ground floor, change its numbers in
-that file and rebuild.
+The ground floor is traced from the photos of the sketch, then extended where
+the school described more than the sketch shows. `plans/ground-trace.json` holds
+the traced parts, measured by detecting the pencil lines: the reception
+corridor and its stairs, Reception and the Lift, the hall with its stairs and
+planters, the Atelier and its rooms (mapped in from the second photo), and the
+Main Gate. The builder draws the ground floor larger than the first trace, but
+walking distances stay in true metres.
 
-Laid out that way: the Infirmary is at the end of the building, a narrow
-corridor with double doors at each end runs from it to Reception, and the
-Cafeteria Stairs sit beside that corridor. The Lift is inside Reception, next to
-the main entrance. Past Reception is a hall with three round planters and the
-First Floor Stairs, and two sets of doors from the hall into the EYP Atelier.
-The Atelier has Classes 1 to 4 along its straight wall, Classes 5 to 8 and the
-washrooms along its angled wall, and a planted courtyard between them. The
-large space beside the corridor is unlabelled on the sketch and left empty.
+Laid out west to east: the Infirmary is at the very end of the corridor, then
+four rooms along it, then the reception corridor with double doors at each end
+and the Cafeteria Stairs beside it, then Reception with the Lift and the main
+entrance, then a hall with three round planters and the First Floor Stairs,
+with two sets of doors into the EYP Atelier. The Atelier has Classes 1 to 4
+along its straight wall, Classes 5 to 8 and the washrooms along its angled
+wall, and a planted courtyard between them. The four rooms past the reception
+corridor are not named yet, so they are drawn but not searchable.
 
-The floors are joined by the Cafeteria Stairs and the Lift. **The stairs that
-come out opposite Reception 2 are never used**: they are drawn on both plans,
-marked "not in use", but there is no link between the floors through them, so
-no route can go up or down them. The lift counts as a longer walk than it is,
-so the stairs stay the default and the lift is only taken where it saves a long
-detour. The bus bay on the sketch is left off on purpose.
+The football field is a fenced, marked pitch right against the corridor wall.
+**The only way to it is the door in the reception corridor.**
+
+The floors are joined by two staircases and a lift:
+
+- The **Cafeteria Stairs** by the reception corridor come out in the
+  **Gallery Area** on the first floor.
+- The **First Floor Stairs** in the hall come out **in front of the Cafeteria**.
+- The **Lift** in Reception comes out in the corridor by Reception 2.
+- **The stairs opposite Reception 2 are never used.** They are drawn on the
+  first floor marked "not in use", with no link to the ground floor.
+
+The lift counts as a longer walk than it is, so the stairs stay the default.
+The bus bay on the sketch is left off on purpose.
 
 ## Put it on GitHub Pages
 
@@ -104,11 +112,10 @@ which room it is, so a visitor without a camera can still type it in.
 
 There are 23 placards. Ground floor: Main Gate, Reception, Infirmary,
 Football Field, EYP Atelier, First Floor Stairs, Cafeteria Stairs, Lift.
-First floor:
-Reception 2, Cafeteria, Library Entrance, Amphitheatre, Gallery Area, PLC,
-Staffroom, Meeting Room, Kanvas Studio, Kukoos Studio, Maker's Hive-1,
-Conference Room, Teacher's Cubicle, the stairs opposite Reception 2 and the
-Cafeteria Stairs in the lobby.
+First floor: Reception 2, Cafeteria, Library Entrance, Amphitheatre, Gallery
+Area, PLC, Staffroom, Meeting Room, Kanvas Studio, Kukoos Studio, Maker's
+Hive-1, Conference Room, Teacher's Cubicle, the stairs opposite Reception 2 (not
+in use) and the Cafeteria Stairs in the Gallery Area.
 
 ## Run it on your computer
 

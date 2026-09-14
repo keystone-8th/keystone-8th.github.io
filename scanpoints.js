@@ -51,11 +51,11 @@ var SCANPOINTS = (function () {
 
     { id: "SS", node: "stairs-s", level: "F1", audience: "foot",
       label: "Stairs opposite Reception",
-      mount: "At the foot of the stairs.", rev: 1 },
+      mount: "At the foot of the stairs, beside the reception corridor.", rev: 1 },
 
     { id: "SN", node: "stairs-ne", level: "F1", audience: "foot",
       label: "Cafeteria Stairs",
-      mount: "At the foot of the stairs, in the lobby behind Reception 2.", rev: 1 },
+      mount: "At the foot of the stairs, in the Gallery Area.", rev: 1 },
 
     { id: "GA", node: "gallery", level: "F1", audience: "foot",
       label: "Gallery Area",
@@ -75,7 +75,7 @@ var SCANPOINTS = (function () {
 
     { id: "FF", node: "field", level: "G", audience: "foot",
       label: "Football Field",
-      mount: "On the post at the field entrance.", rev: 1 },
+      mount: "On the field door, in the reception corridor.", rev: 1 },
 
     { id: "EY", node: "eyp", level: "G", audience: "foot",
       label: "EYP Atelier",
@@ -83,7 +83,7 @@ var SCANPOINTS = (function () {
 
     { id: "FS", node: "ffs", level: "G", audience: "foot",
       label: "First Floor Stairs",
-      mount: "At the foot of the stairs in the hall. These stairs are not in use.", rev: 1 },
+      mount: "At the foot of the stairs in the hall.", rev: 1 },
 
     { id: "LF", node: "lift", level: "G", audience: "foot",
       label: "Lift",
@@ -91,7 +91,7 @@ var SCANPOINTS = (function () {
 
     { id: "CS", node: "cs", level: "G", audience: "foot",
       label: "Cafeteria Stairs (ground)",
-      mount: "At the foot of the stairs.", rev: 1 }
+      mount: "At the foot of the stairs, beside the reception corridor.", rev: 1 }
   ];
 
   var RETIRED = [];

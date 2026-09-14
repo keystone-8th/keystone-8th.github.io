@@ -56,23 +56,32 @@ east wall) | stairs (bottom-right corner) | stairs (on the south wall, mid-way)
 
 # Ground floor (second and third sketches)
 
-The ground floor is traced from the photographs rather than read by eye. The
-measured positions are in `plans/ground-trace.json`. What the sketch shows, with
-the page turned so the Atelier sits above the hall:
+Traced from the photographs; the measured positions are in
+`plans/ground-trace.json`. What the sketch shows, with the page turned so the
+Atelier sits above the hall:
 
-* **Infirmary** at the end of the building.
-* A **narrow corridor** from the Infirmary to Reception, with **double doors**
-  at each end, and a **staircase** beside it (the app calls these the Cafeteria
-  Stairs).
-* **Reception**, with the **Lift** in its corner and the **main entrance**
-  double doors on the front wall beside the lift.
+* A **narrow corridor** with **double doors** at each end, a **staircase**
+  beside it (the app calls these the Cafeteria Stairs), and **Reception** at its
+  end.
+* The **Lift** in Reception's corner, and the **main entrance** beside it.
 * A **hall** past Reception with **three round planters** and the labelled
-  **stairs**, whose arrow shows them climbed right to left.
+  **stairs**, climbed right to left.
 * Two sets of **double doors** from the hall into the **Atlier** (EYP Atelier),
   a wedge with a straight wall and an angled wall.
-* A large **unlabelled space** beside the corridor, left empty on the map.
-* **Football field** off to the side, running off the edge of the page.
 * **Main Gate** in front of the hall. **Bus Bay** beyond it, left off the map.
+
+## Corrections from the school (not on the sketch)
+
+* There are **more rooms past the reception corridor**, and the **Infirmary is
+  at the very end**. The map draws four rooms there; their names are still to
+  come.
+* The **football field** is right beside the reception corridor, and the only
+  way to it is through that corridor.
+* The **Cafeteria Stairs** by the reception corridor lead up to the **Gallery
+  Area**, which is where the first-floor Cafeteria Stairs are.
+* The **First Floor Stairs** in the hall lead up to the stairs **in front of the
+  Cafeteria**.
+* The stairs **opposite Reception 2** on the first floor are **never used**.
 
 ## Inside the Atelier (third sketch)
 
@@ -81,10 +90,3 @@ the page turned so the Atelier sits above the hall:
   wall. The app calls them Atelier Class 1 to 8.
 * A courtyard in the middle with a large round planter holding a flower and two
   smaller planters.
-
-## How the floors are joined in the app
-
-* The Cafeteria Stairs come out in the lobby behind Reception 2.
-* The Lift comes out in the first-floor corridor by Reception 2.
-* The stairs in the hall come out opposite Reception 2. They are **never used**:
-  the school asked for no route ever to take them, up or down.
